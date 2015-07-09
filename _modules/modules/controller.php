@@ -2,10 +2,12 @@
 
 class Modules {
 
-    public $get_actions = [
-        '/modules' => 'index',
-        '/modules/install/:folder_name' => 'install',
-        '/modules/delete/:folder_name' => 'delete'
+    public $actions = [
+        'GET' => [
+            '/modules' => 'index',
+            '/modules/install/:folder_name' => 'install',
+            '/modules/delete/:folder_name' => 'delete'
+        ]
     ];
 
     public function index() {

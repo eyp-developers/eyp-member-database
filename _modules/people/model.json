@@ -22,6 +22,30 @@
 			"overview" : true
 		},
 
+		"phone" : {
+			"type" : "string"
+		},
+
+		"birthdate" : {
+			"type" : "date"
+		},
+
+		"street" : {
+			"type" : "string"
+		},
+
+		"zip" : {
+			"type" : "string"
+		},
+
+		"city" : {
+			"type" : "string"
+		},
+
+		"country" : {
+			"type" : "string"
+		},
+
 		"comment" : {
 			"type" : "text"
 		}

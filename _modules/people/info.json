@@ -2,5 +2,5 @@
 	"short_name" : "people",
 	"long_name" : "People",
 	"description" : "A module to manage people and their personal data",
-	"version" : 1
+	"version" : 2
 }
