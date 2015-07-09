@@ -19,8 +19,15 @@ foreach($enabled_modules as $module) {
 	$module = new $module_classname();
 
 	// Set up routes for this module
-	foreach($module->get_actions as $action => $handler) {
-		$app->get($action, [$module, $handler]);
+	if(isset($module->actions['GET'])) {
+		foreach($module->actions['GET'] as $action => $handler) {
+			$app->get($action, [$module, $handler]);
+		}
+	}
+	if(isset($module->actions['POST'])) {
+		foreach($module->actions['POST'] as $action => $handler) {
+			$app->post($action, [$module, $handler]);
+		}
 	}
 }
 
