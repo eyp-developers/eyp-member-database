@@ -10,7 +10,7 @@ Version 2.0 is currently under development. The key focus of this new version is
 
 ## Installation (v1.0)
 
-1. Download v1.0 from the [Downloads section].(https://bitbucket.org/eypdevelopers/eyp-member-database/downloads)
+1. Download v1.0 from the [Downloads section](https://bitbucket.org/eypdevelopers/eyp-member-database/downloads).
 2. Upload the contents of the "webapp" folder to your webserver. Make sure that you also copy all hidden files, such as .htaccess. Also keep in mind that for .htaccess files to work, you need to have mod_rewrite enabled on your server.
 3. Create a new database on your MySQL server and execute the "database.sql" file. It will create all necessary database tables and create a default user.
 4. Configure your database information in "app/Config/database.php" under $default.
