@@ -5,5 +5,6 @@ CREATE TABLE core_modules (
     short_name  VARCHAR(100),
     long_name   VARCHAR(100),
     description TEXT,
+    version		INT,
     enabled     BOOL
 );

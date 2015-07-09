@@ -4,7 +4,7 @@ class Modules {
 
     public $get_actions = [
         '/modules' => 'index',
-        '/modules/install/:module_name' => 'install'
+        '/modules/install/:folder_name' => 'install'
     ];
 
     public function index() {
@@ -15,12 +15,26 @@ class Modules {
         echo json_encode($modules);
     }
 
-    public function install($module_name) {
+    public function install($folder_name) {
         $return = [];
 
+        // Read module information
+        $module_info = ModuleHelper::getModuleInfo($folder_name);
+
         // Read model from JSON
-        $json_data = file_get_contents('_modules/'.$module_name.'/model.json');
-        $model = json_decode($json_data);
+        $model = ModuleHelper::getModuleModel($folder_name);
+
+        if($module_info === false || $model === false) {
+            echo json_encode(['success' => false, 'data' => $module_info]);
+            return;
+        }
+
+        if(!isset($module_info->short_name) || !isset($module_info->version)) {
+            echo json_encode(['success' => false, 'data' => $module_info]);
+            return;
+        }
+
+        $module_name = $module_info->short_name;
 
         // Create the module's meta table
         $meta_table_name = $module_name.'_meta';
@@ -41,7 +55,7 @@ class Modules {
                 if(!isset($field_config->overview)) $field_config->overview = false;
 
                 // Add field name and type
-                $field_type = get_db_type($field_config->type);
+                $field_type = DatabaseHelper::getDBType($field_config->type);
                 $table_sql .= $field_name.' '.$field_type;
 
                 // Check if the field is the table's primary key
@@ -76,8 +90,9 @@ class Modules {
         // Add an entry to the modules table
         Database::getInstance()->insert('core_modules', [
             'short_name' => $module_name,
-            'long_name' => $module_name,
-            'description' => $module_name,
+            'long_name' => (isset($module_info->long_name) ? $module_info->long_name : ''),
+            'description' => (isset($module_info->description) ? $module_info->description : ''),
+            'version' => $module_info->version,
             'enabled' => true
         ]);
 
