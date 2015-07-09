@@ -1,8 +1,8 @@
-# EYP Portal
+# EYP Member Database
 
 ## About
 
-The EYP Portal is a simple web application that allows you and your NC to keep track of your members, contacts, teachers and sponsors. You can store contact information, sessions and teams, and interlink these items. The application has initially been developed for and by EYP Austria, and has been in use since 2013. You can find the current stable version (1.0) in the [Downloads section].(https://bitbucket.org/eypdevelopers/eyp-member-database/downloads)
+The EYP Member Database is a simple web application that allows you and your NC to keep track of your members, contacts, teachers and sponsors. You can store contact information, sessions and teams, and interlink these items. The application has initially been developed for and by EYP Austria, and has been in use since 2013. You can find the current stable version (1.0) in the [Downloads section].(https://bitbucket.org/eypdevelopers/eyp-member-database/downloads)
 
 ## Current Status (v2.0)
 
