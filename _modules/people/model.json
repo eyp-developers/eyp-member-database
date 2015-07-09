@@ -1,0 +1,29 @@
+{
+	"people" : {
+
+		"id" : {
+			"type" : "int",
+			"primary_key" : true,
+			"overview" : true
+		},
+
+		"first_name" : {
+			"type" : "string",
+			"overview" : true
+		},
+
+		"last_name" : {
+			"type" : "string",
+			"overview" : true
+		},
+
+		"email" : {
+			"type" : "string",
+			"overview" : true
+		},
+
+		"comment" : {
+			"type" : "text"
+		}
+	}
+}
