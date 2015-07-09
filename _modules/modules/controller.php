@@ -4,7 +4,8 @@ class Modules {
 
     public $get_actions = [
         '/modules' => 'index',
-        '/modules/install/:folder_name' => 'install'
+        '/modules/install/:folder_name' => 'install',
+        '/modules/delete/:folder_name' => 'delete'
     ];
 
     public function index() {
@@ -95,6 +96,25 @@ class Modules {
             'version' => $module_info->version,
             'enabled' => true
         ]);
+
+        // Return result
+        $return['success'] = true;
+        echo json_encode($return);
+    }
+
+    public function delete($folder_name) {
+        $db = Database::getInstance();
+
+        // Remove entry from modules table
+        $db->delete('core_modules', ['short_name' => $folder_name]);
+
+        // Find all tables from the module
+        $tables = $db->query('SELECT table_name FROM information_schema.tables WHERE table_name LIKE \''.$folder_name.'_%\';');
+
+        // Remove all tables from the module
+        foreach($tables as $table) {
+            $db->query('DROP TABLE '.$table['table_name']);
+        }
 
         // Return result
         $return['success'] = true;
