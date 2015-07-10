@@ -1,0 +1,12 @@
+/* Basic Layout */
+body {
+    padding-left: 300px;
+}
+
+.main {
+    padding: 20px;
+}
+
+.main .page-header {
+    margin-top: 0;
+}
