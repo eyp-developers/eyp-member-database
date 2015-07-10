@@ -19,7 +19,9 @@ class People {
     ];
 
     public function index() {
-    	echo json_encode(DatabaseHelper::getOverviewData('people', 'people'));
+        $fields = App::getInstance()->request->params("fields");
+        $fields = explode(",", $fields);
+    	echo json_encode(DatabaseHelper::getObjects('people', 'people', $fields));
     }
 
     public function view($id) {

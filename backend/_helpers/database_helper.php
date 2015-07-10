@@ -86,6 +86,21 @@ class DatabaseHelper {
 	}
 
 	/**
+	 * Gets the data of multiple database object specified by their module and table
+	 *
+	 * @param module_name The module the object belongs to
+	 * @param table_name The table the object belongs to
+	 * @param columns An array with the column names
+	 * @return The specified database object, or 'false'
+	 */
+	public static function getObjects($module_name, $table_name, $columns) {
+		$data_table_name = $module_name.'_'.$table_name;
+		$data = Database::getInstance()->select($data_table_name, $columns);
+
+	    return $data;
+	}
+
+	/**
 	 * Deletes a database object specified by its module, table and id
 	 *
 	 * @param module_name The module the object belongs to
@@ -129,6 +144,46 @@ class DatabaseHelper {
 		$num_rows = Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
 
 	    return ($num_rows > 0 ? true : false);
+	}
+
+	/**
+	 * Gets information about all views of a certain module
+	 *
+	 * @param module_name The name of the module
+	 * @return An array containing information about all views of the module
+	 */
+	public static function getModuleViews($module_name) {
+		// Generate the name of the meta table
+		$views_table_name = $module_name.'_views';
+
+		// Get information from views table
+		$data = Database::getInstance()->select(
+			$views_table_name,
+			['view_name', 'view_title']
+		);
+
+		return $data;
+	}
+
+	/**
+	 * Gets the config of a view of a certain module
+	 *
+	 * @param module_name The name of the module
+	 * @param view_name The name of the view
+	 * @return An array containing  of all overview columns
+	 */
+	public static function getModuleView($module_name, $view_name) {
+		// Generate the name of the meta table
+		$views_table_name = $module_name.'_views';
+
+		// Get information from views table
+		$data = Database::getInstance()->select(
+			$views_table_name,
+			['view_config'],
+			['view_name' => $view_name]
+		);
+
+		return $data[0]['view_config'];
 	}
 
 

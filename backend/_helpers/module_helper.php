@@ -3,21 +3,32 @@
 class ModuleHelper {
 
 	/**
+	 * Reads a module's JSON file
+	 *
+	 * @param folder_name The name of the module's folder
+	 * @param file_name The name of the JSON file
+	 * @return An array containing the JSON data
+	 */
+	public static function getModuleJSONFile($folder_name, $file_name) {
+		// Read the info file
+		$json = file_get_contents('_modules/'.$folder_name.'/'.$file_name.'.json');
+        if($json === false) return false;
+
+        // Parse JSON
+        $data = json_decode($json, true);
+        if($data === NULL) return false;
+
+        return $data;
+	}
+
+	/**
 	 * Reads a module's info from its info.json file
 	 *
 	 * @param folder_name The name of the module's folder
 	 * @return An array containing the module's info
 	 */
 	public static function getModuleInfo($folder_name) {
-		// Read the info file
-		$module_info_json = file_get_contents('_modules/'.$folder_name.'/info.json');
-        if($module_info_json === false) return false;
-
-        // Parse JSON
-        $module_info = json_decode($module_info_json);
-        if($module_info === NULL) return false;
-
-        return $module_info;
+        return ModuleHelper::getModuleJSONFile($folder_name, 'info');
 	}
 
 	/**
@@ -27,15 +38,17 @@ class ModuleHelper {
 	 * @return An array containing the module's model
 	 */
 	public static function getModuleModel($folder_name) {
-		// Read the info file
-		$module_model_json = file_get_contents('_modules/'.$folder_name.'/model.json');
-        if($module_model_json === false) return false;
+		return ModuleHelper::getModuleJSONFile($folder_name, 'model');
+	}
 
-        // Parse JSON
-        $module_model = json_decode($module_model_json);
-        if($module_model === NULL) return false;
-
-        return $module_model;
+	/**
+	 * Reads a module's view config from its view.json file
+	 *
+	 * @param folder_name The name of the module's folder
+	 * @return An array containing the module's view config
+	 */
+	public static function getModuleViews($folder_name) {
+		return ModuleHelper::getModuleJSONFile($folder_name, 'views');
 	}
 
 }

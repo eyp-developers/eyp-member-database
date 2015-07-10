@@ -3,23 +3,19 @@
 
 		"id" : {
 			"type" : "int",
-			"primary_key" : true,
-			"overview" : true
+			"primary_key" : true
 		},
 
 		"first_name" : {
-			"type" : "string",
-			"overview" : true
+			"type" : "string"
 		},
 
 		"last_name" : {
-			"type" : "string",
-			"overview" : true
+			"type" : "string"
 		},
 
 		"email" : {
-			"type" : "string",
-			"overview" : true
+			"type" : "string"
 		},
 
 		"phone" : {

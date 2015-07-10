@@ -6,7 +6,9 @@ class Modules {
         'GET' => [
             '/modules' => 'index',
             '/modules/install/:folder_name' => 'install',
-            '/modules/delete/:folder_name' => 'delete'
+            '/modules/delete/:folder_name' => 'delete',
+            '/modules/:module_name/views' => 'moduleViews',
+            '/modules/:module_name/views/:view_name' => 'moduleView'
         ]
     ];
 
@@ -21,27 +23,26 @@ class Modules {
     public function install($folder_name) {
         $return = [];
 
-        // Read module information
+        // Read module information from its json files
         $module_info = ModuleHelper::getModuleInfo($folder_name);
-
-        // Read model from JSON
         $model = ModuleHelper::getModuleModel($folder_name);
+        $views = ModuleHelper::getModuleViews($folder_name);
 
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
         }
 
-        if(!isset($module_info->short_name) || !isset($module_info->version)) {
+        if(!isset($module_info['short_name']) || !isset($module_info['version'])) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
         }
 
-        $module_name = $module_info->short_name;
+        $module_name = $module_info['short_name'];
 
         // Create the module's meta table
         $meta_table_name = $module_name.'_meta';
-        $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), overview BOOL, enabled BOOL, system BOOL)';
+        $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), system BOOL)';
         Database::getInstance()->query($meta_sql);
 
         // Iterate over all tables of the model
@@ -54,15 +55,14 @@ class Modules {
             foreach($fields as $field_name => $field_config) {
 
                 // Set default values if values are not set for $field_config
-                if(!isset($field_config->primary_key)) $field_config->primary_key = false;
-                if(!isset($field_config->overview)) $field_config->overview = false;
+                if(!isset($field_config['primary_key'])) $field_config['primary_key'] = false;
 
                 // Add field name and type
-                $field_type = DatabaseHelper::getDBType($field_config->type);
+                $field_type = DatabaseHelper::getDBType($field_config['type']);
                 $table_sql .= $field_name.' '.$field_type;
 
                 // Check if the field is the table's primary key
-                if($field_config->primary_key) {
+                if($field_config['primary_key']) {
                     $table_sql .= ' PRIMARY KEY AUTO_INCREMENT';
                 }
 
@@ -73,9 +73,7 @@ class Modules {
                 Database::getInstance()->insert($meta_table_name, [
                     'table_name' => $table_name,
                     'field_name' => $field_name,
-                    'field_type' => $field_config->type,
-                    'overview' => $field_config->overview,
-                    'enabled' => true,
+                    'field_type' => $field_config['type'],
                     'system' => true
                 ]);
             }
@@ -93,11 +91,25 @@ class Modules {
         // Add an entry to the modules table
         Database::getInstance()->insert('core_modules', [
             'short_name' => $module_name,
-            'long_name' => (isset($module_info->long_name) ? $module_info->long_name : ''),
-            'description' => (isset($module_info->description) ? $module_info->description : ''),
-            'version' => $module_info->version,
+            'long_name' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
+            'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
+            'version' => $module_info['version'],
             'enabled' => true
         ]);
+
+        // Create the module's view table
+        $views_table_name = $module_name.'_views';
+        $views_sql = 'CREATE TABLE '.$views_table_name.' ( view_name VARCHAR(200) PRIMARY KEY, view_title VARCHAR(200), view_config TEXT )';
+        Database::getInstance()->query($views_sql);
+
+        // Iterate over all views of the module
+        foreach($views as $view_name => $view_config) {
+            Database::getInstance()->insert($views_table_name, [
+                'view_name' => $view_name,
+                'view_title' => $view_config['title'],
+                'view_config' => json_encode($view_config)
+            ]);
+        }
 
         // Return result
         $return['success'] = true;
@@ -121,6 +133,14 @@ class Modules {
         // Return result
         $return['success'] = true;
         echo json_encode($return);
+    }
+
+    public function moduleViews($module_name) {
+        echo json_encode(DatabaseHelper::getModuleViews($module_name));
+    }
+
+    public function moduleView($module_name, $view_name) {
+        echo DatabaseHelper::getModuleView($module_name, $view_name);
     }
 
 }
