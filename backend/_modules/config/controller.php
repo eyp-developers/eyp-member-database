@@ -24,7 +24,11 @@ class Config {
             $module_views = DatabaseHelper::getModuleViews($module['short_name']);
             if($module_views) {
                 foreach($module_views as $view) {
-                    $menu_item['items'][] = $view;
+                    $sub_item = [
+                        'title' => $view['view_title'],
+                        'target' => '/' . $module['short_name'] . '/' . $view['view_name']
+                    ];
+                    $menu_item['items'][] = $sub_item;
                 }
 
                 // Add the finished menu item to the config

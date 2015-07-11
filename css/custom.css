@@ -3,10 +3,10 @@ body {
     padding-left: 300px;
 }
 
-.main {
+#main {
     padding: 20px;
 }
 
-.main .page-header {
+#main .page-header {
     margin-top: 0;
 }
