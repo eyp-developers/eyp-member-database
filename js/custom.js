@@ -26,6 +26,40 @@ var UIHelper =
 };
 
 /**
+ * Navigation
+ */
+
+var NavHelper = 
+{
+    navigateToHome : function() {
+        // TODO navigate home...
+        console.warn("Not implemented yet: NavHelper.navigateToHome()");
+    },
+
+    navigateToURL : function(url) {
+        if(!url.indexOf('#') == -1) {
+            navigateToHome();
+        }
+
+        // Extract the target from the URL
+        var target = url.split('#')[1];
+
+        if(target.length == 0) {
+            navigateToHome;
+        }
+
+        if(target.indexOf('/view/') == 0) {
+            var target_view = target.split('/')[2];
+            $.ajax({
+              dataType: "json",
+              url: "/backend/modules/people/views/" + target_view,
+              success: handleViewConfig
+            });
+        }
+    }
+}
+
+/**
  * Initialization
  */
 
@@ -56,17 +90,15 @@ function initSidebar(sidebar_config) {
         sidebar_main_menu.append(dom_menu_item);
     }
 
+    // Handle Sidebar clicks
     $(".menu-item").click(function() {
         // Switch active sidebar item
         $("li.active").removeClass("active");
         $(this).parent("li").addClass("active");
 
-        $.ajax({
-          dataType: "json",
-          url: "/backend/modules/people/views/all_people",
-          success: handleViewConfig
-        });
-
+        // Load view config
+        console.log(this.href);
+        NavHelper.navigateToURL(this.href);
     });
 }
 
