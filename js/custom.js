@@ -1,7 +1,8 @@
 /**
  * User Interface
  */
-var UIComponents = {
+var UIComponents =
+{
     sidebarDropdown : function(title, items) {
         // Generate dropdown and menu
         var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + title + ' <b class="caret"></b></a></li>');
@@ -22,13 +23,12 @@ var UIComponents = {
         return dom_dropdown;
     },
 
-    table : function(title, datasource, columns) {
-        var container = $('<div></div>');
+    table : function(title, datasource, columns, target) {
 
         // Build header
         if(title && title.length != 0) {
             var dom_header = $('<h1 class="page-header">' + title + '</h1>');
-            container.append(dom_header);
+            target.append(dom_header);
         }
 
         // Extract fields
@@ -46,7 +46,8 @@ var UIComponents = {
             var column_config = {
                 'field' : column.field,
                 'title' : column.title,
-                "visible" : (column.visible !== undefined ? column.visible : true)
+                "visible" : (column.visible !== undefined ? column.visible : true),
+                "sortable" : (column.sortable !== undefined ? column.sortable : true)
             }
 
             // Apply type to column
@@ -74,17 +75,21 @@ var UIComponents = {
 
         // Build table
         var dom_table = $('<table id="main-table"></table>');
+        target.append(dom_table);
+
         dom_table.bootstrapTable({
             url: datasource,
             columns: columns_config,
+            sortable: true,
+            pagination: true,
+            pageSize: 20,
+            sidePagination: 'server',
+            search: true,
             queryParams: function(params) {
                 params.fields = fields.join();
                 return params;
             }
         });
-        container.append(dom_table);
-
-        return container;
     }
 }
 
@@ -94,11 +99,12 @@ var UI =
 
         // Get the main view
         var main = $("#main");
+        main.html('');
 
         // Handle the type of the view
         switch(config.type) {
             case 'table':
-                main.html(UIComponents.table(config.title, config.datasource, config.columns));
+                UIComponents.table(config.title, config.datasource, config.columns, main);
                 break;
             default:
                 console.error('Unsupported view type "' + config.type + '"');

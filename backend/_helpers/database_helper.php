@@ -42,11 +42,56 @@ class DatabaseHelper {
 	 * @param columns An array with the column names
 	 * @return The specified database object, or 'false'
 	 */
-	public static function getObjects($module_name, $table_name, $columns) {
+	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $offset = false, $limit = false, $sort = false, $order = false) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$data = Database::getInstance()->select($data_table_name, $columns);
+		$where = [];
+
+		// Parse parameters
+		if($columns === false) $columns = '*';
+
+		if($offset !== false && $limit !== false) {
+			$where['LIMIT'] = [$offset, $limit];
+		}
+
+		if($sort !== false && strlen($sort) !== 0 && $order !== false && strlen($order) !== 0) {
+			$where['ORDER'] = $sort . ' ' . strtoupper($order);
+		}
+
+		if($search !== false && strlen($search) !== 0) {
+			$searchclause = [];
+			foreach($columns as $field) {
+				$searchclause[$field.'[~]'] = $search;
+			}
+			$where['OR'] = $searchclause;
+		}
+
+		$data = Database::getInstance()->select($data_table_name, $columns, $where);
 
 	    return $data;
+	}
+
+	/**
+	 * Counts database object specified by their module and table
+	 *
+	 * @param module_name The module the object belongs to
+	 * @param table_name The table the object belongs to
+	 * @return The number of database objects
+	 */
+	public static function countObjects($module_name, $table_name, $columns = false, $search = false) {
+		$data_table_name = $module_name.'_'.$table_name;
+
+		$where = [];
+		if($columns !== false && $search !== false && strlen($search) !== 0) {
+			$searchclause = [];
+			foreach($columns as $field) {
+				$searchclause[$field.'[~]'] = $search;
+			}
+			$where['OR'] = $searchclause;
+		}
+
+		$count = Database::getInstance()->count($data_table_name, $where);
+
+	    return $count;
 	}
 
 	/**

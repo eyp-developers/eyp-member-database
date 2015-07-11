@@ -21,7 +21,17 @@ class People {
     public function index() {
         $fields = App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
-    	echo json_encode(DatabaseHelper::getObjects('people', 'people', $fields));
+
+        $limit = App::getInstance()->request->get("limit");
+        $offset = App::getInstance()->request->get("offset");
+        $sort = App::getInstance()->request->get("sort");
+        $order = App::getInstance()->request->get("order");
+        $search = App::getInstance()->request->get("search");
+
+        $people = DatabaseHelper::getObjects('people', 'people', $fields, $search, $offset, $limit, $sort, $order);
+        $count = DatabaseHelper::countObjects('people', 'people', $fields, $search);
+
+    	echo json_encode(['total' => $count, 'rows' => $people]);
     }
 
     public function view($id) {
