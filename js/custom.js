@@ -1,3 +1,34 @@
+/**
+ * UI Components
+ */
+
+var UIHelper =
+{
+    sidebarDropdown : function(title, items) {
+        // Generate dropdown and menu
+        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + title + ' <b class="caret"></b></a></li>');
+        var dom_menu = $('<ul class="dropdown-menu navmenu-nav" role="menu"></ul>');
+
+        // Generate menu entries
+        for(item_id in items) {
+            var menu_item = items[item_id];
+            var dom_menu_item = $('<li><a href="#/view/' + menu_item.view_name + '" class="menu-item">' + menu_item.view_title + '</a></li>');
+
+            // Append menu entry
+            dom_menu.append(dom_menu_item);
+        }
+
+        // Append menu
+        dom_dropdown.append(dom_menu);
+
+        return dom_dropdown;
+    }
+};
+
+/**
+ * Initialization
+ */
+
 // Initialize JS
 function init() {
     // Load configuration
@@ -20,15 +51,7 @@ function initSidebar(sidebar_config) {
     for(var menu_index in sidebar_config) {
         var menu_item = sidebar_config[menu_index];
 
-        var dom_menu_item = $('<li class="dropdown">'+
-          '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + menu_item.title + ' <b class="caret"></b></a>' +
-          '<ul class="dropdown-menu navmenu-nav" role="menu">' +
-            '<li><a href="#" class="menu-item">All People</a></li>' +
-            '<ul class="dropdown-menu navmenu-nav" role="menu">' +
-              '<li><a href="#" class="menu-item">Test entry</a></li>' +
-            '</ul>' +
-          '</ul>' +
-        '</li>');
+        var dom_menu_item = UIHelper.sidebarDropdown(menu_item.title, menu_item.items);
 
         sidebar_main_menu.append(dom_menu_item);
     }
