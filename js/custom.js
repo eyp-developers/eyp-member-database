@@ -37,11 +37,46 @@ var UIComponents = {
             fields.push(columns[column_id]["field"]);
         }
 
+        // Build column config for table
+        var columns_config = new Array();
+        for(c_index in columns) {
+            var column = columns[c_index];
+
+            // Copy basic values
+            var column_config = {
+                'field' : column.field,
+                'title' : column.title,
+                "visible" : (column.visible !== undefined ? column.visible : true)
+            }
+
+            // Apply type to column
+            if(!column.type) column.type = 'plain';
+            switch(column.type) {
+                case 'link' :
+                    column_config.target = column.target;
+                    column_config.formatter = Formatter.link;
+                    break;
+
+                case 'email' : 
+                    column_config.formatter = Formatter.email;
+                    break;
+
+                case 'plain' :
+                    break;
+
+                default:
+                    console.error('Unsupported column type "' + column.type + '"');
+            }
+
+            // Add column to table
+            columns_config.push(column_config);
+        }
+
         // Build table
         var dom_table = $('<table id="main-table"></table>');
         dom_table.bootstrapTable({
             url: datasource,
-            columns: columns,
+            columns: columns_config,
             queryParams: function(params) {
                 params.fields = fields.join();
                 return params;
@@ -53,7 +88,7 @@ var UIComponents = {
     }
 }
 
-var UIHelper =
+var UI =
 {
     applyViewConfig : function(config) {
 
@@ -89,20 +124,46 @@ var UIHelper =
             $(this).parent("li").addClass("active");
 
             // Load view config
-             NavHelper.navigateToURL(this.href);
+             Navigation.navigateToURL(this.href);
         });
     },
 };
+
+var Formatter = 
+{
+    email : function(value, row, column) {
+        return '<a href="mailto:' + value + '">' + value + '</a>';
+    },
+
+    link : function(value, row, index) {
+        // In case this gets called for an invisible column
+        if(!this.visible) return;
+
+        // Replace placeholders in target
+        var target_parts = this.target.split('/');
+        for(part_index in target_parts) {
+            if(target_parts[part_index].indexOf(":") == 0) {
+                var key = target_parts[part_index].slice(1);
+                if(row[key] !== undefined) {
+                    target_parts[part_index] = row[key];
+                } else {
+                    console.error('Column target is referring to undefined key "' + key + '"');
+                }
+            }
+        }
+        return '<a href="#' + target_parts.join('/') + '" onclick="Navigation.navigateToURL(this.href)">' + value + '</a>';
+    }
+}
 
 /**
  * Navigation
  */
 
-var NavHelper = 
+var Navigation = 
 {
     navigateToHome : function() {
         // TODO navigate home...
-        console.error("Not implemented yet: NavHelper.navigateToHome()");
+        console.error("Not implemented yet: Navigation.navigateToHome()");
     },
 
     navigateToURL : function(url) {
@@ -115,7 +176,7 @@ var NavHelper =
         var target = url.split('#')[1];
 
         if(target.length == 0) {
-            NavHelper.navigateToHome();
+            Navigation.navigateToHome();
             return;
         }
 
@@ -127,7 +188,7 @@ var NavHelper =
             $.ajax({
               dataType: 'json',
               url: '/backend/modules/' +  target[1] + '/views/' + target[2],
-              success: UIHelper.applyViewConfig
+              success: UI.applyViewConfig
             });
 
         } else {
@@ -148,7 +209,7 @@ function init() {
         url: "/backend/config",
         success: function(config) {
             if(config.sidebar) {
-                UIHelper.applySidebarConfig(config.sidebar);
+                UI.applySidebarConfig(config.sidebar);
             }
         }
     });

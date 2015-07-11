@@ -99,14 +99,19 @@ class Modules {
 
         // Create the module's view table
         $views_table_name = $module_name.'_views';
-        $views_sql = 'CREATE TABLE '.$views_table_name.' ( view_name VARCHAR(200) PRIMARY KEY, view_title VARCHAR(200), view_config TEXT )';
+        $views_sql = 'CREATE TABLE '.$views_table_name.' ( view_name VARCHAR(200) PRIMARY KEY, view_title VARCHAR(200), show_in_sidebar BOOL, view_config TEXT )';
         Database::getInstance()->query($views_sql);
 
         // Iterate over all views of the module
         foreach($views as $view_name => $view_config) {
+            // Sanitize view config
+            if(!isset($view_config['show_in_sidebar'])) $view_config['show_in_sidebar'] = false;
+
+            // Insert view into view table
             Database::getInstance()->insert($views_table_name, [
                 'view_name' => $view_name,
                 'view_title' => $view_config['title'],
+                'show_in_sidebar' => $view_config['show_in_sidebar'],
                 'view_config' => json_encode($view_config)
             ]);
         }
