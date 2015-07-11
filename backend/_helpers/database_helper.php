@@ -20,57 +20,6 @@ class DatabaseHelper {
 	}
 
 	/**
-	 * Gets the names of all overview columns for a given module and table
-	 *
-	 * @param module_name The name of the module
-	 * @param table_name The name of the table
-	 * @return An array containing the names of all overview columns
-	 */
-	public static function getOverviewColunNames($module_name, $table_name) {
-		// Generate the name of the meta table
-		$meta_table_name = $module_name.'_meta';
-
-		// Get information from meta table
-		$data = Database::getInstance()->select(
-			$meta_table_name,
-			['field_name'],
-			[
-				'AND' => [
-					'table_name' => $table_name,
-					'overview' => true,
-					'enabled' => true,
-				]
-			]
-		);
-
-		// Extract column names from database result
-		$column_names = [];
-		foreach($data as $column) {
-			$column_names[] = $column['field_name'];
-		}
-
-		return $column_names;
-	}
-
-	/**
-	 * Gets the data of all overview columns for a given module and table
-	 *
-	 * @param module_name The name of the module
-	 * @param table_name The name of the table
-	 * @return An array containing the data of all overview columns
-	 */
-	public static function getOverviewData($module_name, $table_name) {
-		// Get overview columns
-		$column_names = DatabaseHelper::getOverviewColunNames($module_name, $table_name);
-
-	    // Get overview data
-	    $data_table_name = $module_name.'_'.$table_name;
-	    $data = Database::getInstance()->select($data_table_name, $column_names);
-
-	    return $data;
-	}
-
-	/**
 	 * Gets the data of one database object specified by its module, table and id
 	 *
 	 * @param module_name The module the object belongs to
@@ -153,7 +102,7 @@ class DatabaseHelper {
 	 * @return An array containing information about all views of the module
 	 */
 	public static function getModuleViews($module_name) {
-		// Generate the name of the meta table
+		// Generate the name of the views table
 		$views_table_name = $module_name.'_views';
 
 		// Get information from views table
@@ -170,7 +119,7 @@ class DatabaseHelper {
 	 *
 	 * @param module_name The name of the module
 	 * @param view_name The name of the view
-	 * @return An array containing  of all overview columns
+	 * @return An array containing information about the specified view
 	 */
 	public static function getModuleView($module_name, $view_name) {
 		// Generate the name of the meta table
@@ -184,6 +133,32 @@ class DatabaseHelper {
 		);
 
 		return $data[0]['view_config'];
+	}
+
+	/**
+	 * Gets an array of all modules
+	 *
+	 * @param include_disabled
+	 * @return An array containing information about all modules
+	 */
+	public static function getAllModules($only_enabled = false) {
+		// Generate the name of the meta table
+		$modules_table = 'core_modules';
+
+		if($only_enabled) {
+			$filter = ['enabled' => true];
+		} else {
+			$filter = [];
+		}
+
+		// Get information from views table
+		$data = Database::getInstance()->select(
+			$modules_table,
+			'*',
+			$filter
+		);
+
+		return $data;
 	}
 
 

@@ -1,12 +1,37 @@
 // Initialize JS
 function init() {
-    initNav();
+    // Load configuration
+    $.ajax({
+        dataType: "json",
+        url: "/backend/config",
+        success: function(config) {
+            if(config.sidebar) {
+                initSidebar(config.sidebar);
+            }
+        }
+    });
 }
 
-// Initilize the Navigation functionality
-function initNav() {
-    // TODO Load menu items
+// Initilize the sidebar
+function initSidebar(sidebar_config) {
+    // Load sidebar items
+    var sidebar_main_menu = $("#sidebar-main-menu");
 
+    for(var menu_index in sidebar_config) {
+        var menu_item = sidebar_config[menu_index];
+
+        var dom_menu_item = $('<li class="dropdown">'+
+          '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + menu_item.title + ' <b class="caret"></b></a>' +
+          '<ul class="dropdown-menu navmenu-nav" role="menu">' +
+            '<li><a href="#" class="menu-item">All People</a></li>' +
+            '<ul class="dropdown-menu navmenu-nav" role="menu">' +
+              '<li><a href="#" class="menu-item">Test entry</a></li>' +
+            '</ul>' +
+          '</ul>' +
+        '</li>');
+
+        sidebar_main_menu.append(dom_menu_item);
+    }
 
     $(".menu-item").click(function() {
         // Switch active sidebar item

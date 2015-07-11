@@ -14,7 +14,7 @@ class Modules {
 
     public function index() {
         // Get all modules
-        $modules = Database::getInstance()->select('core_modules', '*');
+        $modules = DatabaseHelper::getAllModules();
 
         // Return result
         echo json_encode($modules);

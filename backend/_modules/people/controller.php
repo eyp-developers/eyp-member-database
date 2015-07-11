@@ -19,7 +19,7 @@ class People {
     ];
 
     public function index() {
-        $fields = App::getInstance()->request->params("fields");
+        $fields = App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
     	echo json_encode(DatabaseHelper::getObjects('people', 'people', $fields));
     }
