@@ -8,3 +8,5 @@ CREATE TABLE core_modules (
     version		INT,
     enabled     BOOL
 );
+
+INSERT INTO core_modules VALUES(1, 'modules', 'Modules', 'A module to manage all other modules', 1, 1);

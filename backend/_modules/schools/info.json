@@ -1,0 +1,9 @@
+{
+	"short_name" : "schools",
+	"long_name" : "Schools",
+	"description" : "A module to schools, teachers and students",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}

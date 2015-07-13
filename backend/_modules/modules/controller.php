@@ -45,47 +45,85 @@ class Modules {
         $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), system BOOL)';
         Database::getInstance()->query($meta_sql);
 
+        $foreign_key_queue = [];
+
         // Iterate over all tables of the model
-        foreach($model as $table_name => $fields) {
+        if(isset($model['tables'])) {
+            foreach($model['tables'] as $table_name => $fields) {
 
-            // SQL statement to create a table from the model
-            $table_sql = 'CREATE TABLE '.$module_name.'_'.$table_name.' (';
+                // SQL statement to create a table from the model
+                $table_sql = 'CREATE TABLE '.$module_name.'_'.$table_name.' (';
 
-            // Iterate over all fields of the table
-            foreach($fields as $field_name => $field_config) {
+                // Iterate over all fields of the table
+                foreach($fields as $field_name => $field_config) {
 
-                // Set default values if values are not set for $field_config
-                if(!isset($field_config['primary_key'])) $field_config['primary_key'] = false;
+                    // Set default values if values are not set for $field_config
+                    if(!isset($field_config['primary_key'])) $field_config['primary_key'] = false;
 
-                // Add field name and type
-                $field_type = DatabaseHelper::getDBType($field_config['type']);
-                $table_sql .= $field_name.' '.$field_type;
+                    // Add field name and type
+                    $field_type = DatabaseHelper::getDBType($field_config['type']);
+                    $table_sql .= $field_name.' '.$field_type;
 
-                // Check if the field is the table's primary key
-                if($field_config['primary_key']) {
-                    $table_sql .= ' PRIMARY KEY AUTO_INCREMENT';
+                    // Check if the field is the table's primary key
+                    if($field_config['primary_key']) {
+                        $table_sql .= ' PRIMARY KEY AUTO_INCREMENT';
+                    }
+
+                    // Finish this line
+                    $table_sql .= ', ';
+
+                    // Add an entry to the meta table
+                    Database::getInstance()->insert($meta_table_name, [
+                        'table_name' => $table_name,
+                        'field_name' => $field_name,
+                        'field_type' => $field_config['type'],
+                        'system' => true
+                    ]);
+
+                    // Kepp track of foreign keys
+                    if(isset($field_config['foreign_key'])) {
+                        $foreign_key = $field_config['foreign_key'];
+                        $target_column = $foreign_key['module'] . '_' . $foreign_key['table'] . '(' . $foreign_key['field'] . ')';
+                        $foreign_key_sql = 'ALTER TABLE ' . $module_name . '_' . $table_name . ' ADD FOREIGN KEY (' . $field_name . ') REFERENCES ' . $target_column;
+                        $foreign_key_queue[] = $foreign_key_sql;
+                    }
                 }
 
-                // Finish this line
-                $table_sql .= ', ';
+                // Remove trailing comma
+                $table_sql = substr($table_sql, 0, -2);
 
-                // Add an entry to the meta table
-                Database::getInstance()->insert($meta_table_name, [
-                    'table_name' => $table_name,
-                    'field_name' => $field_name,
-                    'field_type' => $field_config['type'],
-                    'system' => true
-                ]);
+                // Finish the statement
+                $table_sql .= ');';
+
+                // Create the table
+                Database::getInstance()->query($table_sql);
             }
+        }
 
-            // Remove trailing comma
-            $table_sql = substr($table_sql, 0, -2);
+        // Iterate over all tables of the model
+        if(isset($model['external'])) {
+            foreach($model['external'] as $ext_module_name => $ext_module_tables) {
+                foreach($ext_module_tables as $ext_table_name => $ext_fields) {
+                    foreach($ext_fields as $ext_field_name => $ext_field_config) {
+                        $ext_table_name = $ext_module_name . '_' . $ext_table_name;
+                        $add_column_sql = 'ALTER TABLE ' . $ext_table_name . ' ADD COLUMN ' . $ext_field_name . ' ' . DatabaseHelper::getDBType($ext_field_config['type']);
+                        Database::getInstance()->query($add_column_sql);
 
-            // Finish the statement
-            $table_sql .= ');';
+                        // Kepp track of foreign keys
+                        if(isset($ext_field_config['foreign_key'])) {
+                            $foreign_key = $ext_field_config['foreign_key'];
+                            $target_column = $foreign_key['module'] . '_' . $foreign_key['table'] . '(' . $foreign_key['field'] . ')';
+                            $foreign_key_sql = 'ALTER TABLE ' . $ext_table_name . ' ADD FOREIGN KEY (' . $ext_field_name . ') REFERENCES ' . $target_column;
+                            $foreign_key_queue[] = $foreign_key_sql;
+                        }
+                    }
+                }
+            }
+        }
 
-            // Create the table
-            Database::getInstance()->query($table_sql);
+        // Insert foreign keys
+        foreach($foreign_key_queue as $foreign_key_sql) {
+            Database::getInstance()->query($foreign_key_sql);
         }
 
         // Add an entry to the modules table

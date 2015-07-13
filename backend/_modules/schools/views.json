@@ -1,0 +1,47 @@
+{
+    "all_schools" : {
+        "title" : "All schools",
+        "type" : "table",
+        "datasource" : "/backend/schools",
+        "show_in_sidebar" : true,
+        "columns":
+        [
+            {
+                "field" : "id",
+                "title" : "ID",
+                "visible" : false
+            },
+            {
+                "field" : "name",
+                "title" : "Name",
+                "type" : "link",
+                "target" : "/schools/school_detail/:id"
+            },
+            {
+                "field" : "email",
+                "title" : "Email",
+                "type" : "email"
+            },
+            {
+                "title" : "Actions",
+                "type" : "action",
+                "actions" : [
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "time"
+                    },
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "lock"
+                    }
+                ]
+            }
+        ]
+    },
+
+    "school_detail" : {
+        "title" : "School details",
+        "type" : "modal",
+        "datasource" : "/backend/schools/:id"
+    }
+}

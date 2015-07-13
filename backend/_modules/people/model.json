@@ -1,49 +1,51 @@
 {
-	"people" : {
+	"tables" : {
+		"people" : {
 
-		"id" : {
-			"type" : "int",
-			"primary_key" : true
-		},
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
 
-		"first_name" : {
-			"type" : "string"
-		},
+			"first_name" : {
+				"type" : "string"
+			},
 
-		"last_name" : {
-			"type" : "string"
-		},
+			"last_name" : {
+				"type" : "string"
+			},
 
-		"email" : {
-			"type" : "string"
-		},
+			"email" : {
+				"type" : "string"
+			},
 
-		"phone" : {
-			"type" : "string"
-		},
+			"phone" : {
+				"type" : "string"
+			},
 
-		"birthdate" : {
-			"type" : "date"
-		},
+			"birthdate" : {
+				"type" : "date"
+			},
 
-		"street" : {
-			"type" : "string"
-		},
+			"street" : {
+				"type" : "string"
+			},
 
-		"zip" : {
-			"type" : "string"
-		},
+			"zip" : {
+				"type" : "string"
+			},
 
-		"city" : {
-			"type" : "string"
-		},
+			"city" : {
+				"type" : "string"
+			},
 
-		"country" : {
-			"type" : "string"
-		},
+			"country" : {
+				"type" : "string"
+			},
 
-		"comment" : {
-			"type" : "text"
+			"comment" : {
+				"type" : "text"
+			}
 		}
 	}
 }
