@@ -21,7 +21,7 @@ class Config {
             ];
 
             // Create sub-entries for all views of the module
-            $module_views = DatabaseHelper::getModuleViews($module['short_name']);
+            $module_views = DatabaseHelper::getModuleViews($module['short_name'], true);
             if($module_views) {
                 foreach($module_views as $view) {
                     $sub_item = [

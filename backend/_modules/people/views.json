@@ -1,16 +1,21 @@
 {
-	"all_people" : {
-		"title" : "All People",
-		"type" : "table",
-		"datasource" : "/backend/people",
-		"columns": [
+    "all_people" : {
+        "title" : "All people",
+        "type" : "table",
+        "datasource" : "/backend/people",
+        "show_in_sidebar" : true,
+        "columns":
+        [
             {
                 "field" : "id",
-                "title" : "ID"
+                "title" : "ID",
+                "visible" : false
             },
             {
                 "field" : "first_name",
-                "title" : "First Name"
+                "title" : "First Name",
+                "type" : "link",
+                "target" : "/people/person_detail/:id"
             },
             {
                 "field" : "last_name",
@@ -18,8 +23,29 @@
             },
             {
                 "field" : "email",
-                "title" : "Email"
+                "title" : "Email",
+                "type" : "email"
+            },
+            {
+                "title" : "Actions",
+                "type" : "action",
+                "actions" : [
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "time"
+                    },
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "lock"
+                    }
+                ]
             }
         ]
-	}
+    },
+
+    "person_detail" : {
+        "title" : "Person details",
+        "type" : "modal",
+        "datasource" : "/backend/people/:id"
+    }
 }
