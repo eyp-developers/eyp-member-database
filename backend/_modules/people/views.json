@@ -25,6 +25,20 @@
                 "field" : "email",
                 "title" : "Email",
                 "type" : "email"
+            },
+            {
+                "title" : "Actions",
+                "type" : "action",
+                "actions" : [
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "time"
+                    },
+                    {
+                        "target" : "/people/person_detail/:id",
+                        "icon" : "lock"
+                    }
+                ]
             }
         ]
     },

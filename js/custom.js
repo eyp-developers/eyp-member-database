@@ -34,7 +34,8 @@ var UIComponents =
         // Extract fields
         var fields = new Array;
         for(var column_id in columns) {
-            fields.push(columns[column_id]["field"]);
+            if(columns[column_id]["field"] !== undefined && columns[column_id]["field"].length !== 0)
+                fields.push(columns[column_id]["field"]);
         }
 
         // Build column config for table
@@ -60,6 +61,12 @@ var UIComponents =
 
                 case 'email' : 
                     column_config.formatter = Formatter.email;
+                    break;
+
+                case 'action' :
+                    column_config.formatter = Formatter.action;
+                    column_config.actions = column.actions;
+                    column_config.sortable = false;
                     break;
 
                 case 'plain' :
@@ -137,7 +144,10 @@ var UI =
 
 var Formatter = 
 {
-    email : function(value, row, column) {
+    email : function(value, row, index) {
+        // In case this gets called for an invisible column
+        if(!this.visible) return;
+
         return '<a href="mailto:' + value + '">' + value + '</a>';
     },
 
@@ -158,6 +168,38 @@ var Formatter =
             }
         }
         return '<a href="#' + target_parts.join('/') + '" onclick="Navigation.navigateToURL(this.href)">' + value + '</a>';
+    },
+
+    action : function(value, row, index) {
+        // In case this gets called for an invisible column
+        if(!this.visible) return;
+        
+        var html = new Array();
+
+        for(action_id in this.actions) {
+            var action = this.actions[action_id];
+
+            // Replace placeholders in target
+            var target_parts = action.target.split('/');
+            for(part_index in target_parts) {
+                if(target_parts[part_index].indexOf(":") == 0) {
+                    var key = target_parts[part_index].slice(1);
+                    if(row[key] !== undefined) {
+                        target_parts[part_index] = row[key];
+                    } else {
+                        console.error('Column target is referring to undefined key "' + key + '"');
+                    }
+                }
+            }
+
+            html.push(
+                '<a class="like" href="#' + target_parts.join('/') + '" onclick="Navigation.navigateToURL(this.href)" title="Like">',
+                    '<i class="glyphicon glyphicon-' + action.icon + '"></i>',
+                '</a>'
+            );
+        }
+
+        return html.join(' ');
     }
 }
 
