@@ -1,6 +1,8 @@
 <?php
 
-class DatabaseHelper {
+namespace Helpers;
+
+class Database {
 
 	/**
 	 * Gets the MySQL type for a type name
@@ -29,7 +31,7 @@ class DatabaseHelper {
 	 */
 	public static function getObject($module_name, $table_name, $id) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$data = Database::getInstance()->select($data_table_name, '*', ['id' => $id]);
+		$data = \Core\Database::getInstance()->select($data_table_name, '*', ['id' => $id]);
 
 	    return ($data ? $data[0] : false);
 	}
@@ -65,7 +67,7 @@ class DatabaseHelper {
 			$where['OR'] = $searchclause;
 		}
 
-		$data = Database::getInstance()->select($data_table_name, $columns, $where);
+		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $where);
 
 	    return $data;
 	}
@@ -89,7 +91,7 @@ class DatabaseHelper {
 			$where['OR'] = $searchclause;
 		}
 
-		$count = Database::getInstance()->count($data_table_name, $where);
+		$count = \Core\Database::getInstance()->count($data_table_name, $where);
 
 	    return $count;
 	}
@@ -104,7 +106,7 @@ class DatabaseHelper {
 	 */
 	public static function deleteObject($module_name, $table_name, $id) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$num_rows = Database::getInstance()->delete($data_table_name, ['id' => $id]);
+		$num_rows = \Core\Database::getInstance()->delete($data_table_name, ['id' => $id]);
 
 	    return ($num_rows > 0 ? true : false);
 	}
@@ -119,7 +121,7 @@ class DatabaseHelper {
 	 */
 	public static function createObject($module_name, $table_name, $data) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$new_id = Database::getInstance()->insert($data_table_name, $data);
+		$new_id = \Core\Database::getInstance()->insert($data_table_name, $data);
 
 	    return ($new_id > 0 ? $new_id : false);
 	}
@@ -135,7 +137,7 @@ class DatabaseHelper {
 	 */
 	public static function updateObject($module_name, $table_name, $id, $data) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$num_rows = Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
+		$num_rows = \Core\Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
 
 	    return ($num_rows > 0 ? true : false);
 	}
@@ -158,7 +160,7 @@ class DatabaseHelper {
 		}
 
 		// Get information from views table
-		$data = Database::getInstance()->select(
+		$data = \Core\Database::getInstance()->select(
 			$views_table_name,
 			['view_name', 'view_title'],
 			$filter
@@ -179,7 +181,7 @@ class DatabaseHelper {
 		$views_table_name = $module_name.'_views';
 
 		// Get information from views table
-		$data = Database::getInstance()->select(
+		$data = \Core\Database::getInstance()->select(
 			$views_table_name,
 			['view_config'],
 			['view_name' => $view_name]
@@ -205,7 +207,7 @@ class DatabaseHelper {
 		}
 
 		// Get information from views table
-		$data = Database::getInstance()->select(
+		$data = \Core\Database::getInstance()->select(
 			$modules_table,
 			'*',
 			$filter

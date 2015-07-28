@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
@@ -69,26 +71,24 @@ class App {
 			$short_name = $module["short_name"];
 
 			// Load module
-			require("_modules/$short_name/controller.php");
 
-			// Initialize class
-			$module_classname = ucfirst($short_name);
+			$module_classname = '\\Modules\\'.ucfirst($short_name);
 			$module = new $module_classname();
 
 			// Set up routes for this module
 			if(isset($module->actions['GET'])) {
 				foreach($module->actions['GET'] as $action => $handler) {
-					App::getInstance()->get($action, [$module, $handler]);
+					\Core\App::getInstance()->get($action, [$module, $handler]);
 				}
 			}
 			if(isset($module->actions['POST'])) {
 				foreach($module->actions['POST'] as $action => $handler) {
-					App::getInstance()->post($action, [$module, $handler]);
+				    \Core\App::getInstance()->post($action, [$module, $handler]);
 				}
 			}
 			if(isset($module->actions['DELETE'])) {
 				foreach($module->actions['DELETE'] as $action => $handler) {
-					App::getInstance()->delete($action, [$module, $handler]);
+					\Core\App::getInstance()->delete($action, [$module, $handler]);
 				}
 			}
 		}
@@ -98,7 +98,7 @@ class App {
      * Runs the app
      */
     public static function run() {
-    	App::getInstance()->run();
+    	\Core\App::getInstance()->run();
     }
 
 }

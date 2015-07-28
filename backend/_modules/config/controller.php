@@ -1,5 +1,7 @@
 <?php
 
+namespace Modules;
+
 class Config {
 
     public $actions = [
@@ -11,7 +13,7 @@ class Config {
     public function index() {
         // Get sidebar config
         $sidebar_config = [];
-        $enabled_modules = DatabaseHelper::getAllModules(true);
+        $enabled_modules = \Helpers\Database::getAllModules(true);
 
         // Create top-level sidebar entries for all modules
         foreach($enabled_modules as $module) {
@@ -21,7 +23,7 @@ class Config {
             ];
 
             // Create sub-entries for all views of the module
-            $module_views = DatabaseHelper::getModuleViews($module['short_name'], true);
+            $module_views = \Helpers\Database::getModuleViews($module['short_name'], true);
             if($module_views) {
                 foreach($module_views as $view) {
                     $sub_item = [

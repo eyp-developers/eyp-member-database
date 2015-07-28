@@ -1,6 +1,8 @@
 <?php
 
-class ModuleHelper {
+namespace Helpers;
+
+class Module {
 
 	/**
 	 * Reads a module's JSON file

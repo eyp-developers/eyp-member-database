@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 // Load Medoo database framework
 require 'Medoo/medoo.min.php';
 
@@ -21,7 +23,7 @@ class Database {
     public static function getInstance()
     {
         if (null === static::$instance) {
-            static::$instance = new medoo([
+            static::$instance = new \medoo([
 				'database_type' => 'mysql',
 				'database_name' => 'eyp_md',
 				'server' => 'localhost',
