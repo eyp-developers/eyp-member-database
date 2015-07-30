@@ -30,7 +30,7 @@ class Module {
 	 * @return An array containing the module's info
 	 */
 	public static function getModuleInfo($folder_name) {
-        return ModuleHelper::getModuleJSONFile($folder_name, 'info');
+        return self::getModuleJSONFile($folder_name, 'info');
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Module {
 	 * @return An array containing the module's model
 	 */
 	public static function getModuleModel($folder_name) {
-		return ModuleHelper::getModuleJSONFile($folder_name, 'model');
+		return self::getModuleJSONFile($folder_name, 'model');
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Module {
 	 * @return An array containing the module's view config
 	 */
 	public static function getModuleViews($folder_name) {
-		return ModuleHelper::getModuleJSONFile($folder_name, 'views');
+		return self::getModuleJSONFile($folder_name, 'views');
 	}
 
 }

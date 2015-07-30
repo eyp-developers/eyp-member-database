@@ -32,9 +32,9 @@ class Modules extends \Core\Module {
         $return = [];
 
         // Read module information from its json files
-        $module_info = Module::getModuleInfo($folder_name);
-        $model = Module::getModuleModel($folder_name);
-        $views = Module::getModuleViews($folder_name);
+        $module_info = \Helpers\Module::getModuleInfo($folder_name);
+        $model = \Helpers\Module::getModuleModel($folder_name);
+        $views = \Helpers\Module::getModuleViews($folder_name);
 
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
@@ -50,7 +50,7 @@ class Modules extends \Core\Module {
 
         // Create the module's meta table
         $meta_table_name = $module_name.'_meta';
-        $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), system BOOL)';
+        $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), enabled BOOL, system BOOL)';
         \Core\Database::getInstance()->query($meta_sql);
 
         $foreign_key_queue = [];
@@ -85,6 +85,7 @@ class Modules extends \Core\Module {
                         'table_name' => $table_name,
                         'field_name' => $field_name,
                         'field_type' => $field_config['type'],
+                        'enabled' => true,
                         'system' => true
                     ]);
 
@@ -114,7 +115,7 @@ class Modules extends \Core\Module {
                 foreach($ext_module_tables as $ext_table_name => $ext_fields) {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
                         $ext_table_name = $ext_module_name . '_' . $ext_table_name;
-                        $add_column_sql = 'ALTER TABLE ' . $ext_table_name . ' ADD COLUMN ' . $ext_field_name . ' ' . DatabaseHelper::getDBType($ext_field_config['type']);
+                        $add_column_sql = 'ALTER TABLE ' . $ext_table_name . ' ADD COLUMN ' . $ext_field_name . ' ' . \Helpers\Database::getDBType($ext_field_config['type']);
                         \Core\Database::getInstance()->query($add_column_sql);
 
                         // Kepp track of foreign keys
