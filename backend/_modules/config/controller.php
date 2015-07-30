@@ -2,13 +2,19 @@
 
 namespace Modules;
 
-class Config {
+class Config extends \Core\Module {
 
-    public $actions = [
-    	'GET' => [
-        	'/config' => 'index'
-        ],
-    ];
+    public function __construct() {
+        // Call Module constructur
+        parent::__construct();
+
+        // Set supported actions
+        $this->_actions = [
+            'GET' => [
+                '/config' => 'index'
+            ]
+        ];
+    }
 
     public function index() {
         // Get sidebar config

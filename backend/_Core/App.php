@@ -11,7 +11,7 @@ require 'Slim/Slim.php';
 class App {
 
 	/**
-	 * @var Singleton The reference to the Singleton instance of the class
+	 * @var Singleton $instance The reference to the Singleton instance of the class
 	 */
 	private static $instance;
 
@@ -20,8 +20,7 @@ class App {
      *
      * @return Singleton The Singleton instance.
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (null === static::$instance) {
             static::$instance = new \Slim\Slim(array(
 			    'debug' => true,
@@ -36,9 +35,7 @@ class App {
      * Protected constructor to prevent creating a new instance of the
      * Singleton via the 'new' operator from outside of this class.
      */
-    protected function __construct()
-    {
-    }
+    protected function __construct() {}
 
     /**
      * Private clone method to prevent cloning of the instance of the
@@ -46,9 +43,7 @@ class App {
      *
      * @return void
      */
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
      * Private unserialize method to prevent unserializing of the Singleton
@@ -56,9 +51,7 @@ class App {
      *
      * @return void
      */
-    private function __wakeup()
-    {
-    }
+    private function __wakeup() {}
 
     /**
      * Loads all enabled modules
@@ -71,26 +64,25 @@ class App {
 			$short_name = $module["short_name"];
 
 			// Load module
-
 			$module_classname = '\\Modules\\'.ucfirst($short_name);
 			$module = new $module_classname();
 
-			// Set up routes for this module
-			if(isset($module->actions['GET'])) {
-				foreach($module->actions['GET'] as $action => $handler) {
-					\Core\App::getInstance()->get($action, [$module, $handler]);
-				}
-			}
-			if(isset($module->actions['POST'])) {
-				foreach($module->actions['POST'] as $action => $handler) {
-				    \Core\App::getInstance()->post($action, [$module, $handler]);
-				}
-			}
-			if(isset($module->actions['DELETE'])) {
-				foreach($module->actions['DELETE'] as $action => $handler) {
-					\Core\App::getInstance()->delete($action, [$module, $handler]);
-				}
-			}
+            // Get all actions supported by the module
+            $module_actions = $module->getActions();
+
+            // Define all HTTP methods supported by the App
+            $supported_methods = ['GET', 'POST', 'DELETE'];
+
+            // Assign all possible routes
+            foreach($supported_methods as $method) {
+                if(isset($module_actions[$method])) {
+                    foreach($module_actions[$method] as $action => $handler) {
+                        // Dynamically call the appropriate function to register the route
+                        $method_name = strtolower($method);
+                        \Core\App::getInstance()->$method_name($action, [$module, $handler]);
+                    }
+                }
+            }
 		}
     }
 

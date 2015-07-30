@@ -2,17 +2,23 @@
 
 namespace Modules;
 
-class Modules {
+class Modules extends \Core\Module {
 
-    public $actions = [
-        'GET' => [
-            '/modules' => 'index',
-            '/modules/install/:folder_name' => 'install',
-            '/modules/delete/:folder_name' => 'delete',
-            '/modules/:module_name/views' => 'moduleViews',
-            '/modules/:module_name/views/:view_name' => 'moduleView'
-        ]
-    ];
+    public function __construct() {
+        // Call Module constructur
+        parent::__construct();
+
+        // Set supported actions
+        $this->_actions = [
+            'GET' => [
+                '/modules' => 'index',
+                '/modules/install/:folder_name' => 'install',
+                '/modules/delete/:folder_name' => 'delete',
+                '/modules/:module_name/views' => 'moduleViews',
+                '/modules/:module_name/views/:view_name' => 'moduleView'
+            ]
+        ];
+    }
 
     public function index() {
         // Get all modules
