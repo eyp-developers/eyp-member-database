@@ -3,49 +3,39 @@
         "title" : "All people",
         "type" : "table",
         "datasource" : "/backend/people",
-        "show_in_sidebar" : true,
+        "in_sidebar" : true,
         "fields":
-        [
-            {
-                "field" : "id",
+        {
+            "id" : {
+                "data_key" : "id",
                 "title" : "ID",
                 "visible" : false
             },
-            {
-                "field" : "first_name",
+            "first_name" : {
+                "data_key" : "first_name",
                 "title" : "First Name",
                 "type" : "link",
                 "target" : "/people/person_detail/:id"
             },
-            {
+            "last_name" : {
                 "field" : "last_name",
                 "title" : "Last Name"
             },
-            {
-                "field" : "email",
+            "email" : {
+                "data_key" : "email",
                 "title" : "Email",
                 "type" : "email"
             },
-            {
-                "title" : "Actions",
+            "time" : {
                 "type" : "action",
-                "actions" : [
-                    {
-                        "target" : "/people/person_detail/:id",
-                        "icon" : "time"
-                    },
-                    {
-                        "target" : "/people/person_detail/:id",
-                        "icon" : "lock"
-                    }
-                ]
+                "target" : "/people/person_detail/:id",
+                "icon" : "time"
+            },
+            "lock" : {
+                "type" : "action",
+                "target" : "/people/person_detail/:id",
+                "icon" : "lock"
             }
-        ]
-    },
-
-    "person_detail" : {
-        "title" : "Person details",
-        "type" : "modal",
-        "datasource" : "/backend/people/:id"
+        }
     }
 }

@@ -61,7 +61,7 @@ class App {
 		$enabled_modules = \Helpers\Database::getAllModules(true);
 
 		foreach($enabled_modules as $module) {
-			$short_name = $module['module_name'];
+			$short_name = $module['name'];
 
 			// Load module
 			$module_classname = '\\Modules\\'.ucfirst($short_name);

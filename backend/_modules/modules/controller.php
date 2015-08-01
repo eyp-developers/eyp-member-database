@@ -48,16 +48,27 @@ class Modules extends \Core\Module {
 
         $module_name = $module_info['short_name'];
 
-        // Create the module's meta table
-        $meta_table_name = $module_name.'_meta';
-        $meta_sql = 'CREATE TABLE '.$meta_table_name.' ( table_name VARCHAR(200), field_name VARCHAR(200), field_type VARCHAR(200), enabled BOOL, system BOOL)';
-        \Core\Database::getInstance()->query($meta_sql);
+        // Add an entry to the modules table
+        \Core\Database::getInstance()->insert('core_modules', [
+            'name' => $module_name,
+            'title' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
+            'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
+            'version' => $module_info['version'],
+            'enabled' => true
+        ]);
 
+        // Keep track of all foreign keys
         $foreign_key_queue = [];
 
         // Iterate over all tables of the model
         if(isset($model['tables'])) {
             foreach($model['tables'] as $table_name => $fields) {
+
+                // Store model metadata
+                \Core\Database::getInstance()->insert('core_models', [
+                    'module_name' => $module_name,
+                    'name' => $table_name
+                ]);
 
                 // SQL statement to create a table from the model
                 $table_sql = 'CREATE TABLE '.$module_name.'_'.$table_name.' (';
@@ -81,15 +92,14 @@ class Modules extends \Core\Module {
                     $table_sql .= ', ';
 
                     // Add an entry to the meta table
-                    \Core\Database::getInstance()->insert($meta_table_name, [
-                        'table_name' => $table_name,
-                        'field_name' => $field_name,
-                        'field_type' => $field_config['type'],
-                        'enabled' => true,
-                        'system' => true
+                    \Core\Database::getInstance()->insert('core_models_fields', [
+                        'module_name' => $module_name,
+                        'model_name' => $table_name,
+                        'name' => $field_name,
+                        'type' => $field_config['type']
                     ]);
 
-                    // Kepp track of foreign keys
+                    // Keep track of foreign keys
                     if(isset($field_config['foreign_key'])) {
                         $foreign_key = $field_config['foreign_key'];
                         $target_column = $foreign_key['module'] . '_' . $foreign_key['table'] . '(' . $foreign_key['field'] . ')';
@@ -109,16 +119,26 @@ class Modules extends \Core\Module {
             }
         }
 
-        // Iterate over all tables of the model
+        // Iterate over all external tables of the model
         if(isset($model['external'])) {
             foreach($model['external'] as $ext_module_name => $ext_module_tables) {
                 foreach($ext_module_tables as $ext_table_name => $ext_fields) {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
+
+                        // Add an entry to the meta table
+                        \Core\Database::getInstance()->insert('core_models_fields', [
+                            'module_name' => $ext_module_name,
+                            'model_name' => $ext_table_name,
+                            'name' => $ext_field_name,
+                            'type' => $ext_field_config['type']
+                        ]);
+
+                        // Add column
                         $ext_table_name = $ext_module_name . '_' . $ext_table_name;
                         $add_column_sql = 'ALTER TABLE ' . $ext_table_name . ' ADD COLUMN ' . $ext_field_name . ' ' . \Helpers\Database::getDBType($ext_field_config['type']);
                         \Core\Database::getInstance()->query($add_column_sql);
 
-                        // Kepp track of foreign keys
+                        // Keep track of foreign keys
                         if(isset($ext_field_config['foreign_key'])) {
                             $foreign_key = $ext_field_config['foreign_key'];
                             $target_column = $foreign_key['module'] . '_' . $foreign_key['table'] . '(' . $foreign_key['field'] . ')';
@@ -135,32 +155,52 @@ class Modules extends \Core\Module {
             \Core\Database::getInstance()->query($foreign_key_sql);
         }
 
-        // Add an entry to the modules table
-        \Core\Database::getInstance()->insert('core_modules', [
-            'short_name' => $module_name,
-            'long_name' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
-            'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
-            'version' => $module_info['version'],
-            'enabled' => true
-        ]);
-
-        // Create the module's view table
-        $views_table_name = $module_name.'_views';
-        $views_sql = 'CREATE TABLE '.$views_table_name.' ( view_name VARCHAR(200) PRIMARY KEY, view_title VARCHAR(200), show_in_sidebar BOOL, view_config TEXT )';
-        \Core\Database::getInstance()->query($views_sql);
-
         // Iterate over all views of the module
         foreach($views as $view_name => $view_config) {
             // Sanitize view config
-            if(!isset($view_config['show_in_sidebar'])) $view_config['show_in_sidebar'] = false;
+            if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
             // Insert view into view table
-            \Core\Database::getInstance()->insert($views_table_name, [
-                'view_name' => $view_name,
-                'view_title' => $view_config['title'],
-                'show_in_sidebar' => $view_config['show_in_sidebar'],
-                'view_config' => json_encode($view_config)
+            \Core\Database::getInstance()->insert('core_views', [
+                'module_name' => $module_name,
+                'name' => $view_name,
+                'title' => $view_config['title'],
+                'type' => $view_config['type'],
+                'datasource' => $view_config['datasource'],
+                'in_sidebar' => $view_config['in_sidebar']
             ]);
+
+            // Iterate over all fields of the view
+            if(isset($view_config['fields'])) {
+
+                $view_order = 1;
+                foreach($view_config['fields'] as $field_name => $field_config) {
+
+                    $null_fields = ['data_key', 'title', 'type', 'target', 'icon'];
+                    foreach($null_fields as $null_field) {
+                        if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
+                    }
+                    if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
+                    if(!isset($field_config['visible'])) $field_config['visible'] = 1;
+
+                    // Add an entry to the meta table
+                    \Core\Database::getInstance()->insert('core_views_fields', [
+                        'module_name' => $module_name,
+                        'view_name' => $view_name,
+                        'name' => $field_name,
+                        'data_key' => $field_config['data_key'],
+                        'title' => $field_config['title'],
+                        'type' => $field_config['type'],
+                        'target' => $field_config['target'],
+                        'icon' => $field_config['icon'],
+                        'enabled' => $field_config['enabled'],
+                        'visible' => $field_config['visible'],
+                        'view_order' => $view_order
+                    ]);
+
+                    $view_order++;
+                }
+            }
         }
 
         // Return result
@@ -171,8 +211,16 @@ class Modules extends \Core\Module {
     public function delete($folder_name) {
         $db = \Core\Database::getInstance();
 
+        // Remove model meta information
+        $db->delete('core_models_fields', ['module_name' => $folder_name]);
+        $db->delete('core_models', ['module_name' => $folder_name]);
+
+        // Remove view meta information
+        $db->delete('core_views_fields', ['module_name' => $folder_name]);
+        $db->delete('core_views', ['module_name' => $folder_name]);
+
         // Remove entry from modules table
-        $db->delete('core_modules', ['short_name' => $folder_name]);
+        $db->delete('core_modules', ['name' => $folder_name]);
 
         // Find all tables from the module
         $tables = $db->query('SELECT table_name FROM information_schema.tables WHERE table_name LIKE \''.$folder_name.'_%\';');

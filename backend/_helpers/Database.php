@@ -158,15 +158,17 @@ class Database {
 		];
 
 		if($only_in_sidebar) {
-			$filter['AND']['view_in_sidebar'] = $only_in_sidebar;
+			$filter['AND']['in_sidebar'] = $only_in_sidebar;
 		}
 
 		// Get information from views table
 		$data = \Core\Database::getInstance()->select(
 			'core_views',
-			['view_name', 'view_title'],
+			['name', 'title'],
 			$filter
 		);
+
+		error_log(\Core\Database::getInstance()->last_query());
 
 		return $data;
 	}
@@ -182,11 +184,11 @@ class Database {
 		// Get information about the view
 		$view = \Core\Database::getInstance()->select(
 			'core_views',
-			['view_title', 'view_type', 'view_datasource'],
+			['title', 'type', 'datasource'],
 			['AND' =>
 				[
 					'module_name' => $module_name,
-					'view_name' => $view_name 
+					'name' => $view_name 
 				]
 			]
 		);
@@ -200,23 +202,22 @@ class Database {
 		$fields = \Core\Database::getInstance()->select(
 			'core_views_fields',
 			[
-				'field_name',
-				'field_key',
-				'field_title',
-				'field_type',
-				'field_target',
-				'field_icon',
-				'field_visible'
+				'name',
+				'data_key',
+				'title',
+				'type',
+				'target',
+				'icon',
+				'visible'
 			],
 			[
 				'AND' =>
 					[
 						'module_name' => $module_name,
 						'view_name' => $view_name,
-						'field_enabled' => true
+						'enabled' => true
 					],
-				'ORDER' => 'field_order ASC'
-
+				'ORDER' => 'view_order ASC'
 			]
 		);
 
@@ -235,7 +236,7 @@ class Database {
 	public static function getAllModules($only_enabled = false) {
 		// Generate filter
 		if($only_enabled) {
-			$filter = ['module_enabled' => true];
+			$filter = ['enabled' => true];
 		} else {
 			$filter = [];
 		}

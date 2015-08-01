@@ -1,60 +1,58 @@
 /* Create core database tables */
 
 CREATE TABLE core_modules (
-    module_name		VARCHAR(200) NOT NULL,
-    module_title	VARCHAR(200),
-    module_description	TEXT,
-    module_version	INT NOT NULL,
-    module_enabled	BOOL NOT NULL,
-    PRIMARY KEY		(module_name)
+    name		VARCHAR(200) NOT NULL,
+    title		VARCHAR(200),
+    description	TEXT,
+    version		INT NOT NULL,
+    enabled		BOOL NOT NULL,
+    PRIMARY KEY	(name)
 );
 
 CREATE TABLE core_models (
-    module_name		VARCHAR(200) NOT NULL,
-    table_name		VARCHAR(200) NOT NULL,
-    PRIMARY KEY		(module_name, table_name)
+    module_name	VARCHAR(200) NOT NULL,
+    name		VARCHAR(200) NOT NULL,
+    PRIMARY KEY	(module_name, name)
 );
 
 CREATE TABLE core_models_fields (
-	module_name		VARCHAR(200) NOT NULL,
-    table_name		VARCHAR(200) NOT NULL,
-    field_name		VARCHAR(200) NOT NULL,
-    field_type		CHAR(10) NOT NULL,
-    PRIMARY KEY		(module_name, table_name, field_name)
+	module_name	VARCHAR(200) NOT NULL,
+    model_name	VARCHAR(200) NOT NULL,
+    name		VARCHAR(200) NOT NULL,
+    type		CHAR(10) NOT NULL,
+    PRIMARY KEY	(module_name, model_name, name)
 );
 
 CREATE TABLE core_views (
-	module_name		VARCHAR(200) NOT NULL,
-	view_name		VARCHAR(200) NOT NULL,
-	view_title		VARCHAR(200),
-	view_type		VARCHAR(200) NOT NULL,
-	view_datasource	VARCHAR(200),
-	view_in_sidebar	BOOL DEFAULT 0,
-	PRIMARY KEY		(module_name, view_name)
+	module_name	VARCHAR(200) NOT NULL,
+	name		VARCHAR(200) NOT NULL,
+	title		VARCHAR(200),
+	type		VARCHAR(200) NOT NULL,
+	datasource	VARCHAR(200),
+	in_sidebar	BOOL DEFAULT 0,
+	PRIMARY KEY	(module_name, name)
 );
 
 CREATE TABLE core_views_fields (
-	module_name		VARCHAR(200) NOT NULL,
-	view_name		VARCHAR(200) NOT NULL,
-	field_name		VARCHAR(200) NOT NULL,
-	field_key		VARCHAR(200),
-	field_title		VARCHAR(200),
-	field_type		VARCHAR(200) NOT NULL,
-	field_target	VARCHAR(200),
-	field_icon		VARCHAR(200),
-	field_enabled	BOOL NOT NULL DEFAULT 1,
-	field_visible	BOOL NOT NULL DEFAULT 1,
-	field_order		INT NOT NULL DEFAULT 0,
-	PRIMARY KEY		(module_name, view_name, field_name)
+	module_name	VARCHAR(200) NOT NULL,
+	view_name	VARCHAR(200) NOT NULL,
+	name		VARCHAR(200) NOT NULL,
+	data_key	VARCHAR(200),
+	title		VARCHAR(200),
+	type		VARCHAR(200),
+	target		VARCHAR(200),
+	icon		VARCHAR(200),
+	enabled		BOOL NOT NULL DEFAULT 1,
+	visible		BOOL NOT NULL DEFAULT 1,
+	view_order	INT NOT NULL DEFAULT 0,
+	PRIMARY KEY	(module_name, view_name, name)
 );
 
 /* Set foreign keys */
-ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(module_name);
-ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name) REFERENCES core_modules(module_name);
-ALTER TABLE core_models_fields ADD FOREIGN KEY (table_name) REFERENCES core_models(table_name);
-ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(module_name);
-ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name) REFERENCES core_modules(module_name);
-ALTER TABLE core_views ADD FOREIGN KEY (view_name) REFERENCES core_views(view_name);
+ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
+ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name, model_name) REFERENCES core_models(module_name, name);
+ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
+ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name);
 
 /* Insert intallation data */
 
