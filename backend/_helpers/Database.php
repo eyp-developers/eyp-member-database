@@ -222,7 +222,7 @@ class Database {
 		);
 
 		// Parse information
-		$view['view_fields'] = $fields;
+		$view['fields'] = $fields;
 
 		return $view;
 	}

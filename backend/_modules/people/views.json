@@ -18,7 +18,7 @@
                 "target" : "/people/person_detail/:id"
             },
             "last_name" : {
-                "field" : "last_name",
+                "data_key" : "last_name",
                 "title" : "Last Name"
             },
             "email" : {
