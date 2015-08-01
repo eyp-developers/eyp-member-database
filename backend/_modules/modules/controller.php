@@ -192,7 +192,7 @@ class Modules extends \Core\Module {
     }
 
     public function moduleView($module_name, $view_name) {
-        echo \Helpers\Database::getModuleView($module_name, $view_name);
+        echo json_encode(\Helpers\Database::getModuleView($module_name, $view_name));
     }
 
 }

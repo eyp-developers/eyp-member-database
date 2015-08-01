@@ -24,17 +24,17 @@ class Config extends \Core\Module {
         // Create top-level sidebar entries for all modules
         foreach($enabled_modules as $module) {
             $menu_item = [
-                "title" => $module['long_name'],
+                "title" => $module['module_title'],
                 "items" => []
             ];
 
             // Create sub-entries for all views of the module
-            $module_views = \Helpers\Database::getModuleViews($module['short_name'], true);
+            $module_views = \Helpers\Database::getModuleViews($module['module_name'], true);
             if($module_views) {
                 foreach($module_views as $view) {
                     $sub_item = [
                         'title' => $view['view_title'],
-                        'target' => '/' . $module['short_name'] . '/' . $view['view_name']
+                        'target' => '/' . $module['module_name'] . '/' . $view['view_name']
                     ];
                     $menu_item['items'][] = $sub_item;
                 }

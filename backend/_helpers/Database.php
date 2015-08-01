@@ -150,18 +150,20 @@ class Database {
 	 * @return An array containing information about all views of the module
 	 */
 	public static function getModuleViews($module_name, $only_in_sidebar = false) {
-		// Generate the name of the views table
-		$views_table_name = $module_name.'_views';
-
 		// Generate filter
-		$filter = [];
+		$filter = [
+			'AND' => [
+				'module_name' => $module_name
+			]
+		];
+
 		if($only_in_sidebar) {
-			$filter["show_in_sidebar"] = true;
+			$filter['AND']['view_in_sidebar'] = $only_in_sidebar;
 		}
 
 		// Get information from views table
 		$data = \Core\Database::getInstance()->select(
-			$views_table_name,
+			'core_views',
 			['view_name', 'view_title'],
 			$filter
 		);
@@ -177,17 +179,51 @@ class Database {
 	 * @return An array containing information about the specified view
 	 */
 	public static function getModuleView($module_name, $view_name) {
-		// Generate the name of the meta table
-		$views_table_name = $module_name.'_views';
+		// Get information about the view
+		$view = \Core\Database::getInstance()->select(
+			'core_views',
+			['view_title', 'view_type', 'view_datasource'],
+			['AND' =>
+				[
+					'module_name' => $module_name,
+					'view_name' => $view_name 
+				]
+			]
+		);
+		if(is_array($view) && count($view) >= 1) {
+			$view = $view[0];
+		} else {
+			// TODO: Report error via exception
+			die("ERROR");
+		}
 
-		// Get information from views table
-		$data = \Core\Database::getInstance()->select(
-			$views_table_name,
-			['view_config'],
-			['view_name' => $view_name]
+		$fields = \Core\Database::getInstance()->select(
+			'core_views_fields',
+			[
+				'field_name',
+				'field_key',
+				'field_title',
+				'field_type',
+				'field_target',
+				'field_icon',
+				'field_visible'
+			],
+			[
+				'AND' =>
+					[
+						'module_name' => $module_name,
+						'view_name' => $view_name,
+						'field_enabled' => true
+					],
+				'ORDER' => 'field_order ASC'
+
+			]
 		);
 
-		return $data[0]['view_config'];
+		// Parse information
+		$view['view_fields'] = $fields;
+
+		return $view;
 	}
 
 	/**
@@ -197,18 +233,16 @@ class Database {
 	 * @return An array containing information about all modules
 	 */
 	public static function getAllModules($only_enabled = false) {
-		// Generate the name of the meta table
-		$modules_table = 'core_modules';
-
+		// Generate filter
 		if($only_enabled) {
-			$filter = ['enabled' => true];
+			$filter = ['module_enabled' => true];
 		} else {
 			$filter = [];
 		}
 
 		// Get information from views table
 		$data = \Core\Database::getInstance()->select(
-			$modules_table,
+			'core_modules',
 			'*',
 			$filter
 		);

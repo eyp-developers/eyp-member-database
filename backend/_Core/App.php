@@ -58,10 +58,10 @@ class App {
      */
     public static function loadModules() {
 		// Load Modules
-		$enabled_modules = Database::getInstance()->select('core_modules', "*", ['enabled' => true]);
+		$enabled_modules = \Helpers\Database::getAllModules(true);
 
 		foreach($enabled_modules as $module) {
-			$short_name = $module["short_name"];
+			$short_name = $module['module_name'];
 
 			// Load module
 			$module_classname = '\\Modules\\'.ucfirst($short_name);

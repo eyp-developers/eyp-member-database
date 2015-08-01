@@ -4,7 +4,7 @@
         "type" : "table",
         "datasource" : "/backend/people",
         "show_in_sidebar" : true,
-        "columns":
+        "fields":
         [
             {
                 "field" : "id",

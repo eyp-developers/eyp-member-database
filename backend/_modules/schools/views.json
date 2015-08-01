@@ -41,7 +41,7 @@
 
     "school_detail" : {
         "title" : "School details",
-        "type" : "modal",
+        "type" : "detail",
         "datasource" : "/backend/schools/:id"
     }
 }

@@ -34,8 +34,10 @@ var UIComponents =
         // Extract fields
         var fields = new Array;
         for(var column_id in columns) {
-            if(columns[column_id]["field"] !== undefined && columns[column_id]["field"].length !== 0)
-                fields.push(columns[column_id]["field"]);
+            if(columns[column_id]["field_key"] !== undefined
+               && columns[column_id]["field_key"] !== null
+               && columns[column_id]["field_key"].length !== 0)
+                fields.push(columns[column_id]["field_key"]);
         }
 
         // Build column config for table
@@ -45,17 +47,17 @@ var UIComponents =
 
             // Copy basic values
             var column_config = {
-                'field' : column.field,
-                'title' : column.title,
-                "visible" : (column.visible !== undefined ? column.visible : true),
-                "sortable" : (column.sortable !== undefined ? column.sortable : true)
+                'field' : column.field_key,
+                'title' : column.field_title,
+                "visible" : (column.field_visible == true ? true : false),
+                "sortable" : (column.field_sortable !== undefined ? column.field_sortable : true)
             }
 
             // Apply type to column
-            if(!column.type) column.type = 'plain';
-            switch(column.type) {
+            if(!column.field_type) column.type = 'plain';
+            switch(column.field_type) {
                 case 'link' :
-                    column_config.target = column.target;
+                    column_config.target = column.field_target;
                     column_config.formatter = Formatter.link;
                     break;
 
@@ -63,17 +65,18 @@ var UIComponents =
                     column_config.formatter = Formatter.email;
                     break;
 
-                case 'action' :
+                /*case 'action' :
                     column_config.formatter = Formatter.action;
-                    column_config.actions = column.actions;
+                    column_config.actions = column.field_actions;
                     column_config.sortable = false;
-                    break;
+                    break;*/
 
+                case 'int' :
                 case 'plain' :
                     break;
 
                 default:
-                    console.error('Unsupported column type "' + column.type + '"');
+                    console.error('Unsupported column type "' + column.field_type + '"');
             }
 
             // Add column to table
@@ -109,9 +112,9 @@ var UI =
         main.html('');
 
         // Handle the type of the view
-        switch(config.type) {
+        switch(config.view_type) {
             case 'table':
-                UIComponents.table(config.title, config.datasource, config.columns, main);
+                UIComponents.table(config.view_title, config.view_datasource, config.view_fields, main);
                 break;
             default:
                 console.error('Unsupported view type "' + config.type + '"');
