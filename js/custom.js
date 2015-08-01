@@ -137,12 +137,17 @@ var UIComponents =
                 // Go through all the fields
                 for(field_id in fields) {
                     var field = fields[field_id];
+
+                    if(field.visible != true) {
+                        continue;
+                    }
+
                     var dt = '';
-                    var dd = '';
+                    var dd = '-';
                     
-                    if(field.name !== undefined
-                       && field.name !== null) {
-                        dt = field.name;
+                    if(field.title !== undefined
+                       && field.title !== null) {
+                        dt = field.title;
                     }
 
                     if(data[field.data_key] !== undefined

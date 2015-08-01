@@ -168,8 +168,6 @@ class Database {
 			$filter
 		);
 
-		error_log(\Core\Database::getInstance()->last_query());
-
 		return $data;
 	}
 
