@@ -115,12 +115,55 @@ var UIComponents =
                 return params;
             }
         });
+    },
+
+    detail : function(title, datasource, fields, target) {
+        // Build header
+        if(title && title.length != 0) {
+            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            target.append(dom_header);
+        }
+
+        // Send a request for data
+        $.ajax({
+            dataType: 'json',
+            url: datasource,
+            success: function(data) {
+                console.log(data);
+
+                // Prepare the definition list
+                var html = '<dl class="dl-horizontal">';
+
+                // Go through all the fields
+                for(field_id in fields) {
+                    var field = fields[field_id];
+                    var dt = '';
+                    var dd = '';
+                    
+                    if(field.name !== undefined
+                       && field.name !== null) {
+                        dt = field.name;
+                    }
+
+                    if(data[field.data_key] !== undefined
+                       && data[field.data_key] !== null) {
+                        dd = data[field.data_key];
+                    }
+
+                    html += '<dt>' + dt + '</dt><dd>' + dd + '</dd>';
+                }
+
+                html += '</dl>';
+
+                target.append(html);
+            }
+        });
     }
 }
 
 var UI =
 {
-    applyViewConfig : function(config) {
+    applyViewConfig : function(config, params) {
 
         // Get the main view
         var main = $("#main");
@@ -131,6 +174,12 @@ var UI =
             case 'table':
                 UIComponents.table(config.title, config.datasource, config.fields, main);
                 break;
+
+            case 'detail':
+                var datasource = Helper.replacePlaceholdersInURL(config.datasource, params);
+                UIComponents.detail(config.title, datasource, config.fields, main);
+                break;
+
             default:
                 console.error('Unsupported view type "' + config.type + '"');
         }
@@ -198,26 +247,53 @@ var Formatter =
             var action = this.actions[action_id];
 
             // Replace placeholders in target
-            var target_parts = action.target.split('/');
-            for(part_index in target_parts) {
-                if(target_parts[part_index].indexOf(":") == 0) {
-                    var key = target_parts[part_index].slice(1);
-                    if(row[key] !== undefined) {
-                        target_parts[part_index] = row[key];
-                    } else {
-                        console.error('Column target is referring to undefined key "' + key + '"');
-                    }
-                }
-            }
+            var real_target = Helper.replacePlaceholdersInURL(action.target, row);
 
             html.push(
-                '<a class="like" href="#' + target_parts.join('/') + '" onclick="Navigation.navigateToURL(this.href)" title="Like">',
+                '<a class="like" href="#' + real_target + '" onclick="Navigation.navigateToURL(this.href)" title="Like">',
                     '<i class="glyphicon glyphicon-' + action.icon + '"></i>',
                 '</a>'
             );
         }
 
         return html.join(' ');
+    }
+}
+
+/**
+ * Helper
+ */
+var Helper =
+{
+    replacePlaceholdersInURL: function(target, values) {
+        var target_parts = target.split('/');
+
+        // Check if we have a dictionary or an array of values
+        if(values instanceof Array) {
+            var key = 0;
+            for(part_index in target_parts) {
+                if(target_parts[part_index].indexOf(":") == 0) {
+                    if(values[key] !== undefined) {
+                        target_parts[part_index] = values[key];
+                    } else {
+                        console.error('Placeholder is referring to undefined key "' + key + '"');
+                    }
+                }
+            }
+        } else {
+            for(part_index in target_parts) {
+                if(target_parts[part_index].indexOf(":") == 0) {
+                    var key = target_parts[part_index].slice(1);
+                    if(values[key] !== undefined) {
+                        target_parts[part_index] = values[key];
+                    } else {
+                        console.error('Placeholder is referring to undefined key "' + key + '"');
+                    }
+                }
+            }
+        }
+
+        return target_parts.join('/');
     }
 }
 
@@ -254,7 +330,9 @@ var Navigation =
             $.ajax({
               dataType: 'json',
               url: '/backend/modules/' +  target[1] + '/views/' + target[2],
-              success: UI.applyViewConfig
+              success: function(data) {
+                  UI.applyViewConfig(data, target.slice(3));
+              }
             });
 
         } else {
