@@ -155,8 +155,9 @@ class Modules extends \Core\Module {
             \Core\Database::getInstance()->query($foreign_key_sql);
         }
 
+
         // Iterate over all views of the module
-        foreach($views as $view_name => $view_config) {
+        foreach($views["views"] as $view_name => $view_config) {
             // Sanitize view config
             if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
@@ -199,6 +200,54 @@ class Modules extends \Core\Module {
                     ]);
 
                     $view_order++;
+                }
+            }
+        }
+
+        // Iterate over all external views of the module
+        if(isset($views['external'])) {
+            foreach($views["external"] as $ext_module_name => $ext_views) {
+                foreach($ext_views as $ext_view_name => $ext_view_config) {
+
+                    // Get current hightest view order
+                    $view_order = \Core\Database::getInstance()->max(
+                        'core_views_fields',
+                        'view_order',
+                        [
+                            'AND' => [
+                                'module_name' => $ext_module_name,
+                                'view_name' => $ext_view_name,
+                            ]
+                        ]
+                    );
+                    $view_order++;
+
+                    foreach($ext_view_config as $field_name => $field_config) {
+
+                        $null_fields = ['data_key', 'title', 'type', 'target', 'icon'];
+                        foreach($null_fields as $null_field) {
+                            if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
+                        }
+                        if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
+                        if(!isset($field_config['visible'])) $field_config['visible'] = 1;
+
+                        // Add an entry to the meta table
+                        \Core\Database::getInstance()->insert('core_views_fields', [
+                            'module_name' => $ext_module_name,
+                            'view_name' => $ext_view_name,
+                            'name' => $field_name,
+                            'data_key' => $field_config['data_key'],
+                            'title' => $field_config['title'],
+                            'type' => $field_config['type'],
+                            'target' => $field_config['target'],
+                            'icon' => $field_config['icon'],
+                            'enabled' => $field_config['enabled'],
+                            'visible' => $field_config['visible'],
+                            'view_order' => $view_order
+                        ]);
+
+                        $view_order++;
+                    }
                 }
             }
         }
