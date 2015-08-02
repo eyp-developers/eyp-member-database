@@ -54,11 +54,21 @@ class App {
     private function __wakeup() {}
 
     /**
+     * Used as middleware before every request. Sleeps for a certain amount of time.
+     */
+    public static function delayLoads($route) {
+        sleep(1);
+    }
+
+    /**
      * Loads all enabled modules
      */
     public static function loadModules() {
 		// Load Modules
 		$enabled_modules = \Helpers\Database::getAllModules(true);
+
+        // Get app instance
+        $app = \Core\App::getInstance();
 
 		foreach($enabled_modules as $module) {
 			$short_name = $module['name'];
@@ -79,7 +89,7 @@ class App {
                     foreach($module_actions[$method] as $action => $handler) {
                         // Dynamically call the appropriate function to register the route
                         $method_name = strtolower($method);
-                        \Core\App::getInstance()->$method_name($action, [$module, $handler]);
+                        $app->$method_name($action, /*['\\Core\\App', 'delayLoads'],*/ [$module, $handler]);
                     }
                 }
             }

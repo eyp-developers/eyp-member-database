@@ -25,6 +25,9 @@ var UIComponents =
 
     table : function(title, datasource, columns, target) {
 
+        // Clear the target
+        target.html('');
+
         // Build header
         if(title && title.length != 0) {
             var dom_header = $('<h1 class="page-header">' + title + '</h1>');
@@ -117,22 +120,32 @@ var UIComponents =
         });
     },
 
-    detail : function(title, datasource, fields, target) {
+    detail : function(title, datasource, fields, dom_target) {
+
+        // Clear the target
+        dom_target.html('');
+
         // Build header
         if(title && title.length != 0) {
             var dom_header = $('<h1 class="page-header">' + title + '</h1>');
-            target.append(dom_header);
+            dom_target.append(dom_header);
         }
+
+        // Generate container for the detail view
+        var dl_target = $('<div class="row"></div>');
+        dom_target.append(dl_target);
+    
+        // Show loading mask
+        UIComponents.loadingMask(dl_target);
 
         // Send a request for data
         $.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {
-                console.log(data);
 
                 // Prepare the definition list
-                var html = '<dl class="dl-horizontal">';
+                var html = $('<dl class="dl-horizontal"></dl>');
 
                 // Go through all the fields
                 for(field_id in fields) {
@@ -155,34 +168,99 @@ var UIComponents =
                         dd = data[field.data_key];
                     }
 
-                    html += '<dt>' + dt + '</dt><dd>' + dd + '</dd>';
+                    html.append($('<dt>' + dt + '</dt><dd>' + dd + '</dd>'));
                 }
 
-                html += '</dl>';
-
-                target.append(html);
+                dl_target.html(html);
             }
         });
+    },
+
+    combined : function(title, params, fields, dom_target) {
+
+        // Clear the target
+        dom_target.html('');
+
+        // Build header
+        if(title && title.length != 0) {
+            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            dom_target.append(dom_header);
+        }
+
+        // Generate container for the combined view
+        var combined_target = $('<div></div>');
+        dom_target.append(combined_target);
+
+        // Show loading mask
+        UIComponents.loadingMask(combined_target);
+
+        // Iterate over all components
+        for(field_id in fields) {
+            var field_dom = $('<div></div>');
+            combined_target.append(field_dom);
+
+            var field = fields[field_id];
+
+            // Split the target into model and view
+            var target = Helper.replacePlaceholdersInURL(field.data_key, params)
+            target = target.split('/')
+            if(target.length >= 3) {
+
+                // Load the view config and handle it
+                var first_component = true;
+                $.ajax({
+                    dataType: 'json',
+                    url: '/backend/modules/' +  target[1] + '/views/' + target[2],
+                    view_params: target,
+                    field_dom: field_dom,
+                    success: function(data) {
+                        if(first_component) {
+                            first_component = false;
+                            combined_target.find('.spinner').remove();
+                        }
+                        UI.applyViewConfig(data, this.view_params.slice(3), this.field_dom);
+                    }
+                });
+
+            } else {
+                console.error('URL "' + url + '" is not a valid target!');
+            }
+        }
+    },
+
+    loadingMask : function(dom_target) {
+        var loading_html = $([
+            '<div class="spinner">',
+                '<div class="double-bounce1"></div>',
+                '<div class="double-bounce2"></div>',
+            '</div>'].join(''));
+
+        dom_target.html(loading_html);
     }
 }
 
 var UI =
 {
-    applyViewConfig : function(config, params) {
+    applyViewConfig : function(config, params, dom_target) {
 
-        // Get the main view
-        var main = $("#main");
-        main.html('');
+        // Get the main view if no target was defined
+        if(typeof dom_target === 'undefined' || dom_target === null) {
+            dom_target = $("#main");
+        }
 
         // Handle the type of the view
         switch(config.type) {
             case 'table':
-                UIComponents.table(config.title, config.datasource, config.fields, main);
+                UIComponents.table(config.title, config.datasource, config.fields, dom_target);
                 break;
 
             case 'detail':
                 var datasource = Helper.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.detail(config.title, datasource, config.fields, main);
+                UIComponents.detail(config.title, datasource, config.fields, dom_target);
+                break;
+
+            case 'combined':
+                UIComponents.combined(config.title, params, config.fields, dom_target);
                 break;
 
             default:
@@ -193,6 +271,7 @@ var UI =
     applySidebarConfig : function(sidebar_config) {
         // Load sidebar items
         var sidebar_main_menu = $("#sidebar-main-menu");
+        sidebar_main_menu.html('');
 
         for(var menu_index in sidebar_config) {
             var menu_item = sidebar_config[menu_index];
@@ -331,6 +410,8 @@ var Navigation =
         target = target.split('/')
         if(target.length >= 3) {
 
+            UIComponents.loadingMask($('#main'));
+
             // Load the view config and handle it
             $.ajax({
               dataType: 'json',
@@ -353,6 +434,7 @@ var Navigation =
 // Initialize JS
 function init() {
     // Load configuration
+    UIComponents.loadingMask($('#sidebar-main-menu'));
     $.ajax({
         dataType: "json",
         url: "/backend/config",

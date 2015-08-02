@@ -1,7 +1,7 @@
 {
     "views": {
-        "all_schools" : {
-            "title" : "All schools",
+        "schools" : {
+            "title" : "Schools",
             "type" : "table",
             "datasource" : "/backend/schools",
             "in_sidebar" : true,
@@ -16,7 +16,7 @@
                     "data_key" : "name",
                     "title" : "Name",
                     "type" : "link",
-                    "target" : "/schools/school_detail/:id"
+                    "target" : "/schools/school/:id"
                 },
                 "email" : {
                     "data_key" : "email",
@@ -25,13 +25,22 @@
                 },
                 "time" : {
                     "type" : "action",
-                    "target" : "/people/person_detail/:id",
+                    "target" : "/schools/school/:id",
                     "icon" : "time"
                 },
                 "lock" : {
                     "type" : "action",
-                    "target" : "/people/person_detail/:id",
+                    "target" : "/schools/school/:id",
                     "icon" : "lock"
+                }
+            }
+        },
+
+        "school" : {
+            "type" : "combined",
+            "fields" : {
+                "school_detail" : {
+                    "data_key" : "/schools/school_detail/:id"
                 }
             }
         },
@@ -40,7 +49,6 @@
             "title" : "School details",
             "type" : "detail",
             "datasource" : "/backend/schools/:id",
-            "in_sidebar" : false,
             "fields" :
             {
                 "id" : {
