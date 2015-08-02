@@ -90,7 +90,7 @@
             },
             "comment" : {
                 "data_key" : "comment",
-                "title" : "Country"
+                "title" : "Comment"
             }
         }
     }

@@ -1,6 +1,5 @@
 {
 	"tables" : {
-
 		"schools" : {
 
 			"id" : {
@@ -69,7 +68,6 @@
 	}, 
 
 	"external" : {
-
 		"people" : {
 			"people" : {
 				"school" : {
