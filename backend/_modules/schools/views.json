@@ -1,84 +1,97 @@
 {
-    "all_schools" : {
-        "title" : "All schools",
-        "type" : "table",
-        "datasource" : "/backend/schools",
-        "in_sidebar" : true,
-        "fields":
-        {
-            "id" : {
-                "data_key" : "id",
-                "title" : "ID",
-                "visible" : false
-            },
-            "name" : {
-                "data_key" : "name",
-                "title" : "Name",
-                "type" : "link",
-                "target" : "/schools/school_detail/:id"
-            },
-            "email" : {
-                "data_key" : "email",
-                "title" : "Email",
-                "type" : "email"
-            },
-            "time" : {
-                "type" : "action",
-                "target" : "/people/person_detail/:id",
-                "icon" : "time"
-            },
-            "lock" : {
-                "type" : "action",
-                "target" : "/people/person_detail/:id",
-                "icon" : "lock"
+    "views": {
+        "all_schools" : {
+            "title" : "All schools",
+            "type" : "table",
+            "datasource" : "/backend/schools",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/schools/school_detail/:id"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "time" : {
+                    "type" : "action",
+                    "target" : "/people/person_detail/:id",
+                    "icon" : "time"
+                },
+                "lock" : {
+                    "type" : "action",
+                    "target" : "/people/person_detail/:id",
+                    "icon" : "lock"
+                }
+            }
+        },
+
+        "school_detail" : {
+            "title" : "School details",
+            "type" : "detail",
+            "datasource" : "/backend/schools/:id",
+            "in_sidebar" : false,
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
+                }
             }
         }
     },
 
-    "school_detail" : {
-        "title" : "School details",
-        "type" : "detail",
-        "datasource" : "/backend/schools/:id",
-        "in_sidebar" : false,
-        "fields" :
-        {
-            "id" : {
-                "data_key" : "id",
-                "title" : "ID",
-                "visible" : false
-            },
-            "name" : {
-                "data_key" : "name",
-                "title" : "Name"
-            },
-            "email" : {
-                "data_key" : "email",
-                "title" : "Email",
-                "type" : "email"
-            },
-            "phone" : {
-                "data_key" : "phone",
-                "title" : "Phone"
-            },
-            "street" : {
-                "data_key" : "street",
-                "title" : "Street"
-            },
-            "zip" : {
-                "data_key" : "zip",
-                "title" : "ZIP"
-            },
-            "city" : {
-                "data_key" : "city",
-                "title" : "City"
-            },
-            "country" : {
-                "data_key" : "country",
-                "title" : "Country"
-            },
-            "comment" : {
-                "data_key" : "comment",
-                "title" : "Comment"
+    "external" : {
+        "people": {
+            "person_detail" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School"
+                }
             }
         }
     }
