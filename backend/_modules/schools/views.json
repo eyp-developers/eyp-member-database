@@ -41,6 +41,9 @@
             "fields" : {
                 "school_detail" : {
                     "data_key" : "/schools/school_detail/:id"
+                },
+                "students" : {
+                    "data_key" : "/schools/students/:id"
                 }
             }
         },
@@ -88,6 +91,36 @@
                 "comment" : {
                     "data_key" : "comment",
                     "title" : "Comment"
+                }
+            }
+        },
+
+        "students" : {
+            "title" : "Students",
+            "type" : "table",
+            "datasource" : "/backend/schools/students/:id",
+            "in_sidebar" : false,
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name",
+                    "type" : "link",
+                    "target" : "/people/person_detail/:id"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
                 }
             }
         }

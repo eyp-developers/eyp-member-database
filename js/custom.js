@@ -251,7 +251,8 @@ var UI =
         // Handle the type of the view
         switch(config.type) {
             case 'table':
-                UIComponents.table(config.title, config.datasource, config.fields, dom_target);
+                var datasource = Helper.replacePlaceholdersInURL(config.datasource, params);
+                UIComponents.table(config.title, datasource, config.fields, dom_target);
                 break;
 
             case 'detail':

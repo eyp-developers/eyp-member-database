@@ -44,19 +44,19 @@ class Database {
 	 * @param columns An array with the column names
 	 * @return The specified database object, or 'false'
 	 */
-	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $offset = false, $limit = false, $sort = false, $order = false) {
+	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $where = false, $offset = false, $limit = false, $sort = false, $order = false) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$where = [];
+		$filter = [];
 
 		// Parse parameters
 		if($columns === false) $columns = '*';
 
 		if($offset !== false && $limit !== false) {
-			$where['LIMIT'] = [$offset, $limit];
+			$filter['LIMIT'] = [$offset, $limit];
 		}
 
 		if($sort !== false && strlen($sort) !== 0 && $order !== false && strlen($order) !== 0) {
-			$where['ORDER'] = $sort . ' ' . strtoupper($order);
+			$filter['ORDER'] = $sort . ' ' . strtoupper($order);
 		}
 
 		if($search !== false && strlen($search) !== 0) {
@@ -64,10 +64,24 @@ class Database {
 			foreach($columns as $field) {
 				$searchclause[$field.'[~]'] = $search;
 			}
-			$where['OR'] = $searchclause;
+			$filter['AND']['OR'] = $searchclause;
 		}
 
-		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $where);
+		if($where !== false && strlen($where) !== 0) {
+			$whereclause = [];
+			$where_parts = explode(',', $where);
+
+			if(!isset($filter['AND'])) {
+				$filter['AND'] = [];
+			}
+			
+			foreach($where_parts as $where_part) {
+				$where_part = explode('=', $where_part);
+				$filter['AND'][$where_part[0]] = $where_part[1];
+			}
+		}
+
+		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $filter);
 
 	    return $data;
 	}
@@ -79,7 +93,7 @@ class Database {
 	 * @param table_name The table the object belongs to
 	 * @return The number of database objects
 	 */
-	public static function countObjects($module_name, $table_name, $columns = false, $search = false) {
+	public static function countObjects($module_name, $table_name, $columns = false, $search = false, $where = false) {
 		$data_table_name = $module_name.'_'.$table_name;
 
 		$where = [];

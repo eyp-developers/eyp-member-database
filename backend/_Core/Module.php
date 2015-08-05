@@ -47,10 +47,11 @@ class Module {
         $sort = \Core\App::getInstance()->request->get("sort");
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
+        $where = \Core\App::getInstance()->request->get("where");
 
         // Get the data
-        $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search);
+        $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where);
 
         echo json_encode(['total' => $count, 'rows' => $data]);
     }
