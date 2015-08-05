@@ -165,7 +165,13 @@ var UIComponents =
 
                     if(data[field.data_key] !== undefined
                        && data[field.data_key] !== null) {
-                        dd = data[field.data_key];
+
+                        // Apply renderer if needed
+                        if(field.type !== null && field.type !== '') {
+                            dd = Formatter[field.type].call(field, data[field.data_key], data, null);  
+                        } else {
+                            dd = data[field.data_key];
+                        }
                     }
 
                     html.append($('<dt>' + dt + '</dt><dd>' + dd + '</dd>'));
