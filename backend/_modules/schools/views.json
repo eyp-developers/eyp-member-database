@@ -131,7 +131,9 @@
             "person_detail" : {
                 "school" : {
                     "data_key" : "school",
-                    "title" : "School"
+                    "title" : "School",
+                    "type" : "link",
+                    "target" : "/schools/school/:school"
                 }
             }
         }
