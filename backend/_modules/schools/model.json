@@ -38,32 +38,6 @@
 			"comment" : {
 				"type" : "text"
 			}
-		},
-
-		"students" : {
-
-			"id" : {
-				"type" : "int",
-				"primary_key" : true
-			},
-
-			"person_id" : {
-				"type" : "int",
-				"foreign_key" : {
-					"module" : "people",
-					"table" : "people",
-					"field" : "id"
-				}
-			},
-
-			"school_id" : {
-				"type" : "int",
-				"foreign_key" : {
-					"module" : "schools",
-					"table" : "schools",
-					"field" : "id"
-				}
-			}
 		}
 	}, 
 

@@ -159,6 +159,8 @@ class Modules extends \Core\Module {
         // Iterate over all views of the module
         foreach($views["views"] as $view_name => $view_config) {
             // Sanitize view config
+            if(!isset($view_config['title'])) $view_config['title'] = null;
+            if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
             if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
             // Insert view into view table
