@@ -53,6 +53,16 @@ class Module {
 		return self::getModuleJSONFile($folder_name, 'views');
 	}
 
+	/**
+	 * Reads a module's store config from its stores.json file
+	 *
+	 * @param folder_name The name of the module's folder
+	 * @return An array containing the module's store config
+	 */
+	public static function getModuleStores($folder_name) {
+		return self::getModuleJSONFile($folder_name, 'stores');
+	}
+
 }
 
 ?>

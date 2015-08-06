@@ -435,6 +435,30 @@ var Navigation =
 }
 
 /**
+ * Stores
+ */
+
+ var Stores =
+ {
+    data : {},
+
+    get : function(module_name, store_name) {
+        return data[module_name + '_' + store_name];
+    },
+
+    load : function(module_name, store_name) {
+        $.ajax({
+        dataType: "json",
+        url: "/backend/modules/"+module_name+'/stores/'+store_name,
+        success: function(store) {
+            Stores.data[module_name + '_' + store_name] = store;
+        }
+    });
+    }
+
+ }
+
+/**
  * Initialization
  */
 
@@ -446,7 +470,16 @@ function init() {
         dataType: "json",
         url: "/backend/config",
         success: function(config) {
-            if(config.sidebar) {
+            // Load stores
+            if(typeof config.stores !== 'undefined') {
+                for(i in config.stores) {
+                    var store = config.stores[i];
+                    Stores.load(store.module_name, store.name);
+                }
+            }
+
+            // Apply sidebar
+            if(typeof config.sidebar !== 'undefined') {
                 UI.applySidebarConfig(config.sidebar);
             }
         }

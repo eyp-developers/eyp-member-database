@@ -15,7 +15,8 @@ class Modules extends \Core\Module {
                 '/modules/install/:folder_name' => 'install',
                 '/modules/delete/:folder_name' => 'delete',
                 '/modules/:module_name/views' => 'moduleViews',
-                '/modules/:module_name/views/:view_name' => 'moduleView'
+                '/modules/:module_name/views/:view_name' => 'moduleView',
+                '/modules/:module_name/stores/:store_name' => 'moduleStore'
             ]
         ];
     }
@@ -35,6 +36,7 @@ class Modules extends \Core\Module {
         $module_info = \Helpers\Module::getModuleInfo($folder_name);
         $model = \Helpers\Module::getModuleModel($folder_name);
         $views = \Helpers\Module::getModuleViews($folder_name);
+        $stores = \Helpers\Module::getModuleStores($folter_name);
 
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
@@ -254,6 +256,21 @@ class Modules extends \Core\Module {
             }
         }
 
+
+        // Iterate over all stores of the module
+        if(isset($stores['stores'])) {
+            foreach($stores['stores'] as $store_name => $store_config) {
+                // Add an entry to the stores table
+                \Core\Database::getInstance()->insert('core_stores', [
+                    'name' => $store_name,
+                    'module_name' => $store_config['module_name'],
+                    'model_name' => $store_config['model_name'],
+                    'data_key' => $store_config['data_key'],
+                    'value' => $store_config['value'],
+                ]);
+            }
+        }
+
         // Return result
         $return['success'] = true;
         echo json_encode($return);
@@ -292,6 +309,10 @@ class Modules extends \Core\Module {
 
     public function moduleView($module_name, $view_name) {
         echo json_encode(\Helpers\Database::getModuleView($module_name, $view_name));
+    }
+
+    public function moduleStore($module_name, $store_name) {
+        echo json_encode(\Helpers\Database::getModuleStore($module_name, $store_name));
     }
 
 }

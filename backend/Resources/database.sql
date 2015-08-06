@@ -48,11 +48,21 @@ CREATE TABLE core_views_fields (
 	PRIMARY KEY	(module_name, view_name, name)
 );
 
+CREATE TABLE core_stores (
+	name		VARCHAR(200) NOT NULL,
+	module_name	VARCHAR(200) NOT NULL,
+	model_name	VARCHAR(200) NOT NULL,
+    data_key	VARCHAR(200) NOT NULL,
+    value		VARCHAR(200) NOT NULL,
+    PRIMARY KEY	(module_name, name)
+);
+
 /* Set foreign keys */
 ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name, model_name) REFERENCES core_models(module_name, name);
 ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name);
+ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 
 /* Insert intallation data */
 
