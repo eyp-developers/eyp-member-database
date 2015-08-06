@@ -220,7 +220,9 @@ class Database {
 				'type',
 				'target',
 				'icon',
-				'visible'
+				'visible',
+				'store_module',
+				'store_name'
 			],
 			[
 				'AND' =>
@@ -258,6 +260,70 @@ class Database {
 			'core_modules',
 			'*',
 			$filter
+		);
+
+		return $data;
+	}
+
+	/**
+	 * Gets a store of a certain module
+	 *
+	 * @param module_name The name of the module
+	 * @param store_name The name of the store
+	 * @return An array containing a specific store
+	 */
+	public static function getModuleStore($module_name, $store_name) {
+		// Get information about the store
+		$store_config = \Core\Database::getInstance()->select(
+			'core_stores',
+			['name', 'module_name', 'model_name', 'data_key', 'value'],
+			['AND' =>
+				[
+					'module_name' => $module_name,
+					'name' => $store_name 
+				]
+			]
+		);
+
+		if(is_array($store_config) && count($store_config) >= 1) {
+			$store_config = $store_config[0];
+		} else {
+			// TODO: Report error via exception
+			die("ERROR");
+		}
+
+		$data_table = $store_config['module_name'] . '_' . $store_config['model_name'];
+		$data = \Core\Database::getInstance()->select(
+			$data_table,
+			[
+				$store_config['data_key'],
+				$store_config['value']
+			],
+			[
+				'ORDER' => $store_config['value'].' ASC'
+			]
+		);
+
+		// Parse information
+		$data_dict = [];
+		foreach($data as $row) {
+			$data_dict[$row[$store_config['data_key']]] = $row[$store_config['value']];
+		}
+		$store_config['data'] = $data_dict;
+
+		return $store_config;
+	}
+
+	/**
+	 * Gets an array of all stores
+	 *
+	 * @return An array containing information about all stores
+	 */
+	public static function getAllStores() {
+		// Get information from stores table
+		$data = \Core\Database::getInstance()->select(
+			'core_stores',
+			['module_name', 'name']
 		);
 
 		return $data;

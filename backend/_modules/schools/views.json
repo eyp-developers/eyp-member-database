@@ -133,7 +133,9 @@
                     "data_key" : "school",
                     "title" : "School",
                     "type" : "link",
-                    "target" : "/schools/school/:school"
+                    "target" : "/schools/school/:school",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
                 }
             }
         }

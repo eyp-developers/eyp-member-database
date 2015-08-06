@@ -44,10 +44,13 @@ class Config extends \Core\Module {
             }
         }
 
+        // Get store config
+        $store_config = \Helpers\Database::getAllStores();
 
         // Build the full config
         $config = [
-            'sidebar' => $sidebar_config
+            'sidebar' => $sidebar_config,
+            'stores' => $store_config
         ];
 
         echo json_encode($config);

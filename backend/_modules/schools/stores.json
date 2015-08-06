@@ -1,0 +1,10 @@
+{
+	"stores" : {
+		"school_names" : {
+			"module" : "schools",
+			"model" : "schools",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}

@@ -166,11 +166,19 @@ var UIComponents =
                     if(data[field.data_key] !== undefined
                        && data[field.data_key] !== null) {
 
+                        var value = data[field.data_key];
+                        if(typeof field.store_module !== 'undefined'
+                           && typeof field.store_name !== 'undefined'
+                           && field.store_module !== null
+                           && field.store_name !== null) {
+                            value = Stores.getValueForStoreAndKey(field.store_module, field.store_name, value);
+                        }
+
                         // Apply renderer if needed
                         if(field.type !== null && field.type !== '') {
-                            dd = Formatter[field.type].call(field, data[field.data_key], data, null);  
+                            dd = Formatter[field.type].call(field, value, data, null);  
                         } else {
-                            dd = data[field.data_key];
+                            dd = value;
                         }
                     }
 
@@ -435,6 +443,35 @@ var Navigation =
 }
 
 /**
+ * Stores
+ */
+
+ var Stores =
+ {
+    data : {},
+
+    getStore : function(module_name, store_name) {
+        return this.data[module_name + '_' + store_name];
+    },
+
+    getValueForStoreAndKey : function(module_name, store_name, key) {
+        var store = this.getStore(module_name, store_name);
+        return store.data[key];
+    },
+
+    load : function(module_name, store_name) {
+        $.ajax({
+        dataType: "json",
+        url: "/backend/modules/"+module_name+'/stores/'+store_name,
+        success: function(store) {
+            Stores.data[module_name + '_' + store_name] = store;
+        }
+    });
+    }
+
+ }
+
+/**
  * Initialization
  */
 
@@ -446,7 +483,16 @@ function init() {
         dataType: "json",
         url: "/backend/config",
         success: function(config) {
-            if(config.sidebar) {
+            // Load stores
+            if(typeof config.stores !== 'undefined') {
+                for(i in config.stores) {
+                    var store = config.stores[i];
+                    Stores.load(store.module_name, store.name);
+                }
+            }
+
+            // Apply sidebar
+            if(typeof config.sidebar !== 'undefined') {
                 UI.applySidebarConfig(config.sidebar);
             }
         }
