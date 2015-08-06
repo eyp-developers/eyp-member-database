@@ -333,7 +333,7 @@ var Formatter =
                 }
             }
         }
-        return '<a href="#' + target_parts.join('/') + '" onclick="Navigation.navigateToURL(this.href)">' + value + '</a>';
+        return '<a href="#' + target_parts.join('/') + '">' + value + '</a>';
     },
 
     action : function(value, row, index) {
@@ -349,7 +349,7 @@ var Formatter =
             var real_target = Helper.replacePlaceholdersInURL(action.target, row);
 
             html.push(
-                '<a class="like" href="#' + real_target + '" onclick="Navigation.navigateToURL(this.href)" title="Like">',
+                '<a class="like" href="#' + real_target + '" title="Like">',
                     '<i class="glyphicon glyphicon-' + action.icon + '"></i>',
                 '</a>'
             );
@@ -402,15 +402,24 @@ var Helper =
 
 var Navigation = 
 {
+    setupListener: function() {
+        window.onhashchange = function() {
+            Navigation.navigateToURL(window.location.hash);
+        };
+    },
+
     navigateToHome : function() {
-        // TODO navigate home...
-        console.error("Not implemented yet: Navigation.navigateToHome()");
+        $('#main').html('');
     },
 
     navigateToURL : function(url) {
         // Make sure we are navigating locally
         if(!url.indexOf('#') == -1) {
             window.location = url;
+        }
+        if(url.length == 0) {
+            Navigation.navigateToHome();
+            return;
         }
 
         // Extract the target from the URL
@@ -477,6 +486,9 @@ var Navigation =
 
 // Initialize JS
 function init() {
+    // Navigation support
+    Navigation.setupListener();
+
     // Load configuration
     UIComponents.loadingMask($('#sidebar-main-menu'));
     $.ajax({
