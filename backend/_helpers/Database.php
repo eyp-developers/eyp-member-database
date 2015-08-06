@@ -220,7 +220,9 @@ class Database {
 				'type',
 				'target',
 				'icon',
-				'visible'
+				'visible',
+				'store_module',
+				'store_name'
 			],
 			[
 				'AND' =>
@@ -303,7 +305,11 @@ class Database {
 		);
 
 		// Parse information
-		$store_config['data'] = $data;
+		$data_dict = [];
+		foreach($data as $row) {
+			$data_dict[$row[$store_config['data_key']]] = $row[$store_config['value']];
+		}
+		$store_config['data'] = $data_dict;
 
 		return $store_config;
 	}

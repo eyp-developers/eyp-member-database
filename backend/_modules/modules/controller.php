@@ -200,7 +200,9 @@ class Modules extends \Core\Module {
                         'icon' => $field_config['icon'],
                         'enabled' => $field_config['enabled'],
                         'visible' => $field_config['visible'],
-                        'view_order' => $view_order
+                        'view_order' => $view_order,
+                        'store_module' => $field_config['store_module'],
+                        'store_name' => $field_config['store_name']
                     ]);
 
                     $view_order++;
@@ -228,7 +230,7 @@ class Modules extends \Core\Module {
 
                     foreach($ext_view_config as $field_name => $field_config) {
 
-                        $null_fields = ['data_key', 'title', 'type', 'target', 'icon'];
+                        $null_fields = ['data_key', 'title', 'type', 'target', 'icon', 'store_module', 'store_name'];
                         foreach($null_fields as $null_field) {
                             if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
                         }
@@ -247,7 +249,9 @@ class Modules extends \Core\Module {
                             'icon' => $field_config['icon'],
                             'enabled' => $field_config['enabled'],
                             'visible' => $field_config['visible'],
-                            'view_order' => $view_order
+                            'view_order' => $view_order,
+                            'store_module' => $field_config['store_module'],
+                            'store_name' => $field_config['store_name']
                         ]);
 
                         $view_order++;

@@ -45,6 +45,8 @@ CREATE TABLE core_views_fields (
 	enabled		BOOL NOT NULL DEFAULT 1,
 	visible		BOOL NOT NULL DEFAULT 1,
 	view_order	INT NOT NULL DEFAULT 0,
+	store_module	VARCHAR(200),
+	store_name		VARCHAR(200),
 	PRIMARY KEY	(module_name, view_name, name)
 );
 
