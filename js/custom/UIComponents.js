@@ -1,5 +1,5 @@
 /**
- * User Interface
+ * UI Components 
  */
 var UIComponents =
 {
@@ -45,7 +45,7 @@ var UIComponents =
 
         // Group up action columns
         var action_column = {
-            'formatter' : Formatter.action,
+            'formatter' : Formatters.action,
             'sortable' : false,
             'actions' : []
         };
@@ -68,11 +68,11 @@ var UIComponents =
             switch(column.type) {
                 case 'link' :
                     column_config.target = column.target;
-                    column_config.formatter = Formatter.link;
+                    column_config.formatter = Formatters.link;
                     break;
 
                 case 'email' : 
-                    column_config.formatter = Formatter.email;
+                    column_config.formatter = Formatters.email;
                     break;
 
                 case 'action' :
@@ -175,8 +175,8 @@ var UIComponents =
                         }
 
                         // Apply renderer if needed
-                        if(field.type !== null && field.type !== '') {
-                            dd = Formatter[field.type].call(field, value, data, null);  
+                        if(field.type !== null && field.type !== '' && typeof(Formatters[field.type]) === 'function') {
+                            dd = Formatters[field.type].call(field, value, data, null);  
                         } else {
                             dd = value;
                         }
@@ -184,6 +184,131 @@ var UIComponents =
 
                     html.append($('<dt>' + dt + '</dt><dd>' + dd + '</dd>'));
                 }
+
+                dl_target.html(html);
+            }
+        });
+    },
+
+    form : function(title, datasource, fields, dom_target) {
+        
+        // Clear the target
+        dom_target.html('');
+
+        // Build header
+        if(title && title.length != 0) {
+            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            dom_target.append(dom_header);
+        }
+
+        // Generate container for the detail view
+        var dl_target = $('<div class="row"></div>');
+        dom_target.append(dl_target);
+    
+        // Show loading mask
+        UIComponents.loadingMask(dl_target);
+
+        // Send a request for data
+        $.ajax({
+            dataType: 'json',
+            url: datasource,
+            success: function(data) {
+
+                // Prepare the definition list
+                var html = $('<form class="form-horizontal" action="' + datasource + '"></form>');
+
+                // Go through all the fields
+                for(field_id in fields) {
+                    var field = fields[field_id];
+
+                    var form_group = $('<div class="form-group"></div>');
+                    
+                    if(field.visible != true) {
+                        form_group.css('display', 'none');
+                    }
+
+                    var label_text = '';
+                    var label = '';
+                    if(field.title !== undefined
+                       && field.title !== null) {
+                        label_text = field.title;
+                    }
+
+                    label = $('<label for="input_' + field.data_key + '" class="col-sm-3 control-label">' + label_text + '</label>'); 
+                    form_group.append(label);
+
+                    var input_text = '';
+                    var input = '';
+                    if(data[field.data_key] !== undefined
+                       && data[field.data_key] !== null) {
+                        var input_text = data[field.data_key];
+                    }
+
+                    switch(field.type) {
+
+                        case 'textarea':
+                            input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
+                            break;
+
+                        case 'select':
+                            var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                            select.append($('<option value=""></option>'));
+                            
+                            var store = Stores.getStore(field.store_module, field.store_name);
+
+                            for(key in store.data) {
+                                if(key == input_text) {
+                                    var option = $('<option value="' + key + '" selected>' + store.data[key] + '</option>');
+                                } else {
+                                    var option = $('<option value="' + key + '">' + store.data[key] + '</option>');
+                                }
+                                select.append(option);
+                            }
+
+                            input = $('<div class="col-sm-8"></div>');
+                            input.append(select);
+                            break;
+
+                        default:
+                            var input_type = Helpers.getInputTypeForDataType(field.type);
+                            input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                    }
+
+                    form_group.append(input);
+
+                    html.append(form_group);
+                }
+
+                var submit_button = $(
+                    '<div class="form-group">'+
+                        '<div class="col-sm-offset-3 col-sm-8">'+
+                            '<button type="submit" class="btn btn-primary">Submit</button>'+
+                        '</div>'+
+                    '</div>'
+                );
+                html.append(submit_button);
+
+                html.submit(function() {
+                    var me = $(this);
+                    var data = Helpers.getFormData(me);
+
+                    $.ajax({
+                        url: me.attr('action'),
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function(response_data) {
+                            UI.showAlert('success', 'Data was successfully saved!');
+                            window.history.back();
+                        },
+                        error: function(response_data) {
+                            // TODO: display notification
+                            UI.showAlert('danger', 'Could not save data!');
+                        }
+                    });
+
+                    return false;
+                })
 
                 dl_target.html(html);
             }
@@ -216,7 +341,7 @@ var UIComponents =
             var field = fields[field_id];
 
             // Split the target into model and view
-            var target = Helper.replacePlaceholdersInURL(field.data_key, params)
+            var target = Helpers.replacePlaceholdersInURL(field.data_key, params)
             target = target.split('/')
             if(target.length >= 3) {
 
@@ -251,264 +376,4 @@ var UIComponents =
 
         dom_target.html(loading_html);
     }
-}
-
-var UI =
-{
-    applyViewConfig : function(config, params, dom_target) {
-
-        // Get the main view if no target was defined
-        if(typeof dom_target === 'undefined' || dom_target === null) {
-            dom_target = $("#main");
-        }
-
-        // Handle the type of the view
-        switch(config.type) {
-            case 'table':
-                var datasource = Helper.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.table(config.title, datasource, config.fields, dom_target);
-                break;
-
-            case 'detail':
-                var datasource = Helper.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.detail(config.title, datasource, config.fields, dom_target);
-                break;
-
-            case 'combined':
-                UIComponents.combined(config.title, params, config.fields, dom_target);
-                break;
-
-            default:
-                console.error('Unsupported view type "' + config.type + '"');
-        }
-    },
-
-    applySidebarConfig : function(sidebar_config) {
-        // Load sidebar items
-        var sidebar_main_menu = $("#sidebar-main-menu");
-        sidebar_main_menu.html('');
-
-        for(var menu_index in sidebar_config) {
-            var menu_item = sidebar_config[menu_index];
-
-            var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
-
-            sidebar_main_menu.append(dom_menu_item);
-        }
-
-        // Handle Sidebar clicks
-        $(".menu-item").click(function() {
-            // Switch active sidebar item
-            $("li.active").removeClass("active");
-            $(this).parent("li").addClass("active");
-
-            // Load view config
-             Navigation.navigateToURL(this.href);
-        });
-    },
 };
-
-var Formatter = 
-{
-    email : function(value, row, index) {
-        // In case this gets called for an invisible column
-        if(!this.visible) return;
-
-        return '<a href="mailto:' + value + '">' + value + '</a>';
-    },
-
-    link : function(value, row, index) {
-        // In case this gets called for an invisible column
-        if(!this.visible) return;
-
-        // Replace placeholders in target
-        var target_parts = this.target.split('/');
-        for(part_index in target_parts) {
-            if(target_parts[part_index].indexOf(":") == 0) {
-                var key = target_parts[part_index].slice(1);
-                if(row[key] !== undefined) {
-                    target_parts[part_index] = row[key];
-                } else {
-                    console.error('Column target is referring to undefined key "' + key + '"');
-                }
-            }
-        }
-        return '<a href="#' + target_parts.join('/') + '">' + value + '</a>';
-    },
-
-    action : function(value, row, index) {
-        // In case this gets called for an invisible column
-        if(!this.visible) return;
-        
-        var html = new Array();
-
-        for(action_id in this.actions) {
-            var action = this.actions[action_id];
-
-            // Replace placeholders in target
-            var real_target = Helper.replacePlaceholdersInURL(action.target, row);
-
-            html.push(
-                '<a class="like" href="#' + real_target + '" title="Like">',
-                    '<i class="glyphicon glyphicon-' + action.icon + '"></i>',
-                '</a>'
-            );
-        }
-
-        return html.join(' ');
-    }
-}
-
-/**
- * Helper
- */
-var Helper =
-{
-    replacePlaceholdersInURL: function(target, values) {
-        var target_parts = target.split('/');
-
-        // Check if we have a dictionary or an array of values
-        if(values instanceof Array) {
-            var key = 0;
-            for(part_index in target_parts) {
-                if(target_parts[part_index].indexOf(":") == 0) {
-                    if(values[key] !== undefined) {
-                        target_parts[part_index] = values[key];
-                    } else {
-                        console.error('Placeholder is referring to undefined key "' + key + '"');
-                    }
-                }
-            }
-        } else {
-            for(part_index in target_parts) {
-                if(target_parts[part_index].indexOf(":") == 0) {
-                    var key = target_parts[part_index].slice(1);
-                    if(values[key] !== undefined) {
-                        target_parts[part_index] = values[key];
-                    } else {
-                        console.error('Placeholder is referring to undefined key "' + key + '"');
-                    }
-                }
-            }
-        }
-
-        return target_parts.join('/');
-    }
-}
-
-/**
- * Navigation
- */
-
-var Navigation = 
-{
-    setupListener: function() {
-        window.onhashchange = function() {
-            Navigation.navigateToURL(window.location.hash);
-        };
-    },
-
-    navigateToHome : function() {
-        $('#main').html('');
-    },
-
-    navigateToURL : function(url) {
-        // Make sure we are navigating locally
-        if(!url.indexOf('#') == -1) {
-            window.location = url;
-        }
-        if(url.length == 0) {
-            Navigation.navigateToHome();
-            return;
-        }
-
-        // Extract the target from the URL
-        var target = url.split('#')[1];
-
-        if(target.length == 0) {
-            Navigation.navigateToHome();
-            return;
-        }
-
-        // Split the target into model and view
-        target = target.split('/')
-        if(target.length >= 3) {
-
-            UIComponents.loadingMask($('#main'));
-
-            // Load the view config and handle it
-            $.ajax({
-              dataType: 'json',
-              url: '/backend/modules/' +  target[1] + '/views/' + target[2],
-              success: function(data) {
-                  UI.applyViewConfig(data, target.slice(3));
-              }
-            });
-
-        } else {
-            console.error('URL "' + url + '" is not a valid target!');
-        }
-    }
-}
-
-/**
- * Stores
- */
-
- var Stores =
- {
-    data : {},
-
-    getStore : function(module_name, store_name) {
-        return this.data[module_name + '_' + store_name];
-    },
-
-    getValueForStoreAndKey : function(module_name, store_name, key) {
-        var store = this.getStore(module_name, store_name);
-        return store.data[key];
-    },
-
-    load : function(module_name, store_name) {
-        $.ajax({
-        dataType: "json",
-        url: "/backend/modules/"+module_name+'/stores/'+store_name,
-        success: function(store) {
-            Stores.data[module_name + '_' + store_name] = store;
-        }
-    });
-    }
-
- }
-
-/**
- * Initialization
- */
-
-// Initialize JS
-function init() {
-    // Navigation support
-    Navigation.setupListener();
-
-    // Load configuration
-    UIComponents.loadingMask($('#sidebar-main-menu'));
-    $.ajax({
-        dataType: "json",
-        url: "/backend/config",
-        success: function(config) {
-            // Load stores
-            if(typeof config.stores !== 'undefined') {
-                for(i in config.stores) {
-                    var store = config.stores[i];
-                    Stores.load(store.module_name, store.name);
-                }
-            }
-
-            // Apply sidebar
-            if(typeof config.sidebar !== 'undefined') {
-                UI.applySidebarConfig(config.sidebar);
-            }
-        }
-    });
-}
-
-$(document).ready(init);

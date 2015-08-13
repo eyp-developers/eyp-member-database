@@ -72,6 +72,13 @@ class Module {
         $data = App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
 
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
         // Insert the data
         $new_id = \Helpers\Database::createObject($this->_lc_classname, $this->_lc_classname, $new_data);
 
@@ -87,6 +94,13 @@ class Module {
         // Get the transmitted data
         $data = App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
 
         // Update the data
         $success = \Helpers\Database::updateObject($this->_lc_classname, $this->_lc_classname, $id, $new_data);
