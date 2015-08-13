@@ -22,6 +22,11 @@ var UI =
                 UIComponents.detail(config.title, datasource, config.fields, dom_target);
                 break;
 
+            case 'form':
+                var datasource = Helpers.replacePlaceholdersInURL(config.datasource, params);
+                UIComponents.form(config.title, datasource, config.fields, dom_target);
+                break;
+
             case 'combined':
                 UIComponents.combined(config.title, params, config.fields, dom_target);
                 break;
