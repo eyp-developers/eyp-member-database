@@ -5,14 +5,14 @@ var Formatters =
 {
     email : function(value, row, index) {
         // In case this gets called for an invisible column
-        if(!this.visible) return;
+        if(!this.visible || value === null) return '';
 
         return '<a href="mailto:' + value + '">' + value + '</a>';
     },
 
     link : function(value, row, index) {
         // In case this gets called for an invisible column
-        if(!this.visible) return;
+        if(!this.visible || value === null) return '';
 
         // Replace placeholders in target
         var target_parts = this.target.split('/');
@@ -31,7 +31,7 @@ var Formatters =
 
     action : function(value, row, index) {
         // In case this gets called for an invisible column
-        if(!this.visible) return;
+        if(!this.visible || value === null) return '';
         
         var html = new Array();
 

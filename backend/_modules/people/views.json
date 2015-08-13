@@ -90,58 +90,111 @@
                     "title" : "Comment"
                 }
             }
-        }
-    },
+        },
 
-    "edit_person" : {
-            "title" : "Edit person",
-            "type" : "form",
-            "datasource" : "/backend/people/:id",
-            "in_sidebar" : false,
-            "fields":
-            {
-                "first_name" : {
-                    "data_key" : "first_name",
-                    "title" : "First Name"
-                },
-                "last_name" : {
-                    "data_key" : "last_name",
-                    "title" : "Last Name"
-                },
-                "email" : {
-                    "data_key" : "email",
-                    "title" : "Email",
-                    "type" : "email"
-                },
-                "phone" : {
-                    "data_key" : "phone",
-                    "title" : "Phone"
-                },
-                "birthdate" : {
-                    "data_key" : "birthdate",
-                    "title" : "Birthdate",
-                    "type" : "date"
-                },
-                "street" : {
-                    "data_key" : "street",
-                    "title" : "Street"
-                },
-                "zip" : {
-                    "data_key" : "zip",
-                    "title" : "ZIP"
-                },
-                "city" : {
-                    "data_key" : "city",
-                    "title" : "City"
-                },
-                "country" : {
-                    "data_key" : "country",
-                    "title" : "Country"
-                },
-                "comment" : {
-                    "data_key" : "comment",
-                    "title" : "Comment",
-                    "type" : "textarea"
+        "edit_person" : {
+                "title" : "Edit person",
+                "type" : "form",
+                "datasource" : "/backend/people/:id",
+                "in_sidebar" : false,
+                "fields":
+                {
+                    "first_name" : {
+                        "data_key" : "first_name",
+                        "title" : "First Name"
+                    },
+                    "last_name" : {
+                        "data_key" : "last_name",
+                        "title" : "Last Name"
+                    },
+                    "email" : {
+                        "data_key" : "email",
+                        "title" : "Email",
+                        "type" : "email"
+                    },
+                    "phone" : {
+                        "data_key" : "phone",
+                        "title" : "Phone"
+                    },
+                    "birthdate" : {
+                        "data_key" : "birthdate",
+                        "title" : "Birthdate",
+                        "type" : "date"
+                    },
+                    "street" : {
+                        "data_key" : "street",
+                        "title" : "Street"
+                    },
+                    "zip" : {
+                        "data_key" : "zip",
+                        "title" : "ZIP"
+                    },
+                    "city" : {
+                        "data_key" : "city",
+                        "title" : "City"
+                    },
+                    "country" : {
+                        "data_key" : "country",
+                        "title" : "Country"
+                    },
+                    "comment" : {
+                        "data_key" : "comment",
+                        "title" : "Comment",
+                        "type" : "textarea"
+                    }
+                }
+            }
+        },
+
+        "add_person" : {
+                "title" : "Add person",
+                "type" : "form",
+                "datasource" : "/backend/people",
+                "fields":
+                {
+                    "first_name" : {
+                        "data_key" : "first_name",
+                        "title" : "First Name"
+                    },
+                    "last_name" : {
+                        "data_key" : "last_name",
+                        "title" : "Last Name"
+                    },
+                    "email" : {
+                        "data_key" : "email",
+                        "title" : "Email",
+                        "type" : "email"
+                    },
+                    "phone" : {
+                        "data_key" : "phone",
+                        "title" : "Phone"
+                    },
+                    "birthdate" : {
+                        "data_key" : "birthdate",
+                        "title" : "Birthdate",
+                        "type" : "date"
+                    },
+                    "street" : {
+                        "data_key" : "street",
+                        "title" : "Street"
+                    },
+                    "zip" : {
+                        "data_key" : "zip",
+                        "title" : "ZIP"
+                    },
+                    "city" : {
+                        "data_key" : "city",
+                        "title" : "City"
+                    },
+                    "country" : {
+                        "data_key" : "country",
+                        "title" : "Country"
+                    },
+                    "comment" : {
+                        "data_key" : "comment",
+                        "title" : "Comment",
+                        "type" : "textarea"
+                    }
                 }
             }
         }

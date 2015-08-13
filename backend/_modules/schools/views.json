@@ -1,7 +1,7 @@
 {
     "views": {
         "schools" : {
-            "title" : "Schools",
+            "title" : "All Schools",
             "type" : "table",
             "datasource" : "/backend/schools",
             "in_sidebar" : true,
@@ -23,15 +23,10 @@
                     "title" : "Email",
                     "type" : "email"
                 },
-                "time" : {
+                "edit" : {
                     "type" : "action",
-                    "target" : "/schools/school/:id",
-                    "icon" : "time"
-                },
-                "lock" : {
-                    "type" : "action",
-                    "target" : "/schools/school/:id",
-                    "icon" : "lock"
+                    "target" : "/schools/edit_school/:id",
+                    "icon" : "pencil"
                 }
             }
         },
@@ -121,6 +116,93 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
+                }
+            }
+        },
+
+        "edit_school" : {
+            "title" : "Edit school",
+            "type" : "form",
+            "datasource" : "/backend/schools/:id",
+            "in_sidebar" : false,
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_school" : {
+            "title" : "Add school",
+            "type" : "form",
+            "datasource" : "/backend/schools",
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
                 }
             }
         }

@@ -252,6 +252,8 @@ var UIComponents =
 
                         case 'select':
                             var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                            select.append($('<option value=""></option>'));
+                            
                             var store = Stores.getStore(field.store_module, field.store_name);
 
                             for(key in store.data) {
