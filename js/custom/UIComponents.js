@@ -298,12 +298,12 @@ var UIComponents =
                         dataType: 'json',
                         type: 'POST',
                         success: function(response_data) {
-                            // TODO: display notification
-                            console.log('form success');
+                            UI.showAlert('success', 'Data was successfully saved!');
+                            window.history.back();
                         },
                         error: function(response_data) {
                             // TODO: display notification
-                            console.log('form error');
+                            UI.showAlert('danger', 'Could not save data!');
                         }
                     });
 

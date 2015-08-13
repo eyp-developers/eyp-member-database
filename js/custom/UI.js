@@ -59,4 +59,24 @@ var UI =
              Navigation.navigateToURL(this.href);
         });
     },
+
+    showAlert : function(type, message) {
+        // Verify type
+        var alert_type = 'info'
+        switch(type) {
+            case 'success':
+            case 'warning':
+            case 'danger':
+                alert_type = type;
+                break;
+        }
+
+        // Generate alert
+        var alert = $('<div class="alert alert-' + alert_type + '" role="alert" style="display: none;">' + message + '</div>');
+
+        // Show alert
+        $('#alerts').append(alert);
+        alert.fadeIn(300).delay(3000).fadeOut(300, function() { $(this).remove(); });
+
+    }
 };
