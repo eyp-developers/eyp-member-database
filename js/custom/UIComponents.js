@@ -175,7 +175,7 @@ var UIComponents =
                         }
 
                         // Apply renderer if needed
-                        if(field.type !== null && field.type !== '') {
+                        if(field.type !== null && field.type !== '' && typeof(Formatters[field.type]) === 'function') {
                             dd = Formatters[field.type].call(field, value, data, null);  
                         } else {
                             dd = value;
@@ -241,18 +241,37 @@ var UIComponents =
                     var input = '';
                     if(data[field.data_key] !== undefined
                        && data[field.data_key] !== null) {
-
                         var input_text = data[field.data_key];
-                        // TODO: support dropdown
-                        /*if(typeof field.store_module !== 'undefined'
-                           && typeof field.store_name !== 'undefined'
-                           && field.store_module !== null
-                           && field.store_name !== null) {
-                            value = Stores.getValueForStoreAndKey(field.store_module, field.store_name, value);
-                        }*/
                     }
 
-                    input = $('<div class="col-sm-8"><input type="text" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                    switch(field.type) {
+
+                        case 'textarea':
+                            input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
+                            break;
+
+                        case 'select':
+                            var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                            var store = Stores.getStore(field.store_module, field.store_name);
+
+                            for(key in store.data) {
+                                if(key == input_text) {
+                                    var option = $('<option value="' + key + '" selected>' + store.data[key] + '</option>');
+                                } else {
+                                    var option = $('<option value="' + key + '">' + store.data[key] + '</option>');
+                                }
+                                select.append(option);
+                            }
+
+                            input = $('<div class="col-sm-8"></div>');
+                            input.append(select);
+                            break;
+
+                        default:
+                            var input_type = Helpers.getInputTypeForDataType(field.type);
+                            input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                    }
+
                     form_group.append(input);
 
                     html.append(form_group);
@@ -270,7 +289,6 @@ var UIComponents =
                 html.submit(function() {
                     var me = $(this);
                     var data = Helpers.getFormData(me);
-                    console.log(data);
 
                     $.ajax({
                         url: me.attr('action'),
@@ -278,9 +296,11 @@ var UIComponents =
                         dataType: 'json',
                         type: 'POST',
                         success: function(response_data) {
+                            // TODO: display notification
                             console.log('form success');
                         },
                         error: function(response_data) {
+                            // TODO: display notification
                             console.log('form error');
                         }
                     });

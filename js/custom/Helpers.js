@@ -42,6 +42,19 @@ var Helpers =
             indexed_array[n['name']] = n['value'];
         });
 
-    return indexed_array;
+        return indexed_array;
+    },
+
+    getInputTypeForDataType: function(data_type) {
+        switch(data_type) {
+            case 'email':
+                return 'email';
+
+            case 'date':
+                return 'date';
+
+            default:
+                return 'text';
+        }
     }
 };
