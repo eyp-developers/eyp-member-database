@@ -205,6 +205,29 @@
                     "type" : "textarea"
                 }
             }
+        },
+
+        "delete_school" : {
+            "title" : "Delete school",
+            "type" : "dialog",
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this school?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/school/:id"
+                }
+            }
         }
     },
 

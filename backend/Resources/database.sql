@@ -28,6 +28,7 @@ CREATE TABLE core_views (
 	name		VARCHAR(200) NOT NULL,
 	title		VARCHAR(200),
 	type		VARCHAR(200) NOT NULL,
+	container	VARCHAR(200),
 	datasource	VARCHAR(200),
 	in_sidebar	BOOL DEFAULT 0,
 	PRIMARY KEY	(module_name, name)

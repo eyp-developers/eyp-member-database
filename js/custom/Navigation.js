@@ -36,8 +36,6 @@ var Navigation =
         target = target.split('/')
         if(target.length >= 3) {
 
-            UIComponents.loadingMask($('#main'));
-
             // Load the view config and handle it
             $.ajax({
               dataType: 'json',

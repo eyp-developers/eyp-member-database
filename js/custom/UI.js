@@ -7,7 +7,13 @@ var UI =
 
         // Get the main view if no target was defined
         if(typeof dom_target === 'undefined' || dom_target === null) {
-            dom_target = $("#main");
+            if(typeof config.container !== 'undefined'
+                && config.container !== null
+                && config.container !== '') {
+                dom_target = $('#' + config.container);
+            } else {
+                dom_target = $("#main");
+            }
         }
 
         // Handle the type of the view
@@ -29,6 +35,10 @@ var UI =
 
             case 'combined':
                 UIComponents.combined(config.title, params, config.fields, dom_target);
+                break;
+
+            case 'dialog':
+                UIComponents.dialog(config.title, params, config.fields, dom_target);
                 break;
 
             default:

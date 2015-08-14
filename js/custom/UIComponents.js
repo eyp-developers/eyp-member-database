@@ -382,5 +382,90 @@ var UIComponents =
             '</div>'].join(''));
 
         dom_target.html(loading_html);
-    }
+    },
+
+    dialog : function(title, params, fields, dom_target) {
+
+        // Clear the target
+        dom_target.html('');
+
+        // Build header
+        if(title && title.length != 0) {
+            var dom_header = $('' +
+                '<div class="modal-header">' +
+                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    '<h4 class="modal-title">' + title + '</h4>' +
+                '</div>');
+
+            dom_target.append(dom_header);
+        }
+
+        // Generate container for the content and footer
+        var content_target = $('<div class="modal-body"></div>');
+        dom_target.append(content_target);
+
+        var footer_target = $('<div class="modal-footer"></div>');
+        dom_target.append(footer_target);
+
+        // Iterate over all components
+        for(field_id in fields) {
+
+            var field = fields[field_id];
+
+            switch(field.type) {
+                case 'html':
+                    content_target.append(field.title);
+                    break;
+
+                case 'button':
+                    var button;
+                    var button_target = Helpers.replacePlaceholdersInURL(field.target, params);
+
+                    switch(field.data_key) {
+                        case 'delete':
+                            button = $('<button type="button" class="btn btn-danger">' + field.title + '</button>')
+                            button.click(function() {
+                                $.ajax({
+                                    url: button_target,
+                                    dataType: 'json',
+                                    type: 'DELETE',
+                                    success: function(response_data) {
+                                        UI.showAlert('success', 'Data was successfully saved!');
+                                        if(typeof response_data.db_changes !== 'undefined') {
+                                            for(i in response_data.db_changes) {
+                                                var store_data = response_data.db_changes[i];
+                                                Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
+                                            }
+                                        }
+                                        
+                                        $('#modalContainer').modal('hide');
+                                        window.history.back();
+                                    },
+                                    error: function(response_data) {
+                                        // TODO: display notification
+                                        UI.showAlert('danger', 'Could not save data!');
+                                    }
+                                });
+                            });
+                            break;
+
+                        case 'cancel':
+                            button = $('<button type="button" class="btn btn-default">' + field.title + '</button>')
+                            button.click(function() {
+                                $('#modalContainer').modal('hide');
+                                window.history.back();
+                            });
+                            break;
+
+                        default:
+                            button = $('<button type="button" class="btn btn-default">' + field.title + '</button>')
+                    }
+
+                    footer_target.append(button);
+            }
+        }
+
+        // Show the modal
+        $('#modalContainer').modal('show');
+    },
 };
