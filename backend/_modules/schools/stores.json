@@ -1,8 +1,8 @@
 {
 	"stores" : {
 		"school_names" : {
-			"module" : "schools",
-			"model" : "schools",
+			"module_name" : "schools",
+			"model_name" : "schools",
 			"data_key" : "id",
 			"value" : "name"
 		}

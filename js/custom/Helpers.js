@@ -4,6 +4,10 @@
 var Helpers =
 {
     replacePlaceholdersInURL: function(target, values) {
+        if(target === null || target === '') {
+            return '';
+        }
+
         var target_parts = target.split('/');
 
         // Check if we have a dictionary or an array of values

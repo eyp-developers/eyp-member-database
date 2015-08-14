@@ -29,6 +29,7 @@ CREATE TABLE core_views (
 	title		VARCHAR(200),
 	type		VARCHAR(200) NOT NULL,
 	datasource	VARCHAR(200),
+	container	VARCHAR(200),
 	in_sidebar	BOOL DEFAULT 0,
 	PRIMARY KEY	(module_name, name)
 );

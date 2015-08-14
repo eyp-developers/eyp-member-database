@@ -36,7 +36,7 @@ class Modules extends \Core\Module {
         $module_info = \Helpers\Module::getModuleInfo($folder_name);
         $model = \Helpers\Module::getModuleModel($folder_name);
         $views = \Helpers\Module::getModuleViews($folder_name);
-        $stores = \Helpers\Module::getModuleStores($folter_name);
+        $stores = \Helpers\Module::getModuleStores($folder_name);
 
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
@@ -163,6 +163,7 @@ class Modules extends \Core\Module {
             // Sanitize view config
             if(!isset($view_config['title'])) $view_config['title'] = null;
             if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
+            if(!isset($view_config['container'])) $view_config['container'] = null;
             if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
             // Insert view into view table
@@ -172,6 +173,7 @@ class Modules extends \Core\Module {
                 'title' => $view_config['title'],
                 'type' => $view_config['type'],
                 'datasource' => $view_config['datasource'],
+                'container' => $view_config['container'],
                 'in_sidebar' => $view_config['in_sidebar']
             ]);
 
@@ -181,7 +183,7 @@ class Modules extends \Core\Module {
                 $view_order = 1;
                 foreach($view_config['fields'] as $field_name => $field_config) {
 
-                    $null_fields = ['data_key', 'title', 'type', 'target', 'icon'];
+                    $null_fields = ['data_key', 'title', 'type', 'target', 'icon', 'store_module', 'store_name'];
                     foreach($null_fields as $null_field) {
                         if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
                     }
