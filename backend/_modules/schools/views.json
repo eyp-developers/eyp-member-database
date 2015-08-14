@@ -27,6 +27,11 @@
                     "type" : "action",
                     "target" : "/schools/edit_school/:id",
                     "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/schools/delete_school/:id",
+                    "icon" : "trash"
                 }
             }
         },
@@ -94,7 +99,6 @@
             "title" : "Students",
             "type" : "table",
             "datasource" : "/backend/schools/students/:id",
-            "in_sidebar" : false,
             "fields":
             {
                 "id" : {
@@ -124,7 +128,6 @@
             "title" : "Edit school",
             "type" : "form",
             "datasource" : "/backend/schools/:id",
-            "in_sidebar" : false,
             "fields" :
             {
                 "name" : {
@@ -168,6 +171,7 @@
             "title" : "Add school",
             "type" : "form",
             "datasource" : "/backend/schools",
+            "in_sidebar" : true,
             "fields" :
             {
                 "name" : {
@@ -210,6 +214,7 @@
         "delete_school" : {
             "title" : "Delete school",
             "type" : "dialog",
+            "container" : "modal",
             "fields":
             {
                 "text" : {

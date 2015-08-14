@@ -309,7 +309,6 @@ var UIComponents =
                             window.history.back();
                         },
                         error: function(response_data) {
-                            // TODO: display notification
                             UI.showAlert('danger', 'Could not save data!');
                         }
                     });
@@ -442,8 +441,9 @@ var UIComponents =
                                         window.history.back();
                                     },
                                     error: function(response_data) {
-                                        // TODO: display notification
                                         UI.showAlert('danger', 'Could not save data!');
+                                        $('#modalContainer').modal('hide');
+                                        window.history.back();
                                     }
                                 });
                             });
