@@ -86,7 +86,16 @@ class Module {
         if($new_id === false) {
             echo json_encode(['success' => false]);
         } else {
-            echo json_encode(['success' => true, 'object_id' => $new_id]);
+            echo json_encode([
+                'success' => true,
+                'object_id' => $new_id,
+                'db_changes' => [
+                    [
+                        'module_name' => $this->_lc_classname,
+                        'model_name' => $this->_lc_classname
+                    ]
+                ]
+            ]);
         }
     }
 
@@ -106,7 +115,15 @@ class Module {
         $success = \Helpers\Database::updateObject($this->_lc_classname, $this->_lc_classname, $id, $new_data);
 
         // Return the appropriate result
-        echo json_encode(['success' => $success]);
+        echo json_encode([
+            'success' => $success,
+            'db_changes' => [
+                [
+                    'module_name' => $this->_lc_classname,
+                    'model_name' => $this->_lc_classname
+                ]
+            ]
+        ]);
     }
 }
 
