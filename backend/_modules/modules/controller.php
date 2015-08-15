@@ -12,10 +12,15 @@ class Modules extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/modules' => 'index',
-                '/modules/install/:folder_name' => 'install',
+                '/modules/installed' => 'installed_modules',
+                '/modules/available' => 'available_modules',
                 '/modules/:module_name/views' => 'moduleViews',
                 '/modules/:module_name/views/:view_name' => 'moduleView',
                 '/modules/:module_name/stores/:store_name' => 'moduleStore'
+            ],
+
+            'POST' => [
+                '/modules/install/:folder_name' => 'install',
             ],
 
             'DELETE' => [
@@ -30,6 +35,71 @@ class Modules extends \Core\Module {
 
         // Return result
         echo json_encode($modules);
+    }
+
+
+    public function installed_modules() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = \Core\App::getInstance()->request->get("where");
+
+        // Get the data
+        $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where);
+
+        echo json_encode(['total' => $count, 'rows' => $data]);
+    }
+
+    public function available_modules() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+
+        $data = [];
+
+        // Get all installed
+        $installed_modules = \Core\Database::getInstance()->select('core_modules', 'name');
+
+        // Get all module folders
+        $module_dir_name = '_Modules';
+        $dir = dir($module_dir_name);
+        $child_name = readdir($dir->handle);
+
+        while($child_name !== false) {
+
+            // Make sure we have a non-hidden directory
+            if(stripos($child_name, '.') !== 0 && is_dir($module_dir_name . '/' . $child_name)) {
+                // Try to read the module info
+                $module_info = \Helpers\Module::getModuleInfo($child_name);
+                if($module_info !== false) {
+                    //var_dump($module_info['name']);
+                    //var_dump($installed_modules);
+                    if(array_search($module_info['name'], $installed_modules) === false) {
+                        array_push($data, $module_info);
+                    }
+                }
+            }
+            
+            // Get next child 
+            $child_name = readdir($dir->handle);
+        }
+
+        // TODO: filter, sort, etc.
+        echo json_encode(['total' => count($data), 'rows' => $data]);
+
     }
 
     public function install($folder_name) {
@@ -48,17 +118,17 @@ class Modules extends \Core\Module {
             return;
         }
 
-        if(!isset($module_info['short_name']) || !isset($module_info['version'])) {
+        if(!isset($module_info['name']) || !isset($module_info['version'])) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
         }
 
-        $module_name = $module_info['short_name'];
+        $module_name = $module_info['name'];
 
         // Add an entry to the modules table
         $db->insert('core_modules', [
             'name' => $module_name,
-            'title' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
+            'title' => (isset($module_info['title']) ? $module_info['title'] : ''),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true
@@ -377,6 +447,9 @@ class Modules extends \Core\Module {
                 ]
             ]);
         $db->delete('core_views', ['module_name' => $folder_name]);
+
+        // Remove stores
+        $db->delete('core_stores', ['module_name' => $folder_name]);
 
         // Remove entry from modules table
         $db->delete('core_modules', ['name' => $folder_name]);

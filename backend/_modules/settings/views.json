@@ -12,6 +12,130 @@
                     "title" : "App title"
                 }
             }
+        },
+
+         "module_management" : {
+            "title" : "Module management",
+            "type" : "combined",
+            "in_sidebar" : true,
+            "fields" : {
+                "installed_modules" : {
+                    "data_key" : "/settings/installed_modules"
+                },
+                "available_modules" : {
+                    "data_key" : "/settings/available_modules"
+                }
+            }
+        },
+
+        "installed_modules" : {
+            "title" : "Installed modules",
+            "type" : "table",
+            "datasource" : "/backend/modules/installed",
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "visible" : false
+                },
+                "title" : {
+                    "data_key" : "title",
+                    "title" : "Name"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description"
+                },
+                "version" : {
+                    "data_key" : "version",
+                    "title" : "Version"
+                },
+                "remove" : {
+                    "type" : "action",
+                    "target" : "/settings/remove_module/:name",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "available_modules" : {
+            "title" : "Available modules",
+            "type" : "table",
+            "datasource" : "/backend/modules/available",
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "visible" : false
+                },
+                "title" : {
+                    "data_key" : "title",
+                    "title" : "Name"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description"
+                },
+                "version" : {
+                    "data_key" : "version",
+                    "title" : "Version"
+                },
+                "install" : {
+                    "type" : "action",
+                    "target" : "/settings/install_module/:name",
+                    "icon" : "plus"
+                }
+            }
+        },
+
+        "remove_module" : {
+            "title" : "Remove module",
+            "type" : "dialog",
+            "container" : "modal",
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to remove this module?<br><strong>All module data will be deleted!</strong>",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/modules/:name"
+                }
+            }
+        },
+
+        "install_module" : {
+            "title" : "Install module",
+            "type" : "dialog",
+            "container" : "modal",
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to install this module?<br><strong>Third-party modules may delete or damage data!</strong>",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "install_button" : {
+                    "data_key" : "confirm",
+                    "title" : "Install",
+                    "type" : "button",
+                    "target" : "/backend/modules/install/:name"
+                }
+            }
         }
     }
 }

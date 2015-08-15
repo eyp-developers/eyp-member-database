@@ -449,6 +449,34 @@ var UIComponents =
                             });
                             break;
 
+                        case 'confirm':
+                            button = $('<button type="button" class="btn btn-primary">' + field.title + '</button>')
+                            button.click(function() {
+                                $.ajax({
+                                    url: button_target,
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    success: function(response_data) {
+                                        UI.showAlert('success', 'Data was successfully saved!');
+                                        if(typeof response_data.db_changes !== 'undefined') {
+                                            for(i in response_data.db_changes) {
+                                                var store_data = response_data.db_changes[i];
+                                                Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
+                                            }
+                                        }
+                                        
+                                        $('#modalContainer').modal('hide');
+                                        window.history.back();
+                                    },
+                                    error: function(response_data) {
+                                        UI.showAlert('danger', 'Could not save data!');
+                                        $('#modalContainer').modal('hide');
+                                        window.history.back();
+                                    }
+                                });
+                            });
+                            break;
+
                         case 'cancel':
                             button = $('<button type="button" class="btn btn-default">' + field.title + '</button>')
                             button.click(function() {
