@@ -12,8 +12,15 @@ class Module {
 	 * @return An array containing the JSON data
 	 */
 	public static function getModuleJSONFile($folder_name, $file_name) {
+		$file_path = '_modules/'.$folder_name.'/'.$file_name.'.json';
+
+		// Check if the file exists
+		if(!file_exists($file_path)) {
+			return false;
+		}
+
 		// Read the info file
-		$json = file_get_contents('_modules/'.$folder_name.'/'.$file_name.'.json');
+		$json = file_get_contents($file_path);
         if($json === false) return false;
 
         // Parse JSON

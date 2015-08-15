@@ -2,7 +2,7 @@
 
 namespace Modules;
 
-class Config extends \Core\Module {
+class Settings extends \Core\Module {
 
     public function __construct() {
         // Call Module constructur
@@ -11,12 +11,20 @@ class Config extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/config' => 'index'
+                '/settings' => 'index'
             ]
         ];
     }
 
     public function index() {
+
+        // Get the app settings
+        $db_app_settings = \Helpers\Database::getObjects('core', 'settings');
+        $app_settings = [];
+        foreach($db_app_settings as $app_setting) {
+            $app_settings[$app_setting['name']] = $app_setting['value'];
+        }
+
         // Get sidebar config
         $sidebar_config = [];
         $enabled_modules = \Helpers\Database::getAllModules(true);
@@ -49,6 +57,7 @@ class Config extends \Core\Module {
 
         // Build the full config
         $config = [
+            'app_settings' => $app_settings,
             'sidebar' => $sidebar_config,
             'stores' => $store_config
         ];

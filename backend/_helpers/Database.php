@@ -14,6 +14,7 @@ class Database {
 		$db_types_lookup = [
 			'int' => 'INT',
 			'string' => 'VARCHAR(1000)',
+			'short_string' => 'VARCHAR(200)',
 			'text' => 'TEXT',
 			'date' => 'DATE'
 		];

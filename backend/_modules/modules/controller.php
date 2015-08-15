@@ -62,8 +62,10 @@ class Modules extends \Core\Module {
         // Keep track of all foreign keys
         $foreign_key_queue = [];
 
+        error_log(print_r($model, true));
+
         // Iterate over all tables of the model
-        if(isset($model['tables'])) {
+        if($model !== false && isset($model['tables'])) {
             foreach($model['tables'] as $table_name => $fields) {
 
                 // Store model metadata
@@ -87,7 +89,10 @@ class Modules extends \Core\Module {
 
                     // Check if the field is the table's primary key
                     if($field_config['primary_key']) {
-                        $table_sql .= ' PRIMARY KEY AUTO_INCREMENT';
+                        $table_sql .= ' PRIMARY KEY';
+                        if($field_config['type'] === 'int') {
+                            $table_sql .= ' AUTO_INCREMENT';
+                        }
                     }
 
                     // Finish this line
@@ -116,13 +121,15 @@ class Modules extends \Core\Module {
                 // Finish the statement
                 $table_sql .= ');';
 
+                error_log($table_sql);
+
                 // Create the table
                 \Core\Database::getInstance()->query($table_sql);
             }
         }
 
         // Iterate over all external tables of the model
-        if(isset($model['external'])) {
+        if($model !== false && isset($model['external'])) {
             foreach($model['external'] as $ext_module_name => $ext_module_tables) {
                 foreach($ext_module_tables as $ext_table_name => $ext_fields) {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
@@ -159,61 +166,63 @@ class Modules extends \Core\Module {
 
 
         // Iterate over all views of the module
-        foreach($views["views"] as $view_name => $view_config) {
-            // Sanitize view config
-            if(!isset($view_config['title'])) $view_config['title'] = null;
-            if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
-            if(!isset($view_config['container'])) $view_config['container'] = null;
-            if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
+        if($views !== false && isset($views['views'])) {
+            foreach($views['views'] as $view_name => $view_config) {
+                // Sanitize view config
+                if(!isset($view_config['title'])) $view_config['title'] = null;
+                if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
+                if(!isset($view_config['container'])) $view_config['container'] = null;
+                if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
-            // Insert view into view table
-            \Core\Database::getInstance()->insert('core_views', [
-                'module_name' => $module_name,
-                'name' => $view_name,
-                'title' => $view_config['title'],
-                'type' => $view_config['type'],
-                'datasource' => $view_config['datasource'],
-                'container' => $view_config['container'],
-                'in_sidebar' => $view_config['in_sidebar']
-            ]);
+                // Insert view into view table
+                \Core\Database::getInstance()->insert('core_views', [
+                    'module_name' => $module_name,
+                    'name' => $view_name,
+                    'title' => $view_config['title'],
+                    'type' => $view_config['type'],
+                    'datasource' => $view_config['datasource'],
+                    'container' => $view_config['container'],
+                    'in_sidebar' => $view_config['in_sidebar']
+                ]);
 
-            // Iterate over all fields of the view
-            if(isset($view_config['fields'])) {
+                // Iterate over all fields of the view
+                if(isset($view_config['fields'])) {
 
-                $view_order = 1;
-                foreach($view_config['fields'] as $field_name => $field_config) {
+                    $view_order = 1;
+                    foreach($view_config['fields'] as $field_name => $field_config) {
 
-                    $null_fields = ['data_key', 'title', 'type', 'target', 'icon', 'store_module', 'store_name'];
-                    foreach($null_fields as $null_field) {
-                        if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
+                        $null_fields = ['data_key', 'title', 'type', 'target', 'icon', 'store_module', 'store_name'];
+                        foreach($null_fields as $null_field) {
+                            if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
+                        }
+                        if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
+                        if(!isset($field_config['visible'])) $field_config['visible'] = 1;
+
+                        // Add an entry to the meta table
+                        \Core\Database::getInstance()->insert('core_views_fields', [
+                            'module_name' => $module_name,
+                            'view_name' => $view_name,
+                            'name' => $field_name,
+                            'data_key' => $field_config['data_key'],
+                            'title' => $field_config['title'],
+                            'type' => $field_config['type'],
+                            'target' => $field_config['target'],
+                            'icon' => $field_config['icon'],
+                            'enabled' => $field_config['enabled'],
+                            'visible' => $field_config['visible'],
+                            'view_order' => $view_order,
+                            'store_module' => $field_config['store_module'],
+                            'store_name' => $field_config['store_name']
+                        ]);
+
+                        $view_order++;
                     }
-                    if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
-                    if(!isset($field_config['visible'])) $field_config['visible'] = 1;
-
-                    // Add an entry to the meta table
-                    \Core\Database::getInstance()->insert('core_views_fields', [
-                        'module_name' => $module_name,
-                        'view_name' => $view_name,
-                        'name' => $field_name,
-                        'data_key' => $field_config['data_key'],
-                        'title' => $field_config['title'],
-                        'type' => $field_config['type'],
-                        'target' => $field_config['target'],
-                        'icon' => $field_config['icon'],
-                        'enabled' => $field_config['enabled'],
-                        'visible' => $field_config['visible'],
-                        'view_order' => $view_order,
-                        'store_module' => $field_config['store_module'],
-                        'store_name' => $field_config['store_name']
-                    ]);
-
-                    $view_order++;
                 }
             }
         }
 
         // Iterate over all external views of the module
-        if(isset($views['external'])) {
+        if($views !== false && isset($views['external'])) {
             foreach($views["external"] as $ext_module_name => $ext_views) {
                 foreach($ext_views as $ext_view_name => $ext_view_config) {
 
@@ -264,7 +273,7 @@ class Modules extends \Core\Module {
 
 
         // Iterate over all stores of the module
-        if(isset($stores['stores'])) {
+        if($stores !== false && isset($stores['stores'])) {
             foreach($stores['stores'] as $store_name => $store_config) {
                 // Add an entry to the stores table
                 \Core\Database::getInstance()->insert('core_stores', [
