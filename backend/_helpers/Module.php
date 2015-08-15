@@ -12,8 +12,15 @@ class Module {
 	 * @return An array containing the JSON data
 	 */
 	public static function getModuleJSONFile($folder_name, $file_name) {
+		$file_path = '_modules/'.$folder_name.'/'.$file_name.'.json';
+
+		// Check if the file exists
+		if(!file_exists($file_path)) {
+			return false;
+		}
+
 		// Read the info file
-		$json = file_get_contents('_modules/'.$folder_name.'/'.$file_name.'.json');
+		$json = file_get_contents($file_path);
         if($json === false) return false;
 
         // Parse JSON
@@ -61,6 +68,16 @@ class Module {
 	 */
 	public static function getModuleStores($folder_name) {
 		return self::getModuleJSONFile($folder_name, 'stores');
+	}
+
+	/**
+	 * Reads a module's data from its data.json file
+	 *
+	 * @param folder_name The name of the module's folder
+	 * @return An array containing the module's data objects
+	 */
+	public static function getModuleData($folder_name) {
+		return self::getModuleJSONFile($folder_name, 'data');
 	}
 
 }

@@ -1,0 +1,15 @@
+{
+	"tables" : {
+		"settings" : {
+
+			"id" : {
+				"type" : "short_string",
+				"primary_key" : true
+			},
+
+			"value" : {
+				"type" : "string"
+			}
+		}
+	}
+}

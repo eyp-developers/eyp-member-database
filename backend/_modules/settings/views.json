@@ -1,0 +1,17 @@
+{
+    "views": {
+        "app_settings" : {
+            "title" : "App settings",
+            "type" : "form",
+            "datasource" : "/backend/settings/app_settings",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "app_title" : {
+                    "data_key" : "app_title",
+                    "title" : "App title"
+                }
+            }
+        }
+    }
+}

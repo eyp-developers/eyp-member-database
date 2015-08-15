@@ -38,11 +38,15 @@ var Navigation =
 
             // Load the view config and handle it
             $.ajax({
-              dataType: 'json',
-              url: '/backend/modules/' +  target[1] + '/views/' + target[2],
-              success: function(data) {
-                  UI.applyViewConfig(data, target.slice(3));
-              }
+                dataType: 'json',
+                url: '/backend/modules/' +  target[1] + '/views/' + target[2],
+                success: function(data) {
+                    // TODO: Set correct title
+
+
+                    // Apply view config
+                    UI.applyViewConfig(data, target.slice(3));
+                }
             });
 
         } else {
