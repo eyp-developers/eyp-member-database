@@ -70,4 +70,3 @@ ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(na
 /* Insert intallation data */
 
 INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1);
-INSERT INTO core_modules VALUES('settings', 'Settings', 'A module to manage the system configuration', 1, 1);

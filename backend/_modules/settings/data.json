@@ -2,7 +2,7 @@
 	"settings" : {
 		"settings" : [
 			{
-				"name" : "app_title",
+				"id" : "app_title",
 				"value" : "EYP Member Management"
 			}
 		]

@@ -11,9 +11,46 @@ class Settings extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/settings' => 'index'
+                '/settings' => 'index',
+                '/settings/app_settings' => 'app_settings'
+            ],
+            'POST' => [
+                '/settings/app_settings' => 'save_settings'
             ]
         ];
+    }
+
+    public function app_settings() {
+        // Get the app settings
+        $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
+        $app_settings = [];
+        foreach($db_app_settings as $app_setting) {
+            $app_settings[$app_setting['id']] = $app_setting['value'];
+        }
+
+        echo json_encode($app_settings);
+    }
+
+    public function save_settings() {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_settings = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_settings as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Update settings
+        foreach($new_settings as $setting_name => $setting_value) {
+            \Helpers\Database::updateObject('settings', 'settings', $setting_name, [
+                'value' => $setting_value
+            ]);
+        }
+
+        echo json_encode(['success' => true, 'query' => \Core\Database::getInstance()->last_query()]);
     }
 
     public function index() {
@@ -22,7 +59,7 @@ class Settings extends \Core\Module {
         $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
         $app_settings = [];
         foreach($db_app_settings as $app_setting) {
-            $app_settings[$app_setting['name']] = $app_setting['value'];
+            $app_settings[$app_setting['id']] = $app_setting['value'];
         }
 
         // Get sidebar config

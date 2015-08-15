@@ -64,8 +64,6 @@ class Modules extends \Core\Module {
         // Keep track of all foreign keys
         $foreign_key_queue = [];
 
-        error_log(print_r($model, true));
-
         // Iterate over all tables of the model
         if($model !== false && isset($model['tables'])) {
             foreach($model['tables'] as $table_name => $fields) {
@@ -122,8 +120,6 @@ class Modules extends \Core\Module {
 
                 // Finish the statement
                 $table_sql .= ');';
-
-                error_log($table_sql);
 
                 // Create the table
                 \Core\Database::getInstance()->query($table_sql);

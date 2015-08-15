@@ -2,7 +2,7 @@
 	"tables" : {
 		"settings" : {
 
-			"name" : {
+			"id" : {
 				"type" : "short_string",
 				"primary_key" : true
 			},
