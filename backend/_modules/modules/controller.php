@@ -31,12 +31,14 @@ class Modules extends \Core\Module {
 
     public function install($folder_name) {
         $return = [];
+        $db = \Core\Database::getInstance();
 
         // Read module information from its json files
         $module_info = \Helpers\Module::getModuleInfo($folder_name);
         $model = \Helpers\Module::getModuleModel($folder_name);
         $views = \Helpers\Module::getModuleViews($folder_name);
         $stores = \Helpers\Module::getModuleStores($folder_name);
+        $data = \Helpers\Module::getModuleData($folder_name);
 
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
@@ -51,7 +53,7 @@ class Modules extends \Core\Module {
         $module_name = $module_info['short_name'];
 
         // Add an entry to the modules table
-        \Core\Database::getInstance()->insert('core_modules', [
+        $db->insert('core_modules', [
             'name' => $module_name,
             'title' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
@@ -69,7 +71,7 @@ class Modules extends \Core\Module {
             foreach($model['tables'] as $table_name => $fields) {
 
                 // Store model metadata
-                \Core\Database::getInstance()->insert('core_models', [
+                $db->insert('core_models', [
                     'module_name' => $module_name,
                     'name' => $table_name
                 ]);
@@ -99,7 +101,7 @@ class Modules extends \Core\Module {
                     $table_sql .= ', ';
 
                     // Add an entry to the meta table
-                    \Core\Database::getInstance()->insert('core_models_fields', [
+                    $db->insert('core_models_fields', [
                         'module_name' => $module_name,
                         'model_name' => $table_name,
                         'name' => $field_name,
@@ -135,7 +137,7 @@ class Modules extends \Core\Module {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
 
                         // Add an entry to the meta table
-                        \Core\Database::getInstance()->insert('core_models_fields', [
+                        $db->insert('core_models_fields', [
                             'module_name' => $ext_module_name,
                             'model_name' => $ext_table_name,
                             'name' => $ext_field_name,
@@ -161,7 +163,7 @@ class Modules extends \Core\Module {
 
         // Insert foreign keys
         foreach($foreign_key_queue as $foreign_key_sql) {
-            \Core\Database::getInstance()->query($foreign_key_sql);
+            $db->query($foreign_key_sql);
         }
 
 
@@ -175,7 +177,7 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
 
                 // Insert view into view table
-                \Core\Database::getInstance()->insert('core_views', [
+                $db->insert('core_views', [
                     'module_name' => $module_name,
                     'name' => $view_name,
                     'title' => $view_config['title'],
@@ -199,7 +201,7 @@ class Modules extends \Core\Module {
                         if(!isset($field_config['visible'])) $field_config['visible'] = 1;
 
                         // Add an entry to the meta table
-                        \Core\Database::getInstance()->insert('core_views_fields', [
+                        $db->insert('core_views_fields', [
                             'module_name' => $module_name,
                             'view_name' => $view_name,
                             'name' => $field_name,
@@ -227,7 +229,7 @@ class Modules extends \Core\Module {
                 foreach($ext_views as $ext_view_name => $ext_view_config) {
 
                     // Get current hightest view order
-                    $view_order = \Core\Database::getInstance()->max(
+                    $view_order = $db->max(
                         'core_views_fields',
                         'view_order',
                         [
@@ -249,7 +251,7 @@ class Modules extends \Core\Module {
                         if(!isset($field_config['visible'])) $field_config['visible'] = 1;
 
                         // Add an entry to the meta table
-                        \Core\Database::getInstance()->insert('core_views_fields', [
+                        $db->insert('core_views_fields', [
                             'module_name' => $ext_module_name,
                             'view_name' => $ext_view_name,
                             'name' => $field_name,
@@ -276,13 +278,24 @@ class Modules extends \Core\Module {
         if($stores !== false && isset($stores['stores'])) {
             foreach($stores['stores'] as $store_name => $store_config) {
                 // Add an entry to the stores table
-                \Core\Database::getInstance()->insert('core_stores', [
+                $db->insert('core_stores', [
                     'name' => $store_name,
                     'module_name' => $store_config['module_name'],
                     'model_name' => $store_config['model_name'],
                     'data_key' => $store_config['data_key'],
                     'value' => $store_config['value'],
                 ]);
+            }
+        }
+
+        // Iterate over all data of the module
+        if($data !== false) {
+            foreach($data as $module_name => $module_tables) {
+                foreach($module_tables as $table_name => $table_data) {
+                    foreach($table_data as $row) {
+                        $db->insert($module_name . '_' . $table_name, $row);
+                    }
+                }
             }
         }
 

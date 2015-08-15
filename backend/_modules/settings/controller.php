@@ -19,7 +19,7 @@ class Settings extends \Core\Module {
     public function index() {
 
         // Get the app settings
-        $db_app_settings = \Helpers\Database::getObjects('core', 'settings');
+        $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
         $app_settings = [];
         foreach($db_app_settings as $app_setting) {
             $app_settings[$app_setting['name']] = $app_setting['value'];

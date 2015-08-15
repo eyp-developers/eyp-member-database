@@ -70,6 +70,16 @@ class Module {
 		return self::getModuleJSONFile($folder_name, 'stores');
 	}
 
+	/**
+	 * Reads a module's data from its data.json file
+	 *
+	 * @param folder_name The name of the module's folder
+	 * @return An array containing the module's data objects
+	 */
+	public static function getModuleData($folder_name) {
+		return self::getModuleJSONFile($folder_name, 'data');
+	}
+
 }
 
 ?>
