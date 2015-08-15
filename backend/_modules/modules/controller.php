@@ -13,10 +13,13 @@ class Modules extends \Core\Module {
             'GET' => [
                 '/modules' => 'index',
                 '/modules/install/:folder_name' => 'install',
-                '/modules/delete/:folder_name' => 'delete',
                 '/modules/:module_name/views' => 'moduleViews',
                 '/modules/:module_name/views/:view_name' => 'moduleView',
                 '/modules/:module_name/stores/:store_name' => 'moduleStore'
+            ],
+
+            'DELETE' => [
+                '/modules/:module_name' => 'delete'
             ]
         ];
     }
@@ -103,7 +106,8 @@ class Modules extends \Core\Module {
                         'module_name' => $module_name,
                         'model_name' => $table_name,
                         'name' => $field_name,
-                        'type' => $field_config['type']
+                        'type' => $field_config['type'],
+                        'creator_module_name' => $module_name
                     ]);
 
                     // Keep track of foreign keys
@@ -137,7 +141,8 @@ class Modules extends \Core\Module {
                             'module_name' => $ext_module_name,
                             'model_name' => $ext_table_name,
                             'name' => $ext_field_name,
-                            'type' => $ext_field_config['type']
+                            'type' => $ext_field_config['type'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         // Add column
@@ -210,7 +215,8 @@ class Modules extends \Core\Module {
                             'visible' => $field_config['visible'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
-                            'store_name' => $field_config['store_name']
+                            'store_name' => $field_config['store_name'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         $view_order++;
@@ -260,7 +266,8 @@ class Modules extends \Core\Module {
                             'visible' => $field_config['visible'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
-                            'store_name' => $field_config['store_name']
+                            'store_name' => $field_config['store_name'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         $view_order++;
@@ -303,12 +310,72 @@ class Modules extends \Core\Module {
     public function delete($folder_name) {
         $db = \Core\Database::getInstance();
 
+        // Remove external fields
+        $external_fields = $db->select('core_models_fields', '*',
+            [
+                'AND' => [
+                    'module_name[!]' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
+
+        foreach($external_fields as $field) {
+            $target_table = $field['module_name'] . '_' . $field['model_name'];
+            $schema_name = \Core\Config::$db_connection['database_name'];
+            $column_name = $field['name'];
+
+            // Remove foreign key
+            $foreign_keys = $db->query(
+                "SELECT constraint_name AS name ".
+                "FROM information_schema.KEY_COLUMN_USAGE ".
+                "WHERE table_schema='$schema_name' ".
+                "AND table_name='$target_table' ".
+                "AND constraint_name!='PRIMARY' ".
+                "AND referenced_table_schema = '$schema_name' ".
+                "AND column_name = '$column_name' ".
+                "AND referenced_table_name IS NOT NULL ".
+                "AND referenced_column_name IS NOT NULL"
+            );
+
+            foreach($foreign_keys as $foreign_key) {
+                $foreign_key_name = $foreign_key['name'];
+                $db->query(
+                    "ALTER TABLE `$target_table` ".
+                    "DROP FOREIGN KEY `$foreign_key_name`"
+                );
+            }
+
+            // Remove indices
+            $db->query(
+                "ALTER TABLE `$target_table` ".
+                "DROP INDEX `$column_name`"
+            );
+
+            // Remove colum 
+            $db->query(
+                "ALTER TABLE `$target_table` ".
+                "DROP COLUMN `$column_name`"
+            );
+        }
+    
         // Remove model meta information
-        $db->delete('core_models_fields', ['module_name' => $folder_name]);
+        $db->delete('core_models_fields',
+            [
+                'OR' => [
+                    'module_name' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
         $db->delete('core_models', ['module_name' => $folder_name]);
 
         // Remove view meta information
-        $db->delete('core_views_fields', ['module_name' => $folder_name]);
+        $db->delete('core_views_fields',
+            [
+                'OR' => [
+                    'module_name' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
         $db->delete('core_views', ['module_name' => $folder_name]);
 
         // Remove entry from modules table
