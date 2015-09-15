@@ -42,7 +42,9 @@
                 App.applySettings(response);
             },
             error: function(response) {
-                UI.showAlert('danger', 'Failed to load App configuration!');
+                // This only happens if the app has not been installed yet
+                // Start the installer
+                Installer.init();
             }
         });
     }

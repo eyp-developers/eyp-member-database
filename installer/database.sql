@@ -72,5 +72,4 @@ ALTER TABLE core_views_fields ADD FOREIGN KEY (creator_module_name) REFERENCES c
 ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 
 /* Insert intallation data */
-
 INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1);

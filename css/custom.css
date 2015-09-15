@@ -16,6 +16,10 @@ body {
     width: 100%;
 }
 
+.mono {
+    font-family: monospace;
+}
+
 /* Bootstrap overwrites */
 .alert {
     border-top: none;
@@ -82,4 +86,26 @@ body {
         transform: scale(1.0);
         -webkit-transform: scale(1.0);
     }
+}
+
+/* Installer */
+.installer {
+    text-align: center;
+}
+
+.installer h1 {
+    margin-bottom: 1em;
+}
+
+.installer p {
+    font-size: 1.3em;
+    margin-bottom: 1.3em;
+}
+
+.installer button {
+    margin-bottom: 1.3em;
+}
+
+.installer p.small {
+    font-size: 1em;
 }

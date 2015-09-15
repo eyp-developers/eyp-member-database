@@ -21,6 +21,7 @@ class Modules extends \Core\Module {
 
             'POST' => [
                 '/modules/install/:folder_name' => 'install',
+                '/modules/setup' => 'setup'
             ],
 
             'DELETE' => [
@@ -516,6 +517,10 @@ class Modules extends \Core\Module {
 
     public function moduleStore($module_name, $store_name) {
         echo json_encode(\Helpers\Database::getModuleStore($module_name, $store_name));
+    }
+
+    public function setup() {
+        echo json_encode(['success' => true]);
     }
 
 }
