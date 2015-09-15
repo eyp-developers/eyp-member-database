@@ -42,7 +42,7 @@ var Formatters =
             var real_target = Helpers.replacePlaceholdersInURL(action.target, row);
 
             html.push(
-                '<a class="like" href="#' + real_target + '" title="Like">',
+                '<a class="like" href="#' + real_target + '">',
                     '<i class="glyphicon glyphicon-' + action.icon + '"></i>',
                 '</a>'
             );

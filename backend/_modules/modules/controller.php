@@ -12,11 +12,19 @@ class Modules extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/modules' => 'index',
-                '/modules/install/:folder_name' => 'install',
-                '/modules/delete/:folder_name' => 'delete',
+                '/modules/installed' => 'installed_modules',
+                '/modules/available' => 'available_modules',
                 '/modules/:module_name/views' => 'moduleViews',
                 '/modules/:module_name/views/:view_name' => 'moduleView',
                 '/modules/:module_name/stores/:store_name' => 'moduleStore'
+            ],
+
+            'POST' => [
+                '/modules/install/:folder_name' => 'install',
+            ],
+
+            'DELETE' => [
+                '/modules/:module_name' => 'delete'
             ]
         ];
     }
@@ -27,6 +35,71 @@ class Modules extends \Core\Module {
 
         // Return result
         echo json_encode($modules);
+    }
+
+
+    public function installed_modules() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = \Core\App::getInstance()->request->get("where");
+
+        // Get the data
+        $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where);
+
+        echo json_encode(['total' => $count, 'rows' => $data]);
+    }
+
+    public function available_modules() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+
+        $data = [];
+
+        // Get all installed
+        $installed_modules = \Core\Database::getInstance()->select('core_modules', 'name');
+
+        // Get all module folders
+        $module_dir_name = '_Modules';
+        $dir = dir($module_dir_name);
+        $child_name = readdir($dir->handle);
+
+        while($child_name !== false) {
+
+            // Make sure we have a non-hidden directory
+            if(stripos($child_name, '.') !== 0 && is_dir($module_dir_name . '/' . $child_name)) {
+                // Try to read the module info
+                $module_info = \Helpers\Module::getModuleInfo($child_name);
+                if($module_info !== false) {
+                    //var_dump($module_info['name']);
+                    //var_dump($installed_modules);
+                    if(array_search($module_info['name'], $installed_modules) === false) {
+                        array_push($data, $module_info);
+                    }
+                }
+            }
+            
+            // Get next child 
+            $child_name = readdir($dir->handle);
+        }
+
+        // TODO: filter, sort, etc.
+        echo json_encode(['total' => count($data), 'rows' => $data]);
+
     }
 
     public function install($folder_name) {
@@ -45,17 +118,17 @@ class Modules extends \Core\Module {
             return;
         }
 
-        if(!isset($module_info['short_name']) || !isset($module_info['version'])) {
+        if(!isset($module_info['name']) || !isset($module_info['version'])) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
         }
 
-        $module_name = $module_info['short_name'];
+        $module_name = $module_info['name'];
 
         // Add an entry to the modules table
         $db->insert('core_modules', [
             'name' => $module_name,
-            'title' => (isset($module_info['long_name']) ? $module_info['long_name'] : ''),
+            'title' => (isset($module_info['title']) ? $module_info['title'] : ''),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true
@@ -103,7 +176,8 @@ class Modules extends \Core\Module {
                         'module_name' => $module_name,
                         'model_name' => $table_name,
                         'name' => $field_name,
-                        'type' => $field_config['type']
+                        'type' => $field_config['type'],
+                        'creator_module_name' => $module_name
                     ]);
 
                     // Keep track of foreign keys
@@ -137,7 +211,8 @@ class Modules extends \Core\Module {
                             'module_name' => $ext_module_name,
                             'model_name' => $ext_table_name,
                             'name' => $ext_field_name,
-                            'type' => $ext_field_config['type']
+                            'type' => $ext_field_config['type'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         // Add column
@@ -210,7 +285,8 @@ class Modules extends \Core\Module {
                             'visible' => $field_config['visible'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
-                            'store_name' => $field_config['store_name']
+                            'store_name' => $field_config['store_name'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         $view_order++;
@@ -260,7 +336,8 @@ class Modules extends \Core\Module {
                             'visible' => $field_config['visible'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
-                            'store_name' => $field_config['store_name']
+                            'store_name' => $field_config['store_name'],
+                            'creator_module_name' => $module_name
                         ]);
 
                         $view_order++;
@@ -303,13 +380,76 @@ class Modules extends \Core\Module {
     public function delete($folder_name) {
         $db = \Core\Database::getInstance();
 
+        // Remove external fields
+        $external_fields = $db->select('core_models_fields', '*',
+            [
+                'AND' => [
+                    'module_name[!]' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
+
+        foreach($external_fields as $field) {
+            $target_table = $field['module_name'] . '_' . $field['model_name'];
+            $schema_name = \Core\Config::$db_connection['database_name'];
+            $column_name = $field['name'];
+
+            // Remove foreign key
+            $foreign_keys = $db->query(
+                "SELECT constraint_name AS name ".
+                "FROM information_schema.KEY_COLUMN_USAGE ".
+                "WHERE table_schema='$schema_name' ".
+                "AND table_name='$target_table' ".
+                "AND constraint_name!='PRIMARY' ".
+                "AND referenced_table_schema = '$schema_name' ".
+                "AND column_name = '$column_name' ".
+                "AND referenced_table_name IS NOT NULL ".
+                "AND referenced_column_name IS NOT NULL"
+            );
+
+            foreach($foreign_keys as $foreign_key) {
+                $foreign_key_name = $foreign_key['name'];
+                $db->query(
+                    "ALTER TABLE `$target_table` ".
+                    "DROP FOREIGN KEY `$foreign_key_name`"
+                );
+            }
+
+            // Remove indices
+            $db->query(
+                "ALTER TABLE `$target_table` ".
+                "DROP INDEX `$column_name`"
+            );
+
+            // Remove colum 
+            $db->query(
+                "ALTER TABLE `$target_table` ".
+                "DROP COLUMN `$column_name`"
+            );
+        }
+    
         // Remove model meta information
-        $db->delete('core_models_fields', ['module_name' => $folder_name]);
+        $db->delete('core_models_fields',
+            [
+                'OR' => [
+                    'module_name' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
         $db->delete('core_models', ['module_name' => $folder_name]);
 
         // Remove view meta information
-        $db->delete('core_views_fields', ['module_name' => $folder_name]);
+        $db->delete('core_views_fields',
+            [
+                'OR' => [
+                    'module_name' => $folder_name,
+                    'creator_module_name' => $folder_name
+                ]
+            ]);
         $db->delete('core_views', ['module_name' => $folder_name]);
+
+        // Remove stores
+        $db->delete('core_stores', ['module_name' => $folder_name]);
 
         // Remove entry from modules table
         $db->delete('core_modules', ['name' => $folder_name]);

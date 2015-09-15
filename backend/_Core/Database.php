@@ -23,14 +23,7 @@ class Database {
     public static function getInstance()
     {
         if (null === static::$instance) {
-            static::$instance = new \medoo([
-				'database_type' => 'mysql',
-				'database_name' => 'eyp_md',
-				'server' => 'localhost',
-				'username' => 'eyp_md',
-				'password' => 'eyp_md',
-				'charset' => 'utf8'
-			]);
+            static::$instance = new \medoo(\Core\Config::$db_connection);
         }
         
         return static::$instance;
