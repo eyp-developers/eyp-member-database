@@ -1,0 +1,111 @@
+/* Basic Layout */
+body {
+    padding-left: 300px;
+}
+
+#main {
+    padding: 20px;
+}
+
+#main .page-header {
+    margin-top: 0;
+}
+
+#alerts {
+    position: fixed;
+    width: 100%;
+}
+
+.mono {
+    font-family: monospace;
+}
+
+/* Bootstrap overwrites */
+.alert {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: rgba(214, 233, 198, 0.8);
+}
+
+.alert-info {
+    background-color: rgba(188, 232, 241, 0.8);
+}
+
+.alert-warning {
+    background-color: rgba(250, 235, 204, 0.8);
+}
+
+.alert-danger {
+    background-color: rgba(235, 204, 209, 0.8);
+}
+
+/* Loading animation */
+.spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+    0%, 100% { 
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    } 50% { 
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
+/* Installer */
+.installer {
+    text-align: center;
+}
+
+.installer h1 {
+    margin-bottom: 1em;
+}
+
+.installer p {
+    font-size: 1.3em;
+    margin-bottom: 1.3em;
+}
+
+.installer button {
+    margin-bottom: 1.3em;
+}
+
+.installer p.small {
+    font-size: 1em;
+}

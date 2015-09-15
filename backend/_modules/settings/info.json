@@ -1,0 +1,6 @@
+{
+	"name" : "settings",
+	"title" : "Settings",
+	"description" : "A module to manage the App's configuration",
+	"version" : 1
+}

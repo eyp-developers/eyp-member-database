@@ -1,0 +1,228 @@
+{
+    "views" : {
+        "all_people" : {
+            "title" : "All people",
+            "type" : "table",
+            "datasource" : "/backend/people",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name",
+                    "type" : "link",
+                    "target" : "/people/person_detail/:id"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/people/edit_person/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/people/delete_person/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "person_detail" : {
+            "title" : "Person Detail",
+            "type" : "detail",
+            "datasource" : "/backend/people/:id",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "birthdate" : {
+                    "data_key" : "birthdate",
+                    "title" : "Birthdate",
+                    "type" : "date"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
+                }
+            }
+        },
+
+        "edit_person" : {
+            "title" : "Edit person",
+            "type" : "form",
+            "datasource" : "/backend/people/:id",
+            "fields":
+            {
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "birthdate" : {
+                    "data_key" : "birthdate",
+                    "title" : "Birthdate",
+                    "type" : "date"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_person" : {
+            "title" : "Add person",
+            "type" : "form",
+            "datasource" : "/backend/people",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "birthdate" : {
+                    "data_key" : "birthdate",
+                    "title" : "Birthdate",
+                    "type" : "date"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "delete_person" : {
+            "title" : "Delete person",
+            "type" : "dialog",
+            "container" : "modal",
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this person?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/people/:id"
+                }
+            }
+        }
+    }
+}

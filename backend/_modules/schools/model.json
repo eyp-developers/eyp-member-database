@@ -1,0 +1,58 @@
+{
+	"tables" : {
+		"schools" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			},
+
+			"email" : {
+				"type" : "string"
+			},
+
+			"phone" : {
+				"type" : "string"
+			},
+
+			"street" : {
+				"type" : "string"
+			},
+
+			"zip" : {
+				"type" : "string"
+			},
+
+			"city" : {
+				"type" : "string"
+			},
+
+			"country" : {
+				"type" : "string"
+			},
+
+			"comment" : {
+				"type" : "text"
+			}
+		}
+	}, 
+
+	"external" : {
+		"people" : {
+			"people" : {
+				"school" : {
+					"type" : "int",
+					"foreign_key" : {
+						"module" : "schools",
+						"table" : "schools",
+						"field" : "id"
+					}
+				}
+			}
+		}
+	}
+}

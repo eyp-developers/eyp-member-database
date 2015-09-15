@@ -1,0 +1,9 @@
+{
+	"name" : "schools",
+	"title" : "Schools",
+	"description" : "A module to manage schools, teachers and students",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}
