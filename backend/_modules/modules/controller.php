@@ -113,6 +113,7 @@ class Modules extends \Core\Module {
         $stores = \Helpers\Module::getModuleStores($folder_name);
         $data = \Helpers\Module::getModuleData($folder_name);
 
+        // Make sure we have at least the minimum required information about the module
         if($module_info === false || $model === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
@@ -121,6 +122,24 @@ class Modules extends \Core\Module {
         if(!isset($module_info['name']) || !isset($module_info['version'])) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
+        }
+
+        // Check dependencies
+        if(isset($module_info['dependencies'])) {
+            $installed_modules = \Core\Database::getInstance()->select('core_modules', 'name');
+            $missing_dependencies = [];
+
+            foreach($module_info['dependencies'] as $dep_module_name) {
+                if(array_search($dep_module_name, $installed_modules) === false) {
+                    array_push($missing_dependencies, $dep_module_name);
+                }
+            }
+
+            if(count($missing_dependencies) > 0) {
+                $error_message = 'The module depends on the following modules which are not intalled: <b>' . implode('</b>,<b>', $missing_dependencies) . '</b>';
+                echo json_encode(['success' => false, 'data' => $module_info, 'message' => $error_message]);
+                return;
+            }
         }
 
         $module_name = $module_info['name'];
@@ -379,6 +398,26 @@ class Modules extends \Core\Module {
 
     public function delete($folder_name) {
         $db = \Core\Database::getInstance();
+
+        // Check dependencies
+        $installed_modules = \Core\Database::getInstance()->select('core_modules', 'name');
+        $dependent_modules = [];
+
+        foreach($installed_modules as $dep_module_name) {
+            error_log("Checking $dep_module_name");
+            $dep_module_info = \Helpers\Module::getModuleInfo($dep_module_name);
+            if(isset($dep_module_info['dependencies']) &&
+               array_search($folder_name, $dep_module_info['dependencies']) !== false) {
+                error_log("Found dependency");
+                array_push($dependent_modules, $dep_module_name);
+            }
+        }
+
+        if(count($dependent_modules) > 0) {
+            $error_message = 'The following installed modules are depending on this module: <b>' . implode('</b>,<b>', $dependent_modules) . '</b>';
+            echo json_encode(['success' => false, 'message' => $error_message]);
+            return;
+        }
 
         // Remove external fields
         $external_fields = $db->select('core_models_fields', '*',
