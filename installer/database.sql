@@ -62,6 +62,14 @@ CREATE TABLE core_stores (
     PRIMARY KEY (module_name, name)
 );
 
+CREATE TABLE core_users (
+    id          INT NOT NULL AUTO_INCREMENT,
+    username    VARCHAR(200) NOT NULL,
+    password    VARCHAR(255) NOT NULL,
+    token       char(32) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 /* Set foreign keys */
 ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name, model_name) REFERENCES core_models(module_name, name);
@@ -73,3 +81,4 @@ ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(na
 
 /* Insert intallation data */
 INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1);
+INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1);

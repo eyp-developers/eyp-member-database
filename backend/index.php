@@ -39,6 +39,9 @@ spl_autoload_register(function($classname) {
 	}
 });
 
+// Load the authentication
+\Core\App::getInstance()->add(new \Core\Auth());
+
 // Initialize all modules
 \Core\App::loadModules();
 

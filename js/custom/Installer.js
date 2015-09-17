@@ -21,7 +21,7 @@
             var $btn_check = $('<button type="button" class="btn btn-primary btn-lg">Check database connection</button>');
 
             $btn_check.click(function() {
-                $.ajax({
+                Helpers.ajax({
                     url: '/installer/installer.php',
                     dataType: 'json',
                     type: 'GET',
@@ -54,7 +54,7 @@
             var $btn_install = $('<button type="button" class="btn btn-primary btn-lg">Finish installation</button>');
 
             $btn_install.click(function() {
-                $.ajax({
+                Helpers.ajax({
                     url: '/backend/modules/install/settings',
                     dataType: 'json',
                     type: 'POST',

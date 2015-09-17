@@ -1579,7 +1579,7 @@
         if (this.options.ajax) {
             calculateObjectValue(this, this.options.ajax, [request], null);
         } else {
-            $.ajax(request);
+            Helpers.ajax(request);
         }
     };
 
@@ -2839,7 +2839,7 @@
                     .text(''));
                 switch (filterDataType) {
                     case 'url':
-                        $.ajax({
+                        Helpers.ajax({
                             url: filterDataSource,
                             dataType: 'json',
                             success: function (data) {
