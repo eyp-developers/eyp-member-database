@@ -23,6 +23,9 @@ var Server =
                 } else if (response.need_login === true) {
                     UI.showLogin();
                     return;
+                } else if (response.missing_permission === true) {
+                    UI.showAlert('danger', 'You do not have the permission to perform this action');
+                    return;
                 }
             }
 

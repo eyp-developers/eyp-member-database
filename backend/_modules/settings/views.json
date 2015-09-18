@@ -94,6 +94,7 @@
             "title" : "Remove module",
             "type" : "dialog",
             "container" : "modal",
+            "does_edit" : true,
             "fields":
             {
                 "text" : {
@@ -118,6 +119,7 @@
             "title" : "Install module",
             "type" : "dialog",
             "container" : "modal",
+            "does_edit" : true,
             "fields":
             {
                 "text" : {

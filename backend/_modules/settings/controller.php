@@ -74,7 +74,7 @@ class Settings extends \Core\Module {
             ];
 
             // Create sub-entries for all views of the module
-            $module_views = \Helpers\Database::getModuleViews($module['name'], true);
+            $module_views = \Helpers\Database::getModuleViews($module['name'], true, true);
             if($module_views) {
                 foreach($module_views as $view) {
                     $sub_item = [

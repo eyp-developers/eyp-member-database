@@ -13,6 +13,7 @@ class User {
 	private static $instance;
 
     private $_username;
+    private $_permissions;
 
 	/**
      * Validates username and password and logs in the user
@@ -70,15 +71,21 @@ class User {
         // Check the authToken
         $userInfo = \Core\Database::getInstance()->select(
             'core_users',
-            ['username'],
+            ['[>]core_users_permissions' => 'username'],
+            ['username', 'module_name', 'permission'],
             ['token' => $authToken]
         );
 
         if(is_array($userInfo) && count($userInfo) >= 1) {
-            $userInfo = $userInfo[0];
+            $username = $userInfo[0]['username'];
+
+            $permissions = [];
+            foreach($userInfo as $row) {
+                $permissions[$row['module_name']] = $row['permission'];
+            }
 
             // Create user object
-            static::$instance = new \Core\User($userInfo['username']);
+            static::$instance = new \Core\User($username, $permissions);
 
             return true;
         } else {
@@ -99,8 +106,9 @@ class User {
      * Protected constructor to prevent creating a new instance of the
      * Singleton via the 'new' operator from outside of this class.
      */
-    protected function __construct($username) {
+    protected function __construct($username, $permissions) {
         $this->_username = $username;
+        $this->_permissions = $permissions;
     }
 
     /**
@@ -125,6 +133,28 @@ class User {
      */
     public function getUsername() {
         return $this->_username;
+    }
+
+    /**
+     * Returns whether the user can read from the given module
+     * @param module_name The module to check
+     * @return boolean
+     */
+    public function canReadModule($module_name) {
+        error_log("Checking read access to $module_name");
+        error_log(print_r($this->_permissions, true));
+        return $this->_permissions[$module_name] >= 1 ? true : false;
+    }
+
+    /**
+     * Returns whether the user can write to the given module
+     * @param module_name The module to check
+     * @return boolean
+     */
+    public function canWriteModule($module_name) {
+        error_log("Checking write access to $module_name");
+        error_log(print_r($this->_permissions, true));
+        return $this->_permissions[$module_name] >= 2 ? true : false;
     }
 
 }

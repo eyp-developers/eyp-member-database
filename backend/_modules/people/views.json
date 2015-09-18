@@ -100,6 +100,7 @@
             "title" : "Edit person",
             "type" : "form",
             "datasource" : "/backend/people/:id",
+            "does_edit" : true,
             "fields":
             {
                 "first_name" : {
@@ -153,6 +154,7 @@
             "type" : "form",
             "datasource" : "/backend/people",
             "in_sidebar" : true,
+            "does_edit" : true,
             "fields":
             {
                 "first_name" : {
@@ -205,6 +207,7 @@
             "title" : "Delete person",
             "type" : "dialog",
             "container" : "modal",
+            "does_edit" : true,
             "fields":
             {
                 "text" : {

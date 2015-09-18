@@ -32,6 +32,7 @@ CREATE TABLE core_views (
     datasource  VARCHAR(200),
     container   VARCHAR(200),
     in_sidebar  BOOL DEFAULT 0,
+    does_edit   BOOL DEFAULT 0,
     PRIMARY KEY (module_name, name)
 );
 
@@ -65,7 +66,6 @@ CREATE TABLE core_stores (
 CREATE TABLE core_users (
     username        VARCHAR(200) NOT NULL,
     password        VARCHAR(255) NOT NULL,
-    is_admin        BOOL NOT NULL DEFAULT 0,
     default_permission  INT NOT NULL DEFAULT 0,
     token       char(64),
     PRIMARY KEY (username)
@@ -94,4 +94,6 @@ INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all ot
 INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1);
 
 /* Create admin user */
-INSERT INTO core_users VALUES('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 1, 3, NULL);
+INSERT INTO core_users VALUES('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 1, 2, NULL);
+INSERT INTO core_users_permissions SELECT username, 'modules', default_permission FROM core_users;
+INSERT INTO core_users_permissions SELECT username, 'auth', default_permission FROM core_users;
