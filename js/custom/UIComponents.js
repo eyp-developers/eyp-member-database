@@ -3,6 +3,10 @@
  */
 var UIComponents =
 {
+    sidebarItem : function(title, target) {
+        return $('<li><a href="#' + target + '" class="menu-item">' + title + '</a></li>');
+    },
+
     sidebarDropdown : function(title, items) {
         // Generate dropdown and menu
         var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + title + ' <b class="caret"></b></a></li>');
@@ -11,7 +15,7 @@ var UIComponents =
         // Generate menu entries
         for(item_id in items) {
             var menu_item = items[item_id];
-            var dom_menu_item = $('<li><a href="#' + menu_item.target + '" class="menu-item">' + menu_item.title + '</a></li>');
+            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
 
             // Append menu entry
             dom_menu.append(dom_menu_item);
@@ -209,7 +213,7 @@ var UIComponents =
         UIComponents.loadingMask(dl_target);
 
         // Send a request for data
-        this.old_from_date = this.date_from.getRawValue();({
+        Helpers.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {

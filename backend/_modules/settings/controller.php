@@ -89,6 +89,11 @@ class Settings extends \Core\Module {
             }
         }
 
+        $sidebar_config[] = [
+            'title' => 'Log out',
+            'target' => '/logout'
+        ];
+
         // Get store config
         $store_config = \Helpers\Database::getAllStores();
 

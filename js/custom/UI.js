@@ -54,7 +54,11 @@ var UI =
         for(var menu_index in sidebar_config) {
             var menu_item = sidebar_config[menu_index];
 
-            var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+            if(typeof menu_item.items !== 'undefined') {
+                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+            } else {
+                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
+            }
 
             sidebar_main_menu.append(dom_menu_item);
         }

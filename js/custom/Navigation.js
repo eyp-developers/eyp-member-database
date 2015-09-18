@@ -50,7 +50,12 @@ var Navigation =
             });
 
         } else {
-            console.error('URL "' + url + '" is not a valid target!');
+            if(target[1] === 'logout') {
+                localStorage.removeItem('authToken');
+                window.location = '/';
+            } else {
+                console.error('URL "' + url + '" is not a valid target!');
+            }
         }
     }
 };
