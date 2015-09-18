@@ -12,7 +12,6 @@ class User {
 	 */
 	private static $instance;
 
-    private $_id;
     private $_username;
 
 	/**
@@ -67,11 +66,12 @@ class User {
      * @return Whether the authToken is valid
      */
     public static function authenticate($authToken) {
+        error_log("Authenticating token $authToken");
 
         // Check the authToken
         $userInfo = \Core\Database::getInstance()->select(
             'core_users',
-            ['id', 'username'],
+            ['username'],
             ['token' => $authToken]
         );
 
@@ -79,7 +79,7 @@ class User {
             $userInfo = $userInfo[0];
 
             // Create user object
-            static::$instance = new \Core\User($userInfo['id'], $userInfo['username']);
+            static::$instance = new \Core\User($userInfo['username']);
 
             return true;
         } else {
@@ -100,8 +100,7 @@ class User {
      * Protected constructor to prevent creating a new instance of the
      * Singleton via the 'new' operator from outside of this class.
      */
-    protected function __construct($id, $username) {
-        $this->_id = $id;
+    protected function __construct($username) {
         $this->_username = $username;
     }
 
@@ -120,6 +119,14 @@ class User {
      * @return void
      */
     private function __wakeup() {}
+
+    /**
+     * Returns the username
+     * @return string The username
+     */
+    public function getUsername() {
+        return $this->_username;
+    }
 
 }
 

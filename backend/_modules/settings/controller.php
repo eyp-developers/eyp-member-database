@@ -89,9 +89,15 @@ class Settings extends \Core\Module {
             }
         }
 
+        // Add user menu
         $sidebar_config[] = [
-            'title' => 'Log out',
-            'target' => '/logout'
+            'title' => \Core\User::getInstance()->getUsername(),
+            'items' => [
+                [
+                    'title' => 'Log out',
+                    'target' => '/logout'
+                ]
+            ]
         ];
 
         // Get store config

@@ -13,7 +13,7 @@ var Helpers =
         config.error = function(response, textStatus, error) {
             // Check if we need to log in
             if(response.status === 401) {
-                console.log("You need to log in...");
+                UI.showLogin();
             } else {
                 fn_error(response, textStatus, error);
             }

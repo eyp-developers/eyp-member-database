@@ -63,11 +63,18 @@ CREATE TABLE core_stores (
 );
 
 CREATE TABLE core_users (
-    id          INT NOT NULL AUTO_INCREMENT,
     username    VARCHAR(200) NOT NULL,
     password    VARCHAR(255) NOT NULL,
-    token       char(32) NOT NULL,
-    PRIMARY KEY (id)
+    is_admin    BOOL NOT NULL DEFAULT 0,
+    token       char(64) NOT NULL,
+    PRIMARY KEY (username)
+);
+
+CREATE TABLE core_users_permissions(
+    username    VARCHAR(200) NOT NULL,
+    module_name VARCHAR(200) NOT NULL,
+    permission  INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (username, module_name)
 );
 
 /* Set foreign keys */
@@ -78,6 +85,8 @@ ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(nam
 ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name);
 ALTER TABLE core_views_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name);
 ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (username) REFERENCES core_users(username);
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
 
 /* Insert intallation data */
 INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1);
