@@ -9,7 +9,7 @@ class Auth extends \Slim\Middleware {
 		$authToken = $this->app->request->headers->get('AuthToken');
 
 		if(\Core\User::authenticate($authToken) ||
-		  	$this->app->request->getResourceUri() === '/login') {
+		  	$this->app->request->getResourceUri() === '/auth/login') {
 			$this->next->call();
 		} else {
 			echo json_encode(['success' => false, 'need_login' => true]);

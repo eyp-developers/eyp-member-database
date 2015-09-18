@@ -123,7 +123,7 @@ var UI =
 
             $.ajax({
                 dataType: 'json',
-                url: '/backend/login',
+                url: '/backend/auth/login',
                 type: 'POST',
                 data: JSON.stringify(data),
                 success: function(data) {

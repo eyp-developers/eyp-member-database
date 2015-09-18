@@ -11,21 +11,21 @@ class Modules extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/modules' => 'index',
-                '/modules/installed' => 'installed_modules',
-                '/modules/available' => 'available_modules',
-                '/modules/:module_name/views' => 'moduleViews',
-                '/modules/:module_name/views/:view_name' => 'moduleView',
-                '/modules/:module_name/stores/:store_name' => 'moduleStore'
+                '/' => 'index',
+                '/installed' => 'installed_modules',
+                '/available' => 'available_modules',
+                '/:module_name/views' => 'moduleViews',
+                '/:module_name/views/:view_name' => 'moduleView',
+                '/:module_name/stores/:store_name' => 'moduleStore'
             ],
 
             'POST' => [
-                '/modules/install/:folder_name' => 'install',
-                '/modules/setup' => 'setup'
+                '/install/:folder_name' => 'install',
+                '/setup' => 'setup'
             ],
 
             'DELETE' => [
-                '/modules/:module_name' => 'delete'
+                '/:module_name' => 'delete'
             ]
         ];
     }
@@ -392,6 +392,13 @@ class Modules extends \Core\Module {
             }
         }
 
+        // Set default permissions for this module
+        $db->query("
+            INSERT INTO core_users_permissions
+            SELECT username, '$folder_name', default_permission
+            FROM core_users 
+        ");
+
         // Return result
         $return['success'] = true;
         echo json_encode($return);
@@ -488,6 +495,9 @@ class Modules extends \Core\Module {
 
         // Remove stores
         $db->delete('core_stores', ['module_name' => $folder_name]);
+
+        // Remove all permissions
+        $db->delete('core_users_permissions', ['module_name' => $folder_name]);
 
         // Remove entry from modules table
         $db->delete('core_modules', ['name' => $folder_name]);

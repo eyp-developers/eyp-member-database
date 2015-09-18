@@ -9,7 +9,7 @@ class Schools extends \Core\Module {
         parent::__construct();
 
         // Add additional route
-        $this->_actions['GET']['/schools/students/:id'] = 'students';
+        $this->_actions['GET']['/students/:id'] = 'students';
     }
 
     public function students($school_id) {

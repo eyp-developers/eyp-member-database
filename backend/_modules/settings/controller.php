@@ -11,11 +11,11 @@ class Settings extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/settings' => 'index',
-                '/settings/app_settings' => 'app_settings'
+                '/' => 'index',
+                '/app_settings' => 'app_settings'
             ],
             'POST' => [
-                '/settings/app_settings' => 'save_settings'
+                '/app_settings' => 'save_settings'
             ]
         ];
     }
