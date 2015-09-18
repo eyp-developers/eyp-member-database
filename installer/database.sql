@@ -54,19 +54,20 @@ CREATE TABLE core_views_fields (
 );
 
 CREATE TABLE core_stores (
-    name        VARCHAR(200) NOT NULL,
-    module_name VARCHAR(200) NOT NULL,
-    model_name  VARCHAR(200) NOT NULL,
-    data_key    VARCHAR(200) NOT NULL,
-    value       VARCHAR(200) NOT NULL,
+    name            VARCHAR(200) NOT NULL,
+    module_name     VARCHAR(200) NOT NULL,
+    model_name      VARCHAR(200) NOT NULL,
+    data_key        VARCHAR(200) NOT NULL,
+    value           VARCHAR(200) NOT NULL,
     PRIMARY KEY (module_name, name)
 );
 
 CREATE TABLE core_users (
-    username    VARCHAR(200) NOT NULL,
-    password    VARCHAR(255) NOT NULL,
-    is_admin    BOOL NOT NULL DEFAULT 0,
-    token       char(64) NOT NULL,
+    username        VARCHAR(200) NOT NULL,
+    password        VARCHAR(255) NOT NULL,
+    is_admin        BOOL NOT NULL DEFAULT 0,
+    default_permission  INT NOT NULL DEFAULT 0,
+    token       char(64),
     PRIMARY KEY (username)
 );
 
@@ -91,3 +92,6 @@ ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core
 /* Insert intallation data */
 INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1);
 INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1);
+
+/* Create admin user */
+INSERT INTO core_users VALUES('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 1, 3, NULL);

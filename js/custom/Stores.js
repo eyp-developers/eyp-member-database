@@ -27,7 +27,7 @@
     },
 
     load : function(module_name, store_name) {
-        Helpers.ajax({
+        Server.ajax({
             dataType: "json",
             url: "/backend/modules/"+module_name+'/stores/'+store_name,
             success: function(store) {

@@ -3,38 +3,6 @@
  */
 var Helpers =
 {
-    ajax: function(config) {
-        // Extract error callbacks
-        var fn_error = $.noop;
-        if(typeof config.error !== 'undefined' && config.error !== null) {
-            fn_error = config.error;
-        }
-
-        config.error = function(response, textStatus, error) {
-            // Check if we need to log in
-            if(response.status === 401) {
-                UI.showLogin();
-            } else {
-                fn_error(response, textStatus, error);
-            }
-        };
-
-        // Set auth token
-        var authToken = localStorage.getItem('authToken');
-
-        if(typeof authToken === 'undefined' || authToken === null) {
-            UI.showLogin();
-            return;
-        }
-
-        config.headers = {
-            'AuthToken' : authToken
-        };
-
-        // Perform the request
-        $.ajax(config);
-    },
-
     replacePlaceholdersInURL: function(target, values) {
         if(target === null || target === '') {
             return '';

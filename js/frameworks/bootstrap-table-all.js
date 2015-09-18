@@ -1,3 +1,4 @@
+
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
  * version: 1.8.1
@@ -1579,7 +1580,7 @@
         if (this.options.ajax) {
             calculateObjectValue(this, this.options.ajax, [request], null);
         } else {
-            Helpers.ajax(request);
+            Server.ajax(request);
         }
     };
 
@@ -2839,7 +2840,7 @@
                     .text(''));
                 switch (filterDataType) {
                     case 'url':
-                        Helpers.ajax({
+                        Server.ajax({
                             url: filterDataSource,
                             dataType: 'json',
                             success: function (data) {

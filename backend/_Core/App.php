@@ -70,6 +70,10 @@ class App {
         // Get app instance
         $app = \Core\App::getInstance();
 
+        if(!is_array($enabled_modules)) {
+            return false;
+        }
+
 		foreach($enabled_modules as $module) {
 			$short_name = $module['name'];
 
@@ -94,6 +98,8 @@ class App {
                 }
             }
 		}
+
+        return true;
     }
 
     /**

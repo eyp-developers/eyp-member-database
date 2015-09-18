@@ -143,7 +143,7 @@ var UIComponents =
         UIComponents.loadingMask(dl_target);
 
         // Send a request for data
-        Helpers.ajax({
+        Server.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {
@@ -213,7 +213,7 @@ var UIComponents =
         UIComponents.loadingMask(dl_target);
 
         // Send a request for data
-        Helpers.ajax({
+        Server.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {
@@ -296,7 +296,7 @@ var UIComponents =
                     var me = $(this);
                     var data = Helpers.getFormData(me);
 
-                    Helpers.ajax({
+                    Server.ajax({
                         url: me.attr('action'),
                         data: JSON.stringify(data),
                         dataType: 'json',
@@ -357,7 +357,7 @@ var UIComponents =
 
                 // Load the view config and handle it
                 var first_component = true;
-                Helpers.ajax({
+                Server.ajax({
                     dataType: 'json',
                     url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
@@ -428,7 +428,7 @@ var UIComponents =
                         case 'delete':
                             button = $('<button type="button" class="btn btn-danger">' + field.title + '</button>')
                             button.click(function() {
-                                Helpers.ajax({
+                                Server.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'DELETE',
@@ -473,7 +473,7 @@ var UIComponents =
                         case 'confirm':
                             button = $('<button type="button" class="btn btn-primary">' + field.title + '</button>')
                             button.click(function() {
-                                Helpers.ajax({
+                                Server.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'POST',

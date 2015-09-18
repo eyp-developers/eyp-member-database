@@ -405,11 +405,9 @@ class Modules extends \Core\Module {
         $dependent_modules = [];
 
         foreach($installed_modules as $dep_module_name) {
-            error_log("Checking $dep_module_name");
             $dep_module_info = \Helpers\Module::getModuleInfo($dep_module_name);
             if(isset($dep_module_info['dependencies']) &&
                array_search($folder_name, $dep_module_info['dependencies']) !== false) {
-                error_log("Found dependency");
                 array_push($dependent_modules, $dep_module_name);
             }
         }

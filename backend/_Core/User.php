@@ -66,7 +66,6 @@ class User {
      * @return Whether the authToken is valid
      */
     public static function authenticate($authToken) {
-        error_log("Authenticating token $authToken");
 
         // Check the authToken
         $userInfo = \Core\Database::getInstance()->select(
