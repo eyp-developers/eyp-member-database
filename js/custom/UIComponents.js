@@ -296,7 +296,7 @@ var UIComponents =
                     var me = $(this);
                     var data = Helpers.getFormData(me);
 
-                    this.old_from_date = this.date_from.getRawValue();({
+                    Helpers.ajax({
                         url: me.attr('action'),
                         data: JSON.stringify(data),
                         dataType: 'json',
@@ -357,7 +357,7 @@ var UIComponents =
 
                 // Load the view config and handle it
                 var first_component = true;
-                this.old_from_date = this.date_from.getRawValue();({
+                Helpers.ajax({
                     dataType: 'json',
                     url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
@@ -428,7 +428,7 @@ var UIComponents =
                         case 'delete':
                             button = $('<button type="button" class="btn btn-danger">' + field.title + '</button>')
                             button.click(function() {
-                                this.old_from_date = this.date_from.getRawValue();({
+                                Helpers.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'DELETE',
@@ -473,7 +473,7 @@ var UIComponents =
                         case 'confirm':
                             button = $('<button type="button" class="btn btn-primary">' + field.title + '</button>')
                             button.click(function() {
-                                this.old_from_date = this.date_from.getRawValue();({
+                                Helpers.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'POST',
