@@ -7,6 +7,7 @@ CREATE TABLE core_modules (
     version     INT NOT NULL,
     enabled     BOOL NOT NULL DEFAULT 1,
     min_permission  INT NOT NUlL DEFAULT 0,
+    system      BOOL NOT NULL DEFAULT 0,
     PRIMARY KEY (name)
 );
 
@@ -67,6 +68,7 @@ CREATE TABLE core_stores (
 CREATE TABLE core_users (
     username        VARCHAR(200) NOT NULL,
     password        VARCHAR(255) NOT NULL,
+    name            VARCHAR(200) NOT NULL,
     default_permission  INT NOT NULL DEFAULT 0,
     token       char(64),
     PRIMARY KEY (username)
@@ -128,6 +130,7 @@ END;
 CREATE PROCEDURE proc_createUser (
     in_username     VARCHAR(200),
     in_password     VARCHAR(255),
+    in_name         VARCHAR(200),
     in_default_perm INT
 )
 BEGIN
@@ -137,7 +140,7 @@ BEGIN
     DECLARE cur_users CURSOR FOR SELECT name, min_permission FROM core_modules;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET tmp_finished = 1;
 
-    INSERT INTO core_users VALUES(in_username, in_password, in_default_perm, NULL);
+    INSERT INTO core_users VALUES(in_username, in_password, in_name, in_default_perm, NULL);
 
     OPEN cur_users;
     loop_users: LOOP
@@ -152,8 +155,8 @@ BEGIN
 END;
 
 /* Insert intallation data */
-INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1, 1);
-INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1, 2);
+INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1, 1, 1);
+INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1, 2, 1);
 
 /* Create admin user */
-CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 2);
+CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);

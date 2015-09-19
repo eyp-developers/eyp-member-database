@@ -91,7 +91,7 @@ class Settings extends \Core\Module {
 
         // Add user menu
         $sidebar_config[] = [
-            'title' => \Core\User::getInstance()->getUsername(),
+            'title' => \Core\User::getInstance()->getName(),
             'items' => [
                 [
                     'title' => 'Log out',

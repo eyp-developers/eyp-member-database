@@ -51,6 +51,12 @@ class Modules extends \Core\Module {
         $search = \Core\App::getInstance()->request->get("search");
         $where = \Core\App::getInstance()->request->get("where");
 
+        if(strlen($where) > 0) {
+            $where .= ',';
+        }
+
+        $where .= "system=0";
+
         // Get the data
         $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order);
         $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where);
@@ -152,7 +158,8 @@ class Modules extends \Core\Module {
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true,
-            'min_permission' => (isset($module_info['min_permission']) ? $module_info['min_permission'] : 0)
+            'min_permission' => (isset($module_info['min_permission']) ? $module_info['min_permission'] : 0),
+            'system' => (isset($module_info['system']) ? $module_info['system'] : false),
         ]);
 
         // Keep track of all foreign keys
