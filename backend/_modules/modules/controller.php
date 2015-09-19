@@ -151,7 +151,8 @@ class Modules extends \Core\Module {
             'title' => (isset($module_info['title']) ? $module_info['title'] : ''),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
-            'enabled' => true
+            'enabled' => true,
+            'min_permission' => (isset($module_info['min_permission']) ? $module_info['min_permission'] : 0)
         ]);
 
         // Keep track of all foreign keys
@@ -395,11 +396,7 @@ class Modules extends \Core\Module {
         }
 
         // Set default permissions for this module
-        $db->query("
-            INSERT INTO core_users_permissions
-            SELECT username, '$folder_name', default_permission
-            FROM core_users 
-        ");
+        $db->query("CALL proc_createPermissionsForModule('$folder_name');");
 
         // Return result
         $return['success'] = true;

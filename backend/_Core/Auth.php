@@ -35,8 +35,6 @@ class Auth extends \Slim\Middleware {
 				$has_permission = \Core\User::getInstance()->canReadModule($module_name);
 			}
 
-			error_log("Result was " . ($has_permission ? "true" : "false"));
-
 			if($has_permission) {
 				$this->next->call();
 				return;

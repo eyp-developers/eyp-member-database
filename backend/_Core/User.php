@@ -141,8 +141,6 @@ class User {
      * @return boolean
      */
     public function canReadModule($module_name) {
-        error_log("Checking read access to $module_name");
-        error_log(print_r($this->_permissions, true));
         return $this->_permissions[$module_name] >= 1 ? true : false;
     }
 
@@ -152,8 +150,6 @@ class User {
      * @return boolean
      */
     public function canWriteModule($module_name) {
-        error_log("Checking write access to $module_name");
-        error_log(print_r($this->_permissions, true));
         return $this->_permissions[$module_name] >= 2 ? true : false;
     }
 
