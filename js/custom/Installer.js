@@ -71,14 +71,13 @@
 
                         localStorage.setItem('authToken', data.authToken);
                         
+                        // Install system modules
                         Server.ajax({
-                            url: '/backend/modules/install/settings',
+                            url: '/backend/modules/setup',
                             dataType: 'json',
                             type: 'POST',
                             success: function(response_data) {
-                                if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                                    location.reload()
-                                } else {
+                                if(response_data.success === false) {
                                     message = 'Could not finish installation!';
                                     if(response_data.message) {
                                         message = response_data.message;
@@ -88,7 +87,6 @@
                                     return;
                                 }
                                 
-                                $('#modalContainer').modal('hide');
                                 location.reload();
                             },
                             error: function(response_data) {

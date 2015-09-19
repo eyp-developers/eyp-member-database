@@ -13,6 +13,7 @@ class User {
 	private static $instance;
 
     private $_username;
+    private $_name;
     private $_permissions;
 
 	/**
@@ -72,12 +73,13 @@ class User {
         $userInfo = \Core\Database::getInstance()->select(
             'core_users',
             ['[>]core_users_permissions' => 'username'],
-            ['username', 'module_name', 'permission'],
+            ['username', 'name', 'module_name', 'permission'],
             ['token' => $authToken]
         );
 
         if(is_array($userInfo) && count($userInfo) >= 1) {
             $username = $userInfo[0]['username'];
+            $name = $userInfo[0]['name'];
 
             $permissions = [];
             foreach($userInfo as $row) {
@@ -85,7 +87,7 @@ class User {
             }
 
             // Create user object
-            static::$instance = new \Core\User($username, $permissions);
+            static::$instance = new \Core\User($username, $name, $permissions);
 
             return true;
         } else {
@@ -106,8 +108,9 @@ class User {
      * Protected constructor to prevent creating a new instance of the
      * Singleton via the 'new' operator from outside of this class.
      */
-    protected function __construct($username, $permissions) {
+    protected function __construct($username, $name, $permissions) {
         $this->_username = $username;
+        $this->_name = $name;
         $this->_permissions = $permissions;
     }
 
@@ -133,6 +136,14 @@ class User {
      */
     public function getUsername() {
         return $this->_username;
+    }
+
+    /**
+     * Returns the name
+     * @return string The name
+     */
+    public function getName() {
+        return $this->_name;
     }
 
     /**

@@ -67,6 +67,14 @@ var UIComponents =
                 'sortable' : (column.sortable !== undefined ? column.sortable : true)
             }
 
+            // Apply store if needed
+            if(typeof column.store_module !== 'undefined'
+               && typeof column.store_name !== 'undefined'
+               && column.store_module !== null
+               && column.store_name !== null) {
+                column_config.formatter = Formatters.store(column.store_module, column.store_name);
+            }
+
             // Apply type to column
             if(!column.type) column.type = 'plain';
             switch(column.type) {
@@ -171,6 +179,8 @@ var UIComponents =
                        && data[field.data_key] !== null) {
 
                         var value = data[field.data_key];
+                        
+                        // Apply store if needed
                         if(typeof field.store_module !== 'undefined'
                            && typeof field.store_name !== 'undefined'
                            && field.store_module !== null

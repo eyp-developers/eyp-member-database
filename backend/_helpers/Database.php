@@ -97,16 +97,31 @@ class Database {
 	public static function countObjects($module_name, $table_name, $columns = false, $search = false, $where = false) {
 		$data_table_name = $module_name.'_'.$table_name;
 
-		$where = [];
-		if($columns !== false && $search !== false && strlen($search) !== 0) {
+		$filter = [];
+
+		if($search !== false && strlen($search) !== 0) {
 			$searchclause = [];
 			foreach($columns as $field) {
 				$searchclause[$field.'[~]'] = $search;
 			}
-			$where['OR'] = $searchclause;
+			$filter['AND']['OR'] = $searchclause;
 		}
 
-		$count = \Core\Database::getInstance()->count($data_table_name, $where);
+		if($where !== false && strlen($where) !== 0) {
+			$whereclause = [];
+			$where_parts = explode(',', $where);
+
+			if(!isset($filter['AND'])) {
+				$filter['AND'] = [];
+			}
+			
+			foreach($where_parts as $where_part) {
+				$where_part = explode('=', $where_part);
+				$filter['AND'][$where_part[0]] = $where_part[1];
+			}
+		}
+
+		$count = \Core\Database::getInstance()->count($data_table_name, $filter);
 
 	    return $count;
 	}

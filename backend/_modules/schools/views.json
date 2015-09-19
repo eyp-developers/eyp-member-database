@@ -259,6 +259,15 @@
                     "store_module" : "schools",
                     "store_name" : "school_names"
                 }
+            },
+            "add_person" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
+                }
             }
         }
     }
