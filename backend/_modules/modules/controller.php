@@ -121,7 +121,7 @@ class Modules extends \Core\Module {
         $data = \Helpers\Module::getModuleData($folder_name);
 
         // Make sure we have at least the minimum required information about the module
-        if($module_info === false || $model === false) {
+        if($module_info === false) {
             echo json_encode(['success' => false, 'data' => $module_info]);
             return;
         }
@@ -547,6 +547,20 @@ class Modules extends \Core\Module {
     }
 
     public function setup() {
+        $system_modules = ['settings', 'users'];
+
+        foreach($system_modules as $module) {
+            ob_start();
+            $this->install($module);
+            $result = json_decode(ob_get_contents(), true);
+            ob_end_clean();
+
+            if(!$result['success']) {
+                echo $result;
+                return;
+            }
+        }
+
         echo json_encode(['success' => true]);
     }
 

@@ -82,15 +82,15 @@ CREATE TABLE core_users_permissions(
 );
 
 /* Set foreign keys */
-ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
-ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name, model_name) REFERENCES core_models(module_name, name);
-ALTER TABLE core_models_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name);
-ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
-ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name);
-ALTER TABLE core_views_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name);
-ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
-ALTER TABLE core_users_permissions ADD FOREIGN KEY (username) REFERENCES core_users(username);
-ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core_modules(name);
+ALTER TABLE core_models ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_models_fields ADD FOREIGN KEY (module_name, model_name) REFERENCES core_models(module_name, name) ON UPDATE CASCADE;
+ALTER TABLE core_models_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name) ON UPDATE CASCADE;
+ALTER TABLE core_views_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (username) REFERENCES core_users(username) ON UPDATE CASCADE;
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
 
 /* Create procedures and functions */
 CREATE PROCEDURE proc_setUserModulePermission (

@@ -94,6 +94,10 @@ class Settings extends \Core\Module {
             'title' => \Core\User::getInstance()->getName(),
             'items' => [
                 [
+                    'title' => 'Edit account',
+                    'target' => '/users/me'
+                ],
+                [
                     'title' => 'Log out',
                     'target' => '/logout'
                 ]
