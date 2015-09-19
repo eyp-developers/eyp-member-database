@@ -18,7 +18,11 @@ class Settings extends \Core\Module {
             ],
             'POST' => [
                 '/app_settings' => 'save_settings',
+                '/users' => 'create_user',
                 '/user/:username' => 'update_user'
+            ],
+            'DELETE' => [
+                '/user/:username' => 'delete_user'
             ]
         ];
     }
@@ -137,7 +141,9 @@ class Settings extends \Core\Module {
         $count = \Helpers\Database::countObjects('core', 'users', $fields, $search, $where);
 
         for($i = 0; $i < count($data); $i++) {
-            unset($data[$i]['password']);
+            if(is_array($data[$i])) {
+                unset($data[$i]['password']);
+            }
         }
 
         echo json_encode(['total' => $count, 'rows' => $data]);
@@ -221,6 +227,50 @@ class Settings extends \Core\Module {
         echo json_encode([
             'success' => $success
         ]);
+    }
+
+    public function delete_user($username) {
+        // Get the data
+        $num_rows = \Core\Database::getInstance()->delete('core_users', ['username' => $username]);
+
+        $status = ($num_rows > 0);
+
+        echo json_encode(['success' => $status]);
+    }
+
+    public function create_user() {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_data = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Insert the data
+        $username = $new_data['username'];
+        $name = $new_data['name'];
+        $password = password_hash($new_data['password'], PASSWORD_DEFAULT);
+        $default_permission = $new_data['default_permission'];
+        $result = \Core\Database::getInstance()->query("CALL proc_createUser('$username', '$password', '$name', $default_permission)");
+
+        // Return the appropriate result
+        if($result === false) {
+            echo json_encode(['success' => false]);
+        } else {
+            echo json_encode([
+                'success' => true,
+                'db_changes' => [
+                    [
+                        'module_name' => 'core',
+                        'model_name' => 'users'
+                    ]
+                ]
+            ]);
+        }
     }
 }
 

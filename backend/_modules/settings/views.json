@@ -208,6 +208,62 @@
                     "store_name" : "permission_names"
                 }
             }
+        },
+
+        "add_user" : {
+            "title" : "Add user",
+            "type" : "form",
+            "datasource" : "/backend/settings/users",
+            "in_sidebar" : true,
+            "does_edit": true,
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "username" : {
+                    "data_key" : "username",
+                    "title" : "Username"
+                },
+                "password" : {
+                    "data_key" : "password",
+                    "title" : "Password",
+                    "type" : "password"
+                },
+                "default_permission" : {
+                    "data_key" : "default_permission",
+                    "title" : "Default permission",
+                    "type" : "select",
+                    "store_module" : "settings",
+                    "store_name" : "permission_names"
+                }
+            }
+        },
+
+        "delete_user" : {
+            "title" : "Delete user",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this user?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/settings/user/:username"
+                }
+            }
         }
     }
 }

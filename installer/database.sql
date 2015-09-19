@@ -89,8 +89,8 @@ ALTER TABLE core_views ADD FOREIGN KEY (module_name) REFERENCES core_modules(nam
 ALTER TABLE core_views_fields ADD FOREIGN KEY (module_name, view_name) REFERENCES core_views(module_name, name) ON UPDATE CASCADE;
 ALTER TABLE core_views_fields ADD FOREIGN KEY (creator_module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
 ALTER TABLE core_stores ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
-ALTER TABLE core_users_permissions ADD FOREIGN KEY (username) REFERENCES core_users(username) ON UPDATE CASCADE;
-ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE;
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (username) REFERENCES core_users(username) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE core_users_permissions ADD FOREIGN KEY (module_name) REFERENCES core_modules(name) ON UPDATE CASCADE ON DELETE CASCADE;
 
 /* Create procedures and functions */
 CREATE PROCEDURE proc_setUserModulePermission (
