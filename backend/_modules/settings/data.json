@@ -5,6 +5,19 @@
 				"id" : "app_title",
 				"value" : "EYP Member Management"
 			}
+		],
+		"permissions" : [
+			{
+				"id" : "0",
+				"value" : "None"
+			},
+			{
+				"id" : "1",
+				"value" : "Read"
+			},{
+				"id" : "2",
+				"value" : "Write"
+			}
 		]
 	}
 }

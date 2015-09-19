@@ -150,11 +150,12 @@ class Modules extends \Core\Module {
         }
 
         $module_name = $module_info['name'];
+        $module_title = (isset($module_info['title']) ? $module_info['title'] : $module_name);
 
         // Add an entry to the modules table
         $db->insert('core_modules', [
             'name' => $module_name,
-            'title' => (isset($module_info['title']) ? $module_info['title'] : ''),
+            'title' => $module_title,
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true,
@@ -404,6 +405,22 @@ class Modules extends \Core\Module {
 
         // Set default permissions for this module
         $db->query("CALL proc_createPermissionsForModule('$folder_name');");
+
+        // Add settings entry
+        if(!isset($module_info['min_permission']) || $module_info['min_permission'] <= 1) {
+            $db->insert('core_views_fields', [
+                'module_name' => 'settings',
+                'view_name' => 'edit_user',
+                'name' => "permission_$folder_name",
+                'data_key' => "permission_$folder_name",
+                'title' => "Permission - $module_title",
+                'type' => 'select',
+                'view_order' => 99,
+                'store_module' => 'settings',
+                'store_name' => 'permission_names',
+                'creator_module_name' => $folder_name
+            ]);
+        }
 
         // Return result
         $return['success'] = true;

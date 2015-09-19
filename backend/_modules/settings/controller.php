@@ -12,10 +12,13 @@ class Settings extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/' => 'index',
-                '/app_settings' => 'app_settings'
+                '/app_settings' => 'app_settings',
+                '/users' => 'list_users',
+                '/user/:username' => 'show_user'
             ],
             'POST' => [
-                '/app_settings' => 'save_settings'
+                '/app_settings' => 'save_settings',
+                '/user/:username' => 'update_user'
             ]
         ];
     }
@@ -115,6 +118,109 @@ class Settings extends \Core\Module {
         ];
 
         echo json_encode($config);
+    }
+
+    public function list_users() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = \Core\App::getInstance()->request->get("where");
+
+        // Get the data
+        $data = \Helpers\Database::getObjects('core', 'users', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects('core', 'users', $fields, $search, $where);
+
+        for($i = 0; $i < count($data); $i++) {
+            unset($data[$i]['password']);
+        }
+
+        echo json_encode(['total' => $count, 'rows' => $data]);
+    }
+
+    public function show_user($username) {
+        $data = \Core\Database::getInstance()->select('core_users', ['username', 'name', 'default_permission'], ['username' => $username]);
+
+        if(!is_array($data) || count($data) === 0) {
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        $data = $data[0];
+
+        $permissions = \Core\Database::getInstance()->select('core_users_permissions', ['module_name', 'permission'], ['username' => $username]);
+
+        if(!is_array($permissions) || count($permissions) === 0) {
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        foreach($permissions as $permission) {
+
+            $data['permission_' . $permission['module_name']] = $permission['permission'];
+        }
+
+        echo json_encode($data);
+        return;
+    }
+
+    public function update_user($username) {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_data = json_decode($data, true);
+
+        $new_permissions = [];
+
+        // Replace empty values with null and extract permissions
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+
+            if(strpos($key, 'permission_') === 0) {
+                unset($new_data[$key]);
+                
+                $module = substr($key, strlen('permission_'));
+
+                $new_permissions[] = [
+                    'module_name' => $module,
+                    'permission' => $value
+                ];
+            }
+        }
+
+        // Update permissions
+        foreach($new_permissions as $new_permission) {
+            \Core\Database::getInstance()->update(
+                'core_users_permissions',
+                ['permission' => $new_permission['permission']],
+                ['AND' => [
+                    'username' => $username,
+                    'module_name' => $new_permission['module_name']
+                    ]
+                ]);
+        }
+
+        // Hash password
+        if($new_data['password'] === NULL) {
+            unset($new_data['password']);
+        } else {
+            $new_data['password'] = password_hash($new_data['password'], PASSWORD_DEFAULT);
+        }
+
+        // Update the data
+        $num_rows = \Core\Database::getInstance()->update('core_users', $new_data, ['username' => $username]);
+        $success = ($num_rows > 0);
+
+        // Return the appropriate result
+        echo json_encode([
+            'success' => $success
+        ]);
     }
 }
 
