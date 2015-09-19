@@ -11,11 +11,11 @@ class Settings extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/settings' => 'index',
-                '/settings/app_settings' => 'app_settings'
+                '/' => 'index',
+                '/app_settings' => 'app_settings'
             ],
             'POST' => [
-                '/settings/app_settings' => 'save_settings'
+                '/app_settings' => 'save_settings'
             ]
         ];
     }
@@ -74,7 +74,7 @@ class Settings extends \Core\Module {
             ];
 
             // Create sub-entries for all views of the module
-            $module_views = \Helpers\Database::getModuleViews($module['name'], true);
+            $module_views = \Helpers\Database::getModuleViews($module['name'], true, true);
             if($module_views) {
                 foreach($module_views as $view) {
                     $sub_item = [
@@ -88,6 +88,17 @@ class Settings extends \Core\Module {
                 $sidebar_config[] = $menu_item;
             }
         }
+
+        // Add user menu
+        $sidebar_config[] = [
+            'title' => \Core\User::getInstance()->getUsername(),
+            'items' => [
+                [
+                    'title' => 'Log out',
+                    'target' => '/logout'
+                ]
+            ]
+        ];
 
         // Get store config
         $store_config = \Helpers\Database::getAllStores();

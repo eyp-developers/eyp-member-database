@@ -162,9 +162,14 @@ class Database {
 	 *
 	 * @param module_name The name of the module
 	 * @param only_in_sidebar Whether only views that are visible in the sidebar should be returned
+	 * @param filter_for_user Whether only views that are visible to the user should be returned
 	 * @return An array containing information about all views of the module
 	 */
-	public static function getModuleViews($module_name, $only_in_sidebar = false) {
+	public static function getModuleViews($module_name, $only_in_sidebar = false, $filter_for_user = false) {
+		if($filter_for_user && !\Core\User::getInstance()->canReadModule($module_name)) {
+			return [];
+		}
+
 		// Generate filter
 		$filter = [
 			'AND' => [
@@ -177,13 +182,25 @@ class Database {
 		}
 
 		// Get information from views table
-		$data = \Core\Database::getInstance()->select(
+		$views = \Core\Database::getInstance()->select(
 			'core_views',
-			['name', 'title'],
+			['name', 'title', 'does_edit'],
 			$filter
 		);
 
-		return $data;
+		if($filter_for_user) {
+			if(!\Core\User::getInstance()->canWriteModule($module_name)) {
+                $read_views = [];
+                foreach($views as $view) {
+                    if(!$view['does_edit']) {
+                        $read_views[] = $view;
+                    }
+                }
+                $views = $read_views;
+            }
+		}
+
+		return $views;
 	}
 
 	/**
@@ -197,7 +214,7 @@ class Database {
 		// Get information about the view
 		$view = \Core\Database::getInstance()->select(
 			'core_views',
-			['title', 'type', 'container', 'datasource'],
+			['title', 'type', 'container', 'datasource', 'does_edit'],
 			['AND' =>
 				[
 					'module_name' => $module_name,

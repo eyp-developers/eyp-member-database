@@ -35,7 +35,7 @@
 
         // Load configuration
         UIComponents.loadingMask($('#sidebar-main-menu'));
-        $.ajax({
+        Server.ajax({
             dataType: "json",
             url: "/backend/settings",
             success: function(response) {

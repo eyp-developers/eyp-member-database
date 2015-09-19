@@ -11,21 +11,21 @@ class Modules extends \Core\Module {
         // Set supported actions
         $this->_actions = [
             'GET' => [
-                '/modules' => 'index',
-                '/modules/installed' => 'installed_modules',
-                '/modules/available' => 'available_modules',
-                '/modules/:module_name/views' => 'moduleViews',
-                '/modules/:module_name/views/:view_name' => 'moduleView',
-                '/modules/:module_name/stores/:store_name' => 'moduleStore'
+                '/' => 'index',
+                '/installed' => 'installed_modules',
+                '/available' => 'available_modules',
+                '/:module_name/views' => 'moduleViews',
+                '/:module_name/views/:view_name' => 'moduleView',
+                '/:module_name/stores/:store_name' => 'moduleStore'
             ],
 
             'POST' => [
-                '/modules/install/:folder_name' => 'install',
-                '/modules/setup' => 'setup'
+                '/install/:folder_name' => 'install',
+                '/setup' => 'setup'
             ],
 
             'DELETE' => [
-                '/modules/:module_name' => 'delete'
+                '/:module_name' => 'delete'
             ]
         ];
     }
@@ -151,7 +151,8 @@ class Modules extends \Core\Module {
             'title' => (isset($module_info['title']) ? $module_info['title'] : ''),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
-            'enabled' => true
+            'enabled' => true,
+            'min_permission' => (isset($module_info['min_permission']) ? $module_info['min_permission'] : 0)
         ]);
 
         // Keep track of all foreign keys
@@ -266,6 +267,7 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
                 if(!isset($view_config['container'])) $view_config['container'] = null;
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
+                if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -275,7 +277,8 @@ class Modules extends \Core\Module {
                     'type' => $view_config['type'],
                     'datasource' => $view_config['datasource'],
                     'container' => $view_config['container'],
-                    'in_sidebar' => $view_config['in_sidebar']
+                    'in_sidebar' => $view_config['in_sidebar'],
+                    'does_edit' => $view_config['does_edit']
                 ]);
 
                 // Iterate over all fields of the view
@@ -392,6 +395,9 @@ class Modules extends \Core\Module {
             }
         }
 
+        // Set default permissions for this module
+        $db->query("CALL proc_createPermissionsForModule('$folder_name');");
+
         // Return result
         $return['success'] = true;
         echo json_encode($return);
@@ -405,11 +411,9 @@ class Modules extends \Core\Module {
         $dependent_modules = [];
 
         foreach($installed_modules as $dep_module_name) {
-            error_log("Checking $dep_module_name");
             $dep_module_info = \Helpers\Module::getModuleInfo($dep_module_name);
             if(isset($dep_module_info['dependencies']) &&
                array_search($folder_name, $dep_module_info['dependencies']) !== false) {
-                error_log("Found dependency");
                 array_push($dependent_modules, $dep_module_name);
             }
         }
@@ -491,6 +495,9 @@ class Modules extends \Core\Module {
         // Remove stores
         $db->delete('core_stores', ['module_name' => $folder_name]);
 
+        // Remove all permissions
+        $db->delete('core_users_permissions', ['module_name' => $folder_name]);
+
         // Remove entry from modules table
         $db->delete('core_modules', ['name' => $folder_name]);
 
@@ -508,11 +515,24 @@ class Modules extends \Core\Module {
     }
 
     public function moduleViews($module_name) {
-        echo json_encode(\Helpers\Database::getModuleViews($module_name));
+        if(\Core\User::getInstance()->canReadModule($module_name)) {
+            echo json_encode(\Helpers\Database::getModuleViews($module_name));
+        } else {
+            echo json_encode(['success' => false, 'missing_permission' => true]);
+        }
     }
 
     public function moduleView($module_name, $view_name) {
-        echo json_encode(\Helpers\Database::getModuleView($module_name, $view_name));
+        if(\Core\User::getInstance()->canReadModule($module_name)) {
+            $view = \Helpers\Database::getModuleView($module_name, $view_name);
+            if($view['does_edit'] && !\Core\User::getInstance()->canWriteModule($module_name)) {
+                echo json_encode(['success' => false, 'missing_permission' => true]);
+            } else {
+                echo json_encode($view);
+            }
+        } else {
+            echo json_encode(['success' => false, 'missing_permission' => true]);
+        }
     }
 
     public function moduleStore($module_name, $store_name) {

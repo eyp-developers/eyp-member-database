@@ -3,6 +3,10 @@
  */
 var UIComponents =
 {
+    sidebarItem : function(title, target) {
+        return $('<li><a href="#' + target + '" class="menu-item">' + title + '</a></li>');
+    },
+
     sidebarDropdown : function(title, items) {
         // Generate dropdown and menu
         var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + title + ' <b class="caret"></b></a></li>');
@@ -11,7 +15,7 @@ var UIComponents =
         // Generate menu entries
         for(item_id in items) {
             var menu_item = items[item_id];
-            var dom_menu_item = $('<li><a href="#' + menu_item.target + '" class="menu-item">' + menu_item.title + '</a></li>');
+            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
 
             // Append menu entry
             dom_menu.append(dom_menu_item);
@@ -139,7 +143,7 @@ var UIComponents =
         UIComponents.loadingMask(dl_target);
 
         // Send a request for data
-        $.ajax({
+        Server.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {
@@ -209,7 +213,7 @@ var UIComponents =
         UIComponents.loadingMask(dl_target);
 
         // Send a request for data
-        $.ajax({
+        Server.ajax({
             dataType: 'json',
             url: datasource,
             success: function(data) {
@@ -292,7 +296,7 @@ var UIComponents =
                     var me = $(this);
                     var data = Helpers.getFormData(me);
 
-                    $.ajax({
+                    Server.ajax({
                         url: me.attr('action'),
                         data: JSON.stringify(data),
                         dataType: 'json',
@@ -353,7 +357,7 @@ var UIComponents =
 
                 // Load the view config and handle it
                 var first_component = true;
-                $.ajax({
+                Server.ajax({
                     dataType: 'json',
                     url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
@@ -424,7 +428,7 @@ var UIComponents =
                         case 'delete':
                             button = $('<button type="button" class="btn btn-danger">' + field.title + '</button>')
                             button.click(function() {
-                                $.ajax({
+                                Server.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'DELETE',
@@ -469,7 +473,7 @@ var UIComponents =
                         case 'confirm':
                             button = $('<button type="button" class="btn btn-primary">' + field.title + '</button>')
                             button.click(function() {
-                                $.ajax({
+                                Server.ajax({
                                     url: button_target,
                                     dataType: 'json',
                                     type: 'POST',

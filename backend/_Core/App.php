@@ -70,6 +70,10 @@ class App {
         // Get app instance
         $app = \Core\App::getInstance();
 
+        if(!is_array($enabled_modules)) {
+            return false;
+        }
+
 		foreach($enabled_modules as $module) {
 			$short_name = $module['name'];
 
@@ -88,12 +92,19 @@ class App {
                 if(isset($module_actions[$method])) {
                     foreach($module_actions[$method] as $action => $handler) {
                         // Dynamically call the appropriate function to register the route
+                        $url_delimiter = '/';
+                        if(strpos($action, $url_delimiter) === 0) {
+                            $url_delimiter = '';
+                        }
+                        $action = '/' . $short_name . $url_delimiter . $action;
                         $method_name = strtolower($method);
                         $app->$method_name($action, /*['\\Core\\App', 'delayLoads'],*/ [$module, $handler]);
                     }
                 }
             }
 		}
+
+        return true;
     }
 
     /**

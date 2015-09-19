@@ -21,7 +21,7 @@
             var $btn_check = $('<button type="button" class="btn btn-primary btn-lg">Check database connection</button>');
 
             $btn_check.click(function() {
-                $.ajax({
+                Server.ajax({
                     url: '/installer/installer.php',
                     dataType: 'json',
                     type: 'GET',
@@ -54,28 +54,51 @@
             var $btn_install = $('<button type="button" class="btn btn-primary btn-lg">Finish installation</button>');
 
             $btn_install.click(function() {
-                $.ajax({
-                    url: '/backend/modules/install/settings',
-                    dataType: 'json',
-                    type: 'POST',
-                    success: function(response_data) {
-                        if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                            location.reload()
-                        } else {
-                            message = 'Could not finish installation!';
-                            if(response_data.message) {
-                                message = response_data.message;
-                            }
 
-                            UI.showAlert('danger', message);
+                $.ajax({
+                    dataType: 'json',
+                    url: '/backend/auth/login',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin'
+                    }),
+                    success: function(data) {
+                        if(!data.success || !data.authToken) {
+                            UI.showAlert('danger', 'Could not finish installation! Did you change the default password before the installation was finished?');
+                            return;
                         }
+
+                        localStorage.setItem('authToken', data.authToken);
                         
-                        $('#modalContainer').modal('hide');
-                        location.reload();
+                        Server.ajax({
+                            url: '/backend/modules/install/settings',
+                            dataType: 'json',
+                            type: 'POST',
+                            success: function(response_data) {
+                                if(typeof response_data.success === 'undefined' || response_data.success === true) {
+                                    location.reload()
+                                } else {
+                                    message = 'Could not finish installation!';
+                                    if(response_data.message) {
+                                        message = response_data.message;
+                                    }
+
+                                    UI.showAlert('danger', message);
+                                    return;
+                                }
+                                
+                                $('#modalContainer').modal('hide');
+                                location.reload();
+                            },
+                            error: function(response_data) {
+                                UI.showAlert('danger', 'Could not finish installation! Did you change the default password before the installation was finished?');
+                                $('#modalContainer').modal('hide');
+                            }
+                        });
                     },
-                    error: function(response_data) {
-                        UI.showAlert('danger', 'Could not finish installation!');
-                        $('#modalContainer').modal('hide');
+                    error: function() {
+                        UI.showAlert('danger', "Could not log in. Please try again.");
                     }
                 });
             });
