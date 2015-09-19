@@ -128,6 +128,7 @@
             "title" : "Edit school",
             "type" : "form",
             "datasource" : "/backend/schools/:id",
+            "does_edit" : true,
             "fields" :
             {
                 "name" : {
@@ -172,6 +173,7 @@
             "type" : "form",
             "datasource" : "/backend/schools",
             "in_sidebar" : true,
+            "does_edit" : true,
             "fields" :
             {
                 "name" : {
@@ -215,6 +217,7 @@
             "title" : "Delete school",
             "type" : "dialog",
             "container" : "modal",
+            "does_edit" : true,
             "fields":
             {
                 "text" : {
@@ -249,6 +252,15 @@
                 }
             },
             "edit_person" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
+                }
+            },
+            "add_person" : {
                 "school" : {
                     "data_key" : "school",
                     "title" : "School",

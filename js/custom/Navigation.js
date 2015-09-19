@@ -37,7 +37,7 @@ var Navigation =
         if(target.length >= 3) {
 
             // Load the view config and handle it
-            $.ajax({
+            Server.ajax({
                 dataType: 'json',
                 url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                 success: function(data) {
@@ -50,7 +50,12 @@ var Navigation =
             });
 
         } else {
-            console.error('URL "' + url + '" is not a valid target!');
+            if(target[1] === 'logout') {
+                localStorage.removeItem('authToken');
+                window.location = '/';
+            } else {
+                console.error('URL "' + url + '" is not a valid target!');
+            }
         }
     }
 };

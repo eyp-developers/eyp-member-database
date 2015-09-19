@@ -39,8 +39,17 @@ spl_autoload_register(function($classname) {
 	}
 });
 
+// Load the authentication
+\Core\App::getInstance()->add(new \Core\Auth());
+
 // Initialize all modules
-\Core\App::loadModules();
+$modules_loaded = \Core\App::loadModules();
+
+// Check if the modules were loaded successfully
+if(!$modules_loaded) {
+	echo json_encode(['success' => false, 'need_setup' => true]);
+	return;
+}
 
 // Start the app
 \Core\App::run();

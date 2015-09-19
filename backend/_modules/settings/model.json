@@ -1,7 +1,6 @@
 {
 	"tables" : {
 		"settings" : {
-
 			"id" : {
 				"type" : "short_string",
 				"primary_key" : true
@@ -9,6 +8,16 @@
 
 			"value" : {
 				"type" : "string"
+			}
+		},
+
+		"permissions" : {
+			"id" : {
+				"type" : "int"
+			},
+
+			"value" : {
+				"type" : "short_string"
 			}
 		}
 	}

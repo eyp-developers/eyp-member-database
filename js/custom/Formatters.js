@@ -49,5 +49,13 @@ var Formatters =
         }
 
         return html.join(' ');
+    },
+
+    store : function(store_module, store_name) {
+        var formatter = function(value, row, index) {
+            return Stores.getValueForStoreAndKey(store_module, store_name, value);
+        };
+
+        return formatter;
     }
 };

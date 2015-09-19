@@ -54,7 +54,11 @@ var UI =
         for(var menu_index in sidebar_config) {
             var menu_item = sidebar_config[menu_index];
 
-            var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+            if(typeof menu_item.items !== 'undefined') {
+                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+            } else {
+                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
+            }
 
             sidebar_main_menu.append(dom_menu_item);
         }
@@ -88,5 +92,55 @@ var UI =
         $('#alerts').append(alert);
         alert.fadeIn(300).delay(3000).fadeOut(300, function() { $(this).remove(); });
 
+    },
+
+    showLogin : function() {
+        // Hide sidebar
+        $('#sidebar').remove();
+        $('body').css('padding-left', 0);
+
+        var $dom_main = $('#main');
+        $dom_main.empty();
+
+        // Create login form
+        $dom_main.append([
+            '<form id="form-signin">',
+            '<h2 class="form-signin-heading">Please sign in</h2>',
+            '<label for="inputUsername" class="sr-only">Username</label>',
+            '<input type="text" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="">',
+            '<label for="inputPassword" class="sr-only">Password</label>',
+            '<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">',
+            '<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>',
+          '</form>'].join(''));
+
+        // Add listener to form
+        $('#form-signin').submit(function() {
+            
+            var data = {
+                username: $('#inputUsername').val(),
+                password: $('#inputPassword').val(),
+            };
+
+            $.ajax({
+                dataType: 'json',
+                url: '/backend/auth/login',
+                type: 'POST',
+                data: JSON.stringify(data),
+                success: function(data) {
+                    if(!data.success || !data.authToken) {
+                        UI.showAlert('danger', "Could not log in. Please try again.");
+                        return;
+                    }
+
+                    localStorage.setItem('authToken', data.authToken);
+                    location.reload();
+                },
+                error: function() {
+                    UI.showAlert('danger', "Could not log in. Please try again.");
+                }
+            });
+
+            return false;
+        });
     }
 };

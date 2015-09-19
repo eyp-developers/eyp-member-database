@@ -55,7 +55,8 @@ var Helpers =
                 return 'email';
 
             case 'date':
-                return 'date';
+            case 'password':
+                return data_type;
 
             default:
                 return 'text';

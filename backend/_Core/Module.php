@@ -22,17 +22,17 @@ class Module {
         // Set the default actions
         $this->_actions = [
             'GET' => [
-                '/'.$this->_lc_classname => 'index',
-                '/'.$this->_lc_classname.'/:id' => 'view',
+                '/'=> 'index',
+                '/:id' => 'view',
             ],
 
             'POST' => [
-                '/'.$this->_lc_classname => 'create',
-                '/'.$this->_lc_classname.'/:id' => 'update'
+                '/' => 'create',
+                '/:id' => 'update'
             ],
 
             'DELETE' => [
-                '/'.$this->_lc_classname.'/:id' => 'delete'
+                '/:id' => 'delete'
             ]
         ];
     }

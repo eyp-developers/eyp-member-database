@@ -1,0 +1,10 @@
+{
+	"stores" : {
+		"permission_names" : {
+			"module_name" : "settings",
+			"model_name" : "permissions",
+			"data_key" : "id",
+			"value" : "value"
+		}
+	}
+}
