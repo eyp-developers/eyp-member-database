@@ -2,48 +2,57 @@
 
 namespace Helpers;
 
+/**
+ * A helper class to perform the most common database actions
+ */
 class Database {
+
+	/**
+	 * @var {array} $_db_types_lookup An array mapping type names to MySQL types
+	 */
+	private static $_db_types_lookup = [
+		'int' => 'INT',
+		'string' => 'VARCHAR(1000)',
+		'short_string' => 'VARCHAR(200)',
+		'text' => 'TEXT',
+		'date' => 'DATE'
+	];
 
 	/**
 	 * Gets the MySQL type for a type name
 	 *
-	 * @param type_name The type name
-	 * @return The MySQL type
+	 * @param {string} $type_name The name of the type
+	 * @return {string} The corresponding MySQL type
 	 */
 	public static function getDBType($type_name) {
-		$db_types_lookup = [
-			'int' => 'INT',
-			'string' => 'VARCHAR(1000)',
-			'short_string' => 'VARCHAR(200)',
-			'text' => 'TEXT',
-			'date' => 'DATE'
-		];
-
-		return $db_types_lookup[$type_name];
+		return static::$_db_types_lookup[$type_name];
 	}
 
 	/**
 	 * Gets the data of one database object specified by its module, table and id
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @param id The object's id
-	 * @return The specified database object, or 'false'
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {int/string} $id The object's id
+	 * @param {string} $id_property The id property. Defaults to 'id'.
+	 * @return {array/boolean} The specified database object, or false if no object coult be found
 	 */
-	public static function getObject($module_name, $table_name, $id) {
+	public static function getObject($module_name, $table_name, $id, $id_property = 'id') {
 		$data_table_name = $module_name.'_'.$table_name;
-		$data = \Core\Database::getInstance()->select($data_table_name, '*', ['id' => $id]);
+		$data = \Core\Database::getInstance()->select($data_table_name, '*', [$id_property => $id]);
 
 	    return ($data ? $data[0] : false);
 	}
 
 	/**
-	 * Gets the data of multiple database object specified by their module and table
+	 * Gets the (paginated) data of multiple database object specified by their module and table
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @param columns An array with the column names
-	 * @return The specified database object, or 'false'
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {string} $columns An array with the column names
+	 * @param {string} $search A string to search for
+	 * @param {where} $where Additional filter conditions
+	 * @return {array/boolean} The specified database object, or false if no object could be found
 	 */
 	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $where = false, $offset = false, $limit = false, $sort = false, $order = false) {
 		$data_table_name = $module_name.'_'.$table_name;
@@ -82,6 +91,7 @@ class Database {
 			}
 		}
 
+		// Get data
 		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $filter);
 
 	    return $data;
@@ -90,9 +100,12 @@ class Database {
 	/**
 	 * Counts database object specified by their module and table
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @return The number of database objects
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {string} $columns An array with the column names
+	 * @param {string} $search A string to search for
+	 * @param {where} $where Additional filter conditions
+	 * @return The specified database object, or 'false'
 	 */
 	public static function countObjects($module_name, $table_name, $columns = false, $search = false, $where = false) {
 		$data_table_name = $module_name.'_'.$table_name;
@@ -129,14 +142,15 @@ class Database {
 	/**
 	 * Deletes a database object specified by its module, table and id
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @param id The object's id
-	 * @return A boolean indicating whether the object was deleted
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {string} $id The object's id
+	 * @param {string} $id_property The id property. Defaults to 'id'.
+	 * @return {boolean} Whether the object was deleted
 	 */
-	public static function deleteObject($module_name, $table_name, $id) {
+	public static function deleteObject($module_name, $table_name, $id, $id_property = 'id') {
 		$data_table_name = $module_name.'_'.$table_name;
-		$num_rows = \Core\Database::getInstance()->delete($data_table_name, ['id' => $id]);
+		$num_rows = \Core\Database::getInstance()->delete($data_table_name, [$id_property => $id]);
 
 	    return ($num_rows > 0 ? true : false);
 	}
@@ -144,10 +158,10 @@ class Database {
 	/**
 	 * Creates a database object specified by its module, table and data
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @param data The object's data
-	 * @return The id of the newly created object, or 'false'
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {array} $data The new object's data
+	 * @return {int/boolean} The id of the newly created object, or false
 	 */
 	public static function createObject($module_name, $table_name, $data) {
 		$data_table_name = $module_name.'_'.$table_name;
@@ -159,13 +173,14 @@ class Database {
 	/**
 	 * Update a database object specified by its module, table, id and new data
 	 *
-	 * @param module_name The module the object belongs to
-	 * @param table_name The table the object belongs to
-	 * @param id The object's id
-	 * @param data The object's new data
-	 * @return A boolean indicating whether the object was updated
+	 * @param {string} $module_name The module the object belongs to
+	 * @param {string} $table_name The table the object belongs to
+	 * @param {string} $id The object's id
+	 * @param {array} $data The object's new data
+	 * @param {string} $id_property The id property. Defaults to 'id'.
+	 * @return {boolean} Whether the object was updated
 	 */
-	public static function updateObject($module_name, $table_name, $id, $data) {
+	public static function updateObject($module_name, $table_name, $id, $data, $id_property = 'id') {
 		$data_table_name = $module_name.'_'.$table_name;
 		$num_rows = \Core\Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
 
@@ -175,10 +190,10 @@ class Database {
 	/**
 	 * Gets information about all views of a certain module
 	 *
-	 * @param module_name The name of the module
-	 * @param only_in_sidebar Whether only views that are visible in the sidebar should be returned
-	 * @param filter_for_user Whether only views that are visible to the user should be returned
-	 * @return An array containing information about all views of the module
+	 * @param {string} $module_name The name of the module
+	 * @param {boolean} $only_in_sidebar Whether only views that are visible in the sidebar should be returned. Defaults to false.
+	 * @param {boolean} $filter_for_user Whether only views that are visible to the user should be returned. Defaults to false.
+	 * @return {array} Information about all views of the module
 	 */
 	public static function getModuleViews($module_name, $only_in_sidebar = false, $filter_for_user = false) {
 		if($filter_for_user && !\Core\User::getInstance()->canReadModule($module_name)) {
@@ -221,9 +236,9 @@ class Database {
 	/**
 	 * Gets the config of a view of a certain module
 	 *
-	 * @param module_name The name of the module
-	 * @param view_name The name of the view
-	 * @return An array containing information about the specified view
+	 * @param {string} $module_name The name of the module
+	 * @param {string} $view_name The name of the view
+	 * @return {array/boolean} Information about the specified view, or false if the view could not be found
 	 */
 	public static function getModuleView($module_name, $view_name) {
 		// Get information about the view
@@ -240,8 +255,7 @@ class Database {
 		if(is_array($view) && count($view) >= 1) {
 			$view = $view[0];
 		} else {
-			// TODO: Report error via exception
-			die("ERROR");
+			return false;
 		}
 
 		$fields = \Core\Database::getInstance()->select(
@@ -277,8 +291,8 @@ class Database {
 	/**
 	 * Gets an array of all modules
 	 *
-	 * @param include_disabled
-	 * @return An array containing information about all modules
+	 * @param {boolean} $only_enabled Whether only enabled modules should be returned. Defaults to false.
+	 * @return {array} Information about all modules
 	 */
 	public static function getAllModules($only_enabled = false) {
 		// Generate filter
@@ -301,9 +315,9 @@ class Database {
 	/**
 	 * Gets a store of a certain module
 	 *
-	 * @param module_name The name of the module
-	 * @param store_name The name of the store
-	 * @return An array containing a specific store
+	 * @param {string} $module_name The name of the module
+	 * @param {string} $store_name The name of the store
+	 * @return {array/false} The store data, or false
 	 */
 	public static function getModuleStore($module_name, $store_name) {
 		// Get information about the store
@@ -321,8 +335,7 @@ class Database {
 		if(is_array($store_config) && count($store_config) >= 1) {
 			$store_config = $store_config[0];
 		} else {
-			// TODO: Report error via exception
-			die("ERROR");
+			return false;
 		}
 
 		$data_table = $store_config['module_name'] . '_' . $store_config['model_name'];
@@ -350,7 +363,7 @@ class Database {
 	/**
 	 * Gets an array of all stores
 	 *
-	 * @return An array containing information about all stores
+	 * @return {array} Information about all stores
 	 */
 	public static function getAllStores() {
 		// Get information from stores table
@@ -361,7 +374,6 @@ class Database {
 
 		return $data;
 	}
-
 
 }
 

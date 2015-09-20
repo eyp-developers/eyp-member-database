@@ -154,7 +154,9 @@ var UIComponents =
         Server.ajax({
             dataType: 'json',
             url: datasource,
-            success: function(data) {
+            success: function(response) {
+
+                var data = response.data
 
                 // Prepare the definition list
                 var html = $('<dl class="dl-horizontal"></dl>');
@@ -226,7 +228,9 @@ var UIComponents =
         Server.ajax({
             dataType: 'json',
             url: datasource,
-            success: function(data) {
+            success: function(response) {
+
+                var data = response.data;
 
                 // Prepare the definition list
                 var html = $('<form class="form-horizontal" action="' + datasource + '"></form>');
@@ -372,12 +376,12 @@ var UIComponents =
                     url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
                     field_dom: field_dom,
-                    success: function(data) {
+                    success: function(response) {
                         if(first_component) {
                             first_component = false;
                             combined_target.find('.spinner').remove();
                         }
-                        UI.applyViewConfig(data, this.view_params.slice(3), this.field_dom);
+                        UI.applyViewConfig(response.data, this.view_params.slice(3), this.field_dom);
                     }
                 });
 

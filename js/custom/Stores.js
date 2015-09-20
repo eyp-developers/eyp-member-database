@@ -30,7 +30,9 @@
         Server.ajax({
             dataType: "json",
             url: "/backend/modules/"+module_name+'/stores/'+store_name,
-            success: function(store) {
+            success: function(response) {
+                var store = response.data;
+                
                 if(typeof Stores.data[module_name] === 'undefined') {
                     Stores.data[module_name] = {};
                 }

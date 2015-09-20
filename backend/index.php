@@ -47,7 +47,7 @@ $modules_loaded = \Core\App::loadModules();
 
 // Check if the modules were loaded successfully
 if(!$modules_loaded) {
-	echo json_encode(['success' => false, 'need_setup' => true]);
+	\Helpers\Response::error(\Helpers\Response::$E_NEED_SETUP);
 	return;
 }
 

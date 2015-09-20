@@ -39,7 +39,7 @@
             dataType: "json",
             url: "/backend/settings",
             success: function(response) {
-                App.applySettings(response);
+                App.applySettings(response.data);
             },
             error: function(response) {
                 // This only happens if the app has not been installed yet

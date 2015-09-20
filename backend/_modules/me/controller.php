@@ -2,7 +2,10 @@
 
 namespace Modules;
 
-class Users extends \Core\Module {
+/**
+ * The Me module
+ */
+class Me extends \Core\Module {
 
     public function __construct() {
         // Call Module constructur
@@ -20,13 +23,26 @@ class Users extends \Core\Module {
         ];
     }
 
+    /**
+     * Gets the current user's information
+     *
+     * @return void
+     */
     public function viewMe() {
         $username = \Core\User::getInstance()->getUsername();
         $name = \Core\User::getInstance()->getName();
         
-        echo json_encode(['username' => $username, 'name' => $name]);
+        \Helpers\Response::success([
+            'username' => $username,
+            'name' => $name
+        ]);
     }
 
+    /**
+     * Updates the current user's information
+     *
+     * @return void
+     */
     public function updateMe() {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
@@ -47,13 +63,10 @@ class Users extends \Core\Module {
 
         // Update the data
         $num_rows = \Core\Database::getInstance()->update('core_users', $new_data, ['username' => \Core\User::getInstance()->getUsername()]);
-
         $success = ($num_rows > 0);
 
         // Return the appropriate result
-        echo json_encode([
-            'success' => $success
-        ]);
+        \Helpers\Response::respond($success);
     }
 }
 

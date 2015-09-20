@@ -7,6 +7,9 @@ namespace Core;
  */
 class Config {
 
+	/**
+	 * Enter your database configuration here
+	 */
 	public static $db_connection = [
 		'database_type' => 'mysql',
 		'database_name' => 'eyp_md',

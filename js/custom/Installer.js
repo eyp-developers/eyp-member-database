@@ -21,7 +21,7 @@
             var $btn_check = $('<button type="button" class="btn btn-primary btn-lg">Check database connection</button>');
 
             $btn_check.click(function() {
-                Server.ajax({
+                $.ajax({
                     url: '/installer/installer.php',
                     dataType: 'json',
                     type: 'GET',
@@ -63,35 +63,25 @@
                         username: 'admin',
                         password: 'admin'
                     }),
-                    success: function(data) {
-                        if(!data.success || !data.authToken) {
+                    success: function(response) {
+                        if(!response.data.auth_token) {
                             UI.showAlert('danger', 'Could not finish installation! Did you change the default password before the installation was finished?');
                             return;
                         }
 
-                        localStorage.setItem('authToken', data.authToken);
+                        localStorage.setItem('auth_token', response.data.auth_token);
                         
                         // Install system modules
                         Server.ajax({
                             url: '/backend/modules/setup',
                             dataType: 'json',
                             type: 'POST',
-                            success: function(response_data) {
-                                if(response_data.success === false) {
-                                    message = 'Could not finish installation!';
-                                    if(response_data.message) {
-                                        message = response_data.message;
-                                    }
-
-                                    UI.showAlert('danger', message);
-                                    return;
-                                }
-                                
+                            success: function(response_data) {                                
                                 location.reload();
                             },
                             error: function(response_data) {
-                                UI.showAlert('danger', 'Could not finish installation! Did you change the default password before the installation was finished?');
-                                $('#modalContainer').modal('hide');
+                                UI.showAlert('danger', 'Could not finish installation!');
+                                return;
                             }
                         });
                     },

@@ -2,14 +2,17 @@
 
 namespace Helpers;
 
+/**
+ * The base class for all modules 
+ */
 class Module {
 
 	/**
 	 * Reads a module's JSON file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @param file_name The name of the JSON file
-	 * @return An array containing the JSON data
+	 * @param {string} $folder_name The name of the module's folder
+	 * @param {string} $file_name The name of the JSON file
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleJSONFile($folder_name, $file_name) {
 		$file_path = '_modules/'.$folder_name.'/'.$file_name.'.json';
@@ -33,8 +36,8 @@ class Module {
 	/**
 	 * Reads a module's info from its info.json file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @return An array containing the module's info
+	 * @param {string} $folder_name The name of the module's folder
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleInfo($folder_name) {
         return self::getModuleJSONFile($folder_name, 'info');
@@ -43,8 +46,8 @@ class Module {
 	/**
 	 * Reads a module's model from its model.json file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @return An array containing the module's model
+	 * @param {string} $folder_name The name of the module's folder
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleModel($folder_name) {
 		return self::getModuleJSONFile($folder_name, 'model');
@@ -53,8 +56,8 @@ class Module {
 	/**
 	 * Reads a module's view config from its view.json file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @return An array containing the module's view config
+	 * @param {string} $folder_name The name of the module's folder
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleViews($folder_name) {
 		return self::getModuleJSONFile($folder_name, 'views');
@@ -63,8 +66,8 @@ class Module {
 	/**
 	 * Reads a module's store config from its stores.json file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @return An array containing the module's store config
+	 * @param {string} $folder_name The name of the module's folder
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleStores($folder_name) {
 		return self::getModuleJSONFile($folder_name, 'stores');
@@ -73,8 +76,8 @@ class Module {
 	/**
 	 * Reads a module's data from its data.json file
 	 *
-	 * @param folder_name The name of the module's folder
-	 * @return An array containing the module's data objects
+	 * @param {string} $folder_name The name of the module's folder
+	 * @return {array} The parsed json file
 	 */
 	public static function getModuleData($folder_name) {
 		return self::getModuleJSONFile($folder_name, 'data');

@@ -6,29 +6,29 @@ require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
 /**
- * A singleton wrapper class for the app
+ * A singleton class for the App
  */
 class App {
 
 	/**
-	 * @var Singleton $instance The reference to the Singleton instance of the class
+	 * @var {Slim} $instance The reference to the Singleton instance of the class
 	 */
-	private static $instance;
+	private static $_instance;
 
 	/**
      * Returns the Singleton instance of this class.
      *
-     * @return Singleton The Singleton instance.
+     * @return {Slim} The Singleton instance.
      */
     public static function getInstance() {
-        if (null === static::$instance) {
-            static::$instance = new \Slim\Slim(array(
+        if (null === static::$_instance) {
+            static::$_instance = new \Slim\Slim(array(
 			    'debug' => true,
 			    'mode' => 'development'
 			));
         }
         
-        return static::$instance;
+        return static::$_instance;
     }
 
     /**
@@ -54,7 +54,9 @@ class App {
     private function __wakeup() {}
 
     /**
-     * Used as middleware before every request. Sleeps for a certain amount of time.
+     * Used as middleware in testing before every request. Sleeps for a certain amount of time.
+     *
+     * @return void
      */
     public static function delayLoads($route) {
         sleep(1);
@@ -62,9 +64,11 @@ class App {
 
     /**
      * Loads all enabled modules
+     *
+     * @return {boolean} Whether the modules were loaded successfully
      */
     public static function loadModules() {
-		// Load Modules
+		// Get all modules
 		$enabled_modules = \Helpers\Database::getAllModules(true);
 
         // Get app instance
@@ -74,6 +78,7 @@ class App {
             return false;
         }
 
+        // Load modules
 		foreach($enabled_modules as $module) {
 			$short_name = $module['name'];
 
@@ -91,6 +96,7 @@ class App {
             foreach($supported_methods as $method) {
                 if(isset($module_actions[$method])) {
                     foreach($module_actions[$method] as $action => $handler) {
+
                         // Dynamically call the appropriate function to register the route
                         $url_delimiter = '/';
                         if(strpos($action, $url_delimiter) === 0) {
@@ -109,6 +115,8 @@ class App {
 
     /**
      * Runs the app
+     *
+     * @return void
      */
     public static function run() {
     	\Core\App::getInstance()->run();

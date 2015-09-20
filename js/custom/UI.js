@@ -126,13 +126,13 @@ var UI =
                 url: '/backend/auth/login',
                 type: 'POST',
                 data: JSON.stringify(data),
-                success: function(data) {
-                    if(!data.success || !data.authToken) {
+                success: function(response) {
+                    if(!response.data.auth_token) {
                         UI.showAlert('danger', "Could not log in. Please try again.");
                         return;
                     }
 
-                    localStorage.setItem('authToken', data.authToken);
+                    localStorage.setItem('auth_token', response.data.auth_token);
                     location.reload();
                 },
                 error: function() {

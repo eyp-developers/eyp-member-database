@@ -2,8 +2,14 @@
 
 namespace Modules;
 
+/**
+ * The Settings module
+ */
 class Settings extends \Core\Module {
 
+    /**
+     * Constructs a new instance
+     */
     public function __construct() {
         // Call Module constructur
         parent::__construct();
@@ -12,33 +18,44 @@ class Settings extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/' => 'index',
-                '/app_settings' => 'app_settings',
-                '/users' => 'list_users',
-                '/user/:username' => 'show_user'
+                '/app_settings' => 'appSettings',
+                '/users' => 'listUsers',
+                '/user/:username' => 'viewUser'
             ],
             'POST' => [
-                '/app_settings' => 'save_settings',
-                '/users' => 'create_user',
-                '/user/:username' => 'update_user'
+                '/app_settings' => 'saveSettings',
+                '/users' => 'createUser',
+                '/user/:username' => 'updateUser'
             ],
             'DELETE' => [
-                '/user/:username' => 'delete_user'
+                '/user/:username' => 'deleteUser'
             ]
         ];
     }
 
-    public function app_settings() {
+    /**
+     * Gets the application settiongs
+     *
+     * @return void
+     */
+    public function appSettings() {
         // Get the app settings
         $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
+
         $app_settings = [];
         foreach($db_app_settings as $app_setting) {
             $app_settings[$app_setting['id']] = $app_setting['value'];
         }
 
-        echo json_encode($app_settings);
+        \Helpers\Response::success($app_setting);
     }
 
-    public function save_settings() {
+    /**
+     * Saves the application settiongs
+     *
+     * @return void
+     */
+    public function saveSettings() {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_settings = json_decode($data, true);
@@ -57,9 +74,14 @@ class Settings extends \Core\Module {
             ]);
         }
 
-        echo json_encode(['success' => true, 'query' => \Core\Database::getInstance()->last_query()]);
+        \Helpers\Response::success();
     }
 
+    /**
+     * Gets a summary of the application configuration
+     *
+     * @return void
+     */
     public function index() {
 
         // Get the app settings
@@ -102,7 +124,7 @@ class Settings extends \Core\Module {
             'items' => [
                 [
                     'title' => 'Edit account',
-                    'target' => '/users/me'
+                    'target' => '/me/edit'
                 ],
                 [
                     'title' => 'Log out',
@@ -121,10 +143,15 @@ class Settings extends \Core\Module {
             'stores' => $store_config
         ];
 
-        echo json_encode($config);
+        \Helpers\Response::success($config);
     }
 
-    public function list_users() {
+    /**
+     * Gets all users
+     *
+     * @return void
+     */
+    public function listUsers() {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -146,36 +173,51 @@ class Settings extends \Core\Module {
             }
         }
 
-        echo json_encode(['total' => $count, 'rows' => $data]);
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
     }
 
-    public function show_user($username) {
+    /**
+     * Gets a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function viewUser($username) {
+        // Get data
         $data = \Core\Database::getInstance()->select('core_users', ['username', 'name', 'default_permission'], ['username' => $username]);
 
         if(!is_array($data) || count($data) === 0) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
             return;
         }
 
         $data = $data[0];
 
+        // Get permissions
         $permissions = \Core\Database::getInstance()->select('core_users_permissions', ['module_name', 'permission'], ['username' => $username]);
 
         if(!is_array($permissions) || count($permissions) === 0) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
             return;
         }
 
         foreach($permissions as $permission) {
-
             $data['permission_' . $permission['module_name']] = $permission['permission'];
         }
 
-        echo json_encode($data);
-        return;
+        \Helpers\Response::success($data);
     }
 
-    public function update_user($username) {
+    /**
+     * Updates a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function updateUser($username) {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
@@ -224,21 +266,29 @@ class Settings extends \Core\Module {
         $success = ($num_rows > 0);
 
         // Return the appropriate result
-        echo json_encode([
-            'success' => $success
-        ]);
+        \Helpers\Response::respond($success);
     }
 
-    public function delete_user($username) {
+    /**
+     * Deletes a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function deleteUser($username) {
         // Get the data
         $num_rows = \Core\Database::getInstance()->delete('core_users', ['username' => $username]);
+        $success = ($num_rows > 0);
 
-        $status = ($num_rows > 0);
-
-        echo json_encode(['success' => $status]);
+        \Helpers\Response::respond($success);
     }
 
-    public function create_user() {
+    /**
+     * Creates a certain user
+     *
+     * @return void
+     */
+    public function createUser() {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
@@ -259,17 +309,17 @@ class Settings extends \Core\Module {
 
         // Return the appropriate result
         if($result === false) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error();
         } else {
-            echo json_encode([
-                'success' => true,
-                'db_changes' => [
+            \Helpers\Response::success(
+                false,
+                [
                     [
                         'module_name' => 'core',
                         'model_name' => 'users'
                     ]
                 ]
-            ]);
+            );
         }
     }
 }

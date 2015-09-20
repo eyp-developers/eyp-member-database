@@ -1562,6 +1562,7 @@
             contentType: this.options.contentType,
             dataType: this.options.dataType,
             success: function (res) {
+                res = res.data;
                 res = calculateObjectValue(that.options, that.options.responseHandler, [res], res);
 
                 that.load(res);
@@ -2843,7 +2844,8 @@
                         Server.ajax({
                             url: filterDataSource,
                             dataType: 'json',
-                            success: function (data) {
+                            success: function (response) {
+                                var data = response.data;
                                 $.each(data, function (key, value) {
                                     selectControl.append($("<option></option>")
                                         .attr("value", key)
