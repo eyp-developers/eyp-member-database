@@ -66,7 +66,11 @@ class Me extends \Core\Module {
         $success = ($num_rows > 0);
 
         // Return the appropriate result
-        \Helpers\Response::respond($success);
+        if($success) {
+            \Helpers\Response::success(false, false, true);
+        } else {
+            \Helpers\Response::error();
+        }
     }
 }
 

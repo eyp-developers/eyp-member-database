@@ -453,7 +453,7 @@ class Modules extends \Core\Module {
         }
 
         // Send response
-        \Helpers\Response::success();
+        \Helpers\Response::success(false, false, true);
     }
 
     /**
@@ -568,7 +568,7 @@ class Modules extends \Core\Module {
         }
 
         // Send response
-        \Helpers\Response::success();
+        \Helpers\Response::success(false, false, true);
     }
 
     /**

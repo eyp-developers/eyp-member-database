@@ -47,13 +47,15 @@ class Response {
 	 *
 	 * @param {any} $data The data to be sent (will be serialized to JSON)
 	 * @param {object} $db_changes An object describing Changes to the database
+	 * @param {boolean} $reload_sidebar Whether the sidebar has to be reloaded by the client
 	 * @return void
 	 */
-	public static function success($data = false, $db_changes = false) {
+	public static function success($data = false, $db_changes = false, $reload_sidebar = false) {
 		$response = [
 			'success'	=> true,
 			'data'		=> $data,
-			'db_changes'=> $db_changes
+			'db_changes'=> $db_changes,
+			'reload_sidebar' => $reload_sidebar
 		];
 
 		echo json_encode($response);

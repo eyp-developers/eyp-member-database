@@ -323,14 +323,8 @@ var UIComponents =
                         data: JSON.stringify(data),
                         dataType: 'json',
                         type: 'POST',
-                        success: function(response_data) {
+                        success: function(response) {
                             UI.showAlert('success', 'Data was successfully saved!');
-                            if(typeof response_data.db_changes !== 'undefined') {
-                                for(i in response_data.db_changes) {
-                                    var store_data = response_data.db_changes[i];
-                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                }
-                            }
                             
                             window.history.back();
                         },
@@ -455,30 +449,13 @@ var UIComponents =
                                     dataType: 'json',
                                     type: 'DELETE',
                                     success: function(response_data) {
-                                        var message;
+                                        var message = 'Data was successfully saved!';
+
                                         if(response_data.message) {
                                             message = response_data.message;
                                         }
-                                        if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                                            if(!message) {
-                                                message = 'Data was successfully saved!';
-                                            }
 
-                                            UI.showAlert('success', message);
-                                            
-                                            if(typeof response_data.db_changes !== 'undefined') {
-                                                for(i in response_data.db_changes) {
-                                                    var store_data = response_data.db_changes[i];
-                                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                                }
-                                            }
-                                        } else {
-                                            if(!message) {
-                                                message = 'Could not save data!';
-                                            }
-
-                                            UI.showAlert('danger', message);
-                                        }
+                                        UI.showAlert('success', message);
                                         
                                         $('#modalContainer').modal('hide');
                                         window.history.back();
@@ -500,30 +477,14 @@ var UIComponents =
                                     dataType: 'json',
                                     type: 'POST',
                                     success: function(response_data) {
-                                        var message;
+                                        var message = 'Data was successfully saved!';
+                                        
                                         if(response_data.message) {
                                             message = response_data.message;
                                         }
-                                        if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                                            if(!message) {
-                                                message = 'Data was successfully saved!';
-                                            }
 
-                                            UI.showAlert('success', message);
-                                            
-                                            if(typeof response_data.db_changes !== 'undefined') {
-                                                for(i in response_data.db_changes) {
-                                                    var store_data = response_data.db_changes[i];
-                                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                                }
-                                            }
-                                        } else {
-                                            if(!message) {
-                                                message = 'Could not save data!';
-                                            }
+                                        UI.showAlert('success', message);
 
-                                            UI.showAlert('danger', message);
-                                        }
                                         
                                         $('#modalContainer').modal('hide');
                                         window.history.back();
