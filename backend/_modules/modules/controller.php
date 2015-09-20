@@ -409,6 +409,7 @@ class Modules extends \Core\Module {
 
 
         // Iterate over all stores of the module
+        $new_stores = [];
         if($stores !== false && isset($stores['stores'])) {
             foreach($stores['stores'] as $store_name => $store_config) {
                 // Add an entry to the stores table
@@ -419,6 +420,11 @@ class Modules extends \Core\Module {
                     'data_key' => $store_config['data_key'],
                     'value' => $store_config['value'],
                 ]);
+
+                $new_stores[] = [
+                    'module_name' => $store_config['module_name'],
+                    'model_name' => $store_name
+                ];
             }
         }
 
@@ -453,7 +459,11 @@ class Modules extends \Core\Module {
         }
 
         // Send response
-        \Helpers\Response::success(false, false, true);
+        \Helpers\Response::success(
+            false,
+            $new_stores,
+            true
+        );
     }
 
     /**

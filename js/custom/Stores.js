@@ -7,7 +7,10 @@
     data : {},
 
     getStore : function(module_name, store_name) {
-        return this.data[module_name][store_name];
+        if(typeof this.data[module_name] !== 'undefined' && typeof this.data[module_name][store_name] !== 'undefined') {
+            return this.data[module_name][store_name];
+        }
+        return null;
     },
 
     getValueForStoreAndKey : function(module_name, store_name, key) {

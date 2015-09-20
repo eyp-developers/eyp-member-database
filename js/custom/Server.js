@@ -40,7 +40,12 @@ var Server =
             if(response.db_changes) {
                 for(i in response.db_changes) {
                     var store_data = response.db_changes[i];
-                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
+
+                    if(Stores.getStore(store_data.module_name, store_data.model_name) === null) {
+                        Stores.load(store_data.module_name, store_data.model_name);
+                    } else {
+                        Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
+                    }
                 }
             }
 
