@@ -99,6 +99,7 @@ class Settings extends \Core\Module {
         foreach($enabled_modules as $module) {
             $menu_item = [
                 "title" => $module['title'],
+                "icon" => $module['icon'],
                 "items" => []
             ];
 
@@ -108,6 +109,7 @@ class Settings extends \Core\Module {
                 foreach($module_views as $view) {
                     $sub_item = [
                         'title' => $view['title'],
+                        "icon" => $view['icon'],
                         'target' => '/' . $module['name'] . '/' . $view['name']
                     ];
                     $menu_item['items'][] = $sub_item;

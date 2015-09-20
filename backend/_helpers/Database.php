@@ -214,7 +214,7 @@ class Database {
 		// Get information from views table
 		$views = \Core\Database::getInstance()->select(
 			'core_views',
-			['name', 'title', 'does_edit'],
+			['name', 'title', 'icon', 'does_edit'],
 			$filter
 		);
 

@@ -55,9 +55,9 @@ var UI =
             var menu_item = sidebar_config[menu_index];
 
             if(typeof menu_item.items !== 'undefined') {
-                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.icon, menu_item.items);
             } else {
-                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
+                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
             }
 
             sidebar_main_menu.append(dom_menu_item);

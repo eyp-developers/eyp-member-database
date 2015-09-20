@@ -171,7 +171,7 @@ class Modules extends \Core\Module {
             }
 
             if(count($missing_dependencies) > 0) {
-                \Helpers\Response::error(E_MISSING_DEPENDENCIES, $missing_dependencies);
+                \Helpers\Response::error(\Helpers\Response::$E_MISSING_DEPENDENCIES, $missing_dependencies);
                 return;
             }
         }
@@ -183,6 +183,7 @@ class Modules extends \Core\Module {
         $db->insert('core_modules', [
             'name' => $module_name,
             'title' => $module_title,
+            'icon' => (isset($module_info['icon']) ? $module_info['icon'] : null),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true,
@@ -299,6 +300,7 @@ class Modules extends \Core\Module {
             foreach($views['views'] as $view_name => $view_config) {
                 // Sanitize view config
                 if(!isset($view_config['title'])) $view_config['title'] = null;
+                if(!isset($view_config['icon'])) $view_config['icon'] = null;
                 if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
                 if(!isset($view_config['container'])) $view_config['container'] = null;
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
@@ -309,6 +311,7 @@ class Modules extends \Core\Module {
                     'module_name' => $module_name,
                     'name' => $view_name,
                     'title' => $view_config['title'],
+                    'icon' => $view_config['icon'],
                     'type' => $view_config['type'],
                     'datasource' => $view_config['datasource'],
                     'container' => $view_config['container'],

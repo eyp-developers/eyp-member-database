@@ -1,6 +1,7 @@
 {
 	"name" : "people",
 	"title" : "People",
+	"icon" : "user",
 	"description" : "A module to manage people and their personal data",
 	"version" : 1
 }
