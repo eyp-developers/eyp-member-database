@@ -173,7 +173,7 @@ class Settings extends \Core\Module {
             $app_settings[$app_setting['id']] = $app_setting['value'];
         }
 
-        \Helpers\Response::success($app_setting);
+        \Helpers\Response::success($app_settings);
     }
 
     /**
