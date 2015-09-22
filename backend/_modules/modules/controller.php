@@ -2,8 +2,14 @@
 
 namespace Modules;
 
+/**
+ * The Modules module
+ */
 class Modules extends \Core\Module {
 
+    /**
+     * Constructs a new instance
+     */
     public function __construct() {
         // Call Module constructur
         parent::__construct();
@@ -12,10 +18,11 @@ class Modules extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/' => 'index',
-                '/installed' => 'installed_modules',
-                '/available' => 'available_modules',
+                '/installed' => 'installedModules',
+                '/available' => 'availableModules',
                 '/:module_name/views' => 'moduleViews',
                 '/:module_name/views/:view_name' => 'moduleView',
+                '/:module_name/stores/' => 'moduleStores',
                 '/:module_name/stores/:store_name' => 'moduleStore'
             ],
 
@@ -30,16 +37,25 @@ class Modules extends \Core\Module {
         ];
     }
 
+    /**
+     * Returns all installed modules
+     *
+     * @return void
+     */
     public function index() {
         // Get all modules
         $modules = \Helpers\Database::getAllModules();
 
-        // Return result
-        echo json_encode($modules);
+        // Send response
+        \Helpers\Response::success($modules);
     }
 
-
-    public function installed_modules() {
+    /**
+     * Returns all installed modules
+     *
+     * @return void
+     */
+    public function installedModules() {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -51,20 +67,29 @@ class Modules extends \Core\Module {
         $search = \Core\App::getInstance()->request->get("search");
         $where = \Core\App::getInstance()->request->get("where");
 
+        // Exclude system modules
         if(strlen($where) > 0) {
             $where .= ',';
         }
-
         $where .= "system=0";
 
         // Get the data
         $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order);
         $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where);
 
-        echo json_encode(['total' => $count, 'rows' => $data]);
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
     }
 
-    public function available_modules() {
+    /**
+     * Returns all available modules
+     *
+     * @return void
+     */
+    public function availableModules() {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -89,11 +114,11 @@ class Modules extends \Core\Module {
 
             // Make sure we have a non-hidden directory
             if(stripos($child_name, '.') !== 0 && is_dir($module_dir_name . '/' . $child_name)) {
+
                 // Try to read the module info
                 $module_info = \Helpers\Module::getModuleInfo($child_name);
+
                 if($module_info !== false) {
-                    //var_dump($module_info['name']);
-                    //var_dump($installed_modules);
                     if(array_search($module_info['name'], $installed_modules) === false) {
                         array_push($data, $module_info);
                     }
@@ -105,12 +130,21 @@ class Modules extends \Core\Module {
         }
 
         // TODO: filter, sort, etc.
-        echo json_encode(['total' => count($data), 'rows' => $data]);
 
+        // Send response
+        \Helpers\Response::success([
+            'total' => count($data),
+            'rows' => $data
+        ]);
     }
 
+    /**
+     * Installs a given module
+     *
+     * @param {string} $folder_name The name of the module's folder
+     * @return void
+     */
     public function install($folder_name) {
-        $return = [];
         $db = \Core\Database::getInstance();
 
         // Read module information from its json files
@@ -121,13 +155,8 @@ class Modules extends \Core\Module {
         $data = \Helpers\Module::getModuleData($folder_name);
 
         // Make sure we have at least the minimum required information about the module
-        if($module_info === false) {
-            echo json_encode(['success' => false, 'data' => $module_info]);
-            return;
-        }
-
-        if(!isset($module_info['name']) || !isset($module_info['version'])) {
-            echo json_encode(['success' => false, 'data' => $module_info]);
+        if($module_info === false || !isset($module_info['name']) || !isset($module_info['version'])) {
+            \Helpers\Response::error(E_MISSING_MODULE_INFO);
             return;
         }
 
@@ -143,8 +172,7 @@ class Modules extends \Core\Module {
             }
 
             if(count($missing_dependencies) > 0) {
-                $error_message = 'The module depends on the following modules which are not intalled: <b>' . implode('</b>,<b>', $missing_dependencies) . '</b>';
-                echo json_encode(['success' => false, 'data' => $module_info, 'message' => $error_message]);
+                \Helpers\Response::error(\Helpers\Response::$E_MISSING_DEPENDENCIES, $missing_dependencies);
                 return;
             }
         }
@@ -156,6 +184,7 @@ class Modules extends \Core\Module {
         $db->insert('core_modules', [
             'name' => $module_name,
             'title' => $module_title,
+            'icon' => (isset($module_info['icon']) ? $module_info['icon'] : null),
             'description' => (isset($module_info['description']) ? $module_info['description'] : ''),
             'version' => $module_info['version'],
             'enabled' => true,
@@ -272,6 +301,7 @@ class Modules extends \Core\Module {
             foreach($views['views'] as $view_name => $view_config) {
                 // Sanitize view config
                 if(!isset($view_config['title'])) $view_config['title'] = null;
+                if(!isset($view_config['icon'])) $view_config['icon'] = null;
                 if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
                 if(!isset($view_config['container'])) $view_config['container'] = null;
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
@@ -282,6 +312,7 @@ class Modules extends \Core\Module {
                     'module_name' => $module_name,
                     'name' => $view_name,
                     'title' => $view_config['title'],
+                    'icon' => $view_config['icon'],
                     'type' => $view_config['type'],
                     'datasource' => $view_config['datasource'],
                     'container' => $view_config['container'],
@@ -379,6 +410,7 @@ class Modules extends \Core\Module {
 
 
         // Iterate over all stores of the module
+        $new_stores = [];
         if($stores !== false && isset($stores['stores'])) {
             foreach($stores['stores'] as $store_name => $store_config) {
                 // Add an entry to the stores table
@@ -389,6 +421,11 @@ class Modules extends \Core\Module {
                     'data_key' => $store_config['data_key'],
                     'value' => $store_config['value'],
                 ]);
+
+                $new_stores[] = [
+                    'module_name' => $store_config['module_name'],
+                    'model_name' => $store_config['model_name']
+                ];
             }
         }
 
@@ -422,11 +459,20 @@ class Modules extends \Core\Module {
             ]);
         }
 
-        // Return result
-        $return['success'] = true;
-        echo json_encode($return);
+        // Send response
+        \Helpers\Response::success(
+            false,
+            $new_stores,
+            true
+        );
     }
 
+    /**
+     * Deletes a given module
+     *
+     * @param {string} $folder_name The name of the module's folder
+     * @return void
+     */
     public function delete($folder_name) {
         $db = \Core\Database::getInstance();
 
@@ -443,8 +489,7 @@ class Modules extends \Core\Module {
         }
 
         if(count($dependent_modules) > 0) {
-            $error_message = 'The following installed modules are depending on this module: <b>' . implode('</b>,<b>', $dependent_modules) . '</b>';
-            echo json_encode(['success' => false, 'message' => $error_message]);
+            \Helpers\Response::error(E_EXISTING_DEPENDENCIES, $dependent_modules);
             return;
         }
 
@@ -533,40 +578,92 @@ class Modules extends \Core\Module {
             $db->query('DROP TABLE '.$table['table_name']);
         }
 
-        // Return result
-        $return['success'] = true;
-        echo json_encode($return);
+        // Send response
+        \Helpers\Response::success(false, false, true);
     }
 
+    /**
+     * Returns all views of a given module
+     *
+     * @param {string} $module_name The name of the module
+     * @return void
+     */
     public function moduleViews($module_name) {
+        // Only return views the user could actually use with their permissions
         if(\Core\User::getInstance()->canReadModule($module_name)) {
-            echo json_encode(\Helpers\Database::getModuleViews($module_name));
+            \Helpers\Response::success(\Helpers\Database::getModuleViews($module_name));
         } else {
-            echo json_encode(['success' => false, 'missing_permission' => true]);
+            \Helpers\Response::error(\Helpers\Response::$E_MISSING_PERMISSION);
         }
     }
 
+    /**
+     * Returns a view of a given module
+     *
+     * @param {string} $module_name The name of the module
+     * @param {string} $view_name The name of the view
+     * @return void
+     */
     public function moduleView($module_name, $view_name) {
+        // Only return views the user could actually use with their permissions
         if(\Core\User::getInstance()->canReadModule($module_name)) {
+            
             $view = \Helpers\Database::getModuleView($module_name, $view_name);
+
             if($view['does_edit'] && !\Core\User::getInstance()->canWriteModule($module_name)) {
-                echo json_encode(['success' => false, 'missing_permission' => true]);
+                \Helpers\Response::error(\Helpers\Response::$E_MISSING_PERMISSION);
             } else {
-                echo json_encode($view);
+                \Helpers\Response::success($view);
             }
         } else {
-            echo json_encode(['success' => false, 'missing_permission' => true]);
+            \Helpers\Response::error(\Helpers\Response::$E_MISSING_PERMISSION);
         }
     }
 
-    public function moduleStore($module_name, $store_name) {
-        echo json_encode(\Helpers\Database::getModuleStore($module_name, $store_name));
+    /**
+     * Returns all stores for a module
+     *
+     * @param {string} $module_name The name of the module
+     * @return void
+     */
+    public function moduleStores($module_name) {
+        $stores = \Helpers\Database::getModuleStores($module_name);
+
+        if($stores === false) {
+            \Helpers\Response::error();
+        } else {
+            \Helpers\Response::success($stores);
+        }
     }
 
+    /**
+     * Returns a store of a given module
+     *
+     * @param {string} $module_name The name of the module
+     * @param {string} $store_name The name of the store
+     * @return void
+     */
+    public function moduleStore($module_name, $store_name) {
+        $store = \Helpers\Database::getModuleStore($module_name, $store_name);
+
+        if($store === false) {
+            \Helpers\Response::error();
+        } else {
+            \Helpers\Response::success($store);
+        }
+    }
+
+    /**
+     * Sets up core modules
+     *
+     * @return void
+     */
     public function setup() {
-        $system_modules = ['settings', 'users'];
+        $system_modules = ['settings', 'me'];
 
         foreach($system_modules as $module) {
+
+            // Install core modules
             ob_start();
             $this->install($module);
             $result = json_decode(ob_get_contents(), true);
@@ -578,7 +675,7 @@ class Modules extends \Core\Module {
             }
         }
 
-        echo json_encode(['success' => true]);
+        \Helpers\Response::success();
     }
 
 }

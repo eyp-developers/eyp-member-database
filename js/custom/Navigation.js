@@ -40,18 +40,18 @@ var Navigation =
             Server.ajax({
                 dataType: 'json',
                 url: '/backend/modules/' +  target[1] + '/views/' + target[2],
-                success: function(data) {
+                success: function(response) {
                     // TODO: Set correct title
 
 
                     // Apply view config
-                    UI.applyViewConfig(data, target.slice(3));
+                    UI.applyViewConfig(response.data, target.slice(3));
                 }
             });
 
         } else {
             if(target[1] === 'logout') {
-                localStorage.removeItem('authToken');
+                localStorage.removeItem('auth_token');
                 window.location = '/';
             } else {
                 console.error('URL "' + url + '" is not a valid target!');

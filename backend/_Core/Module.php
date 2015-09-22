@@ -4,10 +4,13 @@ namespace Core;
 
 class Module {
 
+    /**
+     * @var {string} $_lc_classname The name of the class as a lowercase string
+     */
     private $_lc_classname;
 
     /**
-     * @var array $_actions All actions supported by this module
+     * @var {array} $_actions All actions supported by this module
      */
     protected $_actions;
         public function getActions() { return $this->_actions; }
@@ -37,6 +40,11 @@ class Module {
         ];
     }
 
+    /**
+     * Returns a paginated index of the module's data
+     * 
+     * @return void
+     */
     public function index() {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
@@ -53,20 +61,50 @@ class Module {
         $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $offset, $limit, $sort, $order);
         $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where);
 
-        echo json_encode(['total' => $count, 'rows' => $data]);
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows'  => $data
+        ]);
     }
 
+    /**
+     * Returns a full data record of the module
+     * 
+     * @param {int} $id The ID of the record
+     * @return void
+     */
     public function view($id) {
-        // Get the data
-        echo json_encode(\Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $id));
+        // Get the record
+        $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $id);
+
+        // Send response
+        if($record === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success($record);
+        }
     }
 
+    /**
+     * Deletes a record of the module
+     * 
+     * @param {int} $id The ID of the record
+     * @return void
+     */
     public function delete($id) {
-        // Get the data
-        $status = \Helpers\Database::deleteObject($this->_lc_classname, $this->_lc_classname, $id);
-        echo json_encode(['success' => $status]);
+        // Delete the record
+        $success = \Helpers\Database::deleteObject($this->_lc_classname, $this->_lc_classname, $id);
+
+        // Send response
+        \Helpers\Response::respond($success);
     }
 
+    /**
+     * Creates a new record of the module
+     * 
+     * @return void
+     */
     public function create() {
         // Get the transmitted data
         $data = App::getInstance()->request->getBody();
@@ -84,21 +122,28 @@ class Module {
 
         // Return the appropriate result
         if($new_id === false) {
-            echo json_encode(['success' => false]);
+            \Helper\sReponse::error(\Helpers\Response::$E_SAVE_FAILED);
         } else {
-            echo json_encode([
-                'success' => true,
-                'object_id' => $new_id,
-                'db_changes' => [
+            \Helpers\Response::success(
+                [
+                    'record_id' => $new_id
+                ],
+                [
                     [
                         'module_name' => $this->_lc_classname,
                         'model_name' => $this->_lc_classname
                     ]
                 ]
-            ]);
+            );
         }
     }
 
+    /**
+     * Updates a record of the module
+     * 
+     * @param {int} $id The ID of the record
+     * @return void
+     */
     public function update($id) {
         // Get the transmitted data
         $data = App::getInstance()->request->getBody();
@@ -115,15 +160,19 @@ class Module {
         $success = \Helpers\Database::updateObject($this->_lc_classname, $this->_lc_classname, $id, $new_data);
 
         // Return the appropriate result
-        echo json_encode([
-            'success' => $success,
-            'db_changes' => [
+        if($success === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success(
+                false,
                 [
-                    'module_name' => $this->_lc_classname,
-                    'model_name' => $this->_lc_classname
+                    [
+                        'module_name' => $this->_lc_classname,
+                        'model_name' => $this->_lc_classname
+                    ]
                 ]
-            ]
-        ]);
+            );
+        }
     }
 }
 

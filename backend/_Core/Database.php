@@ -6,14 +6,14 @@ namespace Core;
 require 'Medoo/medoo.min.php';
 
 /**
- * A singleton wrapper class for the database connection
+ * A singleton class for the database connection
  */
 class Database {
 
 	/**
-	 * @var Singleton The reference to the Singleton instance of the class
+	 * @var {Database} $_instance The reference to the Singleton instance of the class
 	 */
-	private static $instance;
+	private static $_instance;
 
 	/**
      * Returns the Singleton instance of this class.
@@ -22,11 +22,11 @@ class Database {
      */
     public static function getInstance()
     {
-        if (null === static::$instance) {
-            static::$instance = new \medoo(\Core\Config::$db_connection);
+        if (null === static::$_instance) {
+            static::$_instance = new \medoo(\Core\Config::$db_connection);
         }
         
-        return static::$instance;
+        return static::$_instance;
     }
 
     /**

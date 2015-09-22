@@ -2,6 +2,7 @@
     "views": {
         "schools" : {
             "title" : "All Schools",
+            "icon" : "list",
             "type" : "table",
             "datasource" : "/backend/schools",
             "in_sidebar" : true,
@@ -170,6 +171,7 @@
 
         "add_school" : {
             "title" : "Add school",
+            "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/schools",
             "in_sidebar" : true,

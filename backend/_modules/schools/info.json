@@ -1,6 +1,7 @@
 {
 	"name" : "schools",
 	"title" : "Schools",
+	"icon" : "education",
 	"description" : "A module to manage schools, teachers and students",
 	"version" : 1,
 	"dependencies" : [

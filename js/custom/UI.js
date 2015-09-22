@@ -55,9 +55,9 @@ var UI =
             var menu_item = sidebar_config[menu_index];
 
             if(typeof menu_item.items !== 'undefined') {
-                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.items);
+                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.icon, menu_item.items);
             } else {
-                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
+                var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
             }
 
             sidebar_main_menu.append(dom_menu_item);
@@ -126,13 +126,13 @@ var UI =
                 url: '/backend/auth/login',
                 type: 'POST',
                 data: JSON.stringify(data),
-                success: function(data) {
-                    if(!data.success || !data.authToken) {
+                success: function(response) {
+                    if(!response.data.auth_token) {
                         UI.showAlert('danger', "Could not log in. Please try again.");
                         return;
                     }
 
-                    localStorage.setItem('authToken', data.authToken);
+                    localStorage.setItem('auth_token', response.data.auth_token);
                     location.reload();
                 },
                 error: function() {

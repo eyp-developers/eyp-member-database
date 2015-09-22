@@ -2,6 +2,7 @@
     "views" : {
         "all_people" : {
             "title" : "All people",
+            "icon" : "list",
             "type" : "table",
             "datasource" : "/backend/people",
             "in_sidebar" : true,
@@ -151,6 +152,7 @@
 
         "add_person" : {
             "title" : "Add person",
+            "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/people",
             "in_sidebar" : true,

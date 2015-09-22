@@ -3,19 +3,27 @@
  */
 var UIComponents =
 {
-    sidebarItem : function(title, target) {
-        return $('<li><a href="#' + target + '" class="menu-item">' + title + '</a></li>');
+    sidebarItem : function(title, icon, target) {
+        var dom_icon = '';
+        if(icon) {
+            var dom_icon = '<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>';
+        }
+        return $('<li><a href="#' + target + '" class="menu-item">' + dom_icon + ' ' + title + '</a></li>');
     },
 
-    sidebarDropdown : function(title, items) {
+    sidebarDropdown : function(title, icon, items) {
         // Generate dropdown and menu
-        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + title + ' <b class="caret"></b></a></li>');
+        var dom_icon = '';
+        if(icon) {
+            var dom_icon = '<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>';
+        }
+        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + ' <b class="caret"></b></a></li>');
         var dom_menu = $('<ul class="dropdown-menu navmenu-nav" role="menu"></ul>');
 
         // Generate menu entries
         for(item_id in items) {
             var menu_item = items[item_id];
-            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.target);
+            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
 
             // Append menu entry
             dom_menu.append(dom_menu_item);
@@ -49,7 +57,7 @@ var UIComponents =
 
         // Group up action columns
         var action_column = {
-            'formatter' : Formatters.action,
+            'formatter' : Formatters.action(),
             'sortable' : false,
             'actions' : []
         };
@@ -67,12 +75,16 @@ var UIComponents =
                 'sortable' : (column.sortable !== undefined ? column.sortable : true)
             }
 
-            // Apply store if needed
-            if(typeof column.store_module !== 'undefined'
-               && typeof column.store_name !== 'undefined'
-               && column.store_module !== null
-               && column.store_name !== null) {
-                column_config.formatter = Formatters.store(column.store_module, column.store_name);
+            var applyFormatterToColumn = function(formatter, column, column_config) {
+                // Apply store if needed
+                if(typeof column.store_module !== 'undefined'
+                   && typeof column.store_name !== 'undefined'
+                   && column.store_module !== null
+                   && column.store_name !== null) {
+                    column_config.formatter = Formatters.store(column.store_module, column.store_name, formatter);
+                } else if(typeof formatter === 'function') {
+                    column_config.formatter = formatter;
+                }
             }
 
             // Apply type to column
@@ -80,11 +92,11 @@ var UIComponents =
             switch(column.type) {
                 case 'link' :
                     column_config.target = column.target;
-                    column_config.formatter = Formatters.link;
+                    applyFormatterToColumn(Formatters.link(), column, column_config);
                     break;
 
                 case 'email' : 
-                    column_config.formatter = Formatters.email;
+                    applyFormatterToColumn(Formatters.email(), column, column_config);
                     break;
 
                 case 'action' :
@@ -96,6 +108,7 @@ var UIComponents =
 
                 case 'int' :
                 case 'plain' :
+                    applyFormatterToColumn(null, column, column_config);
                     break;
 
                 default:
@@ -154,7 +167,9 @@ var UIComponents =
         Server.ajax({
             dataType: 'json',
             url: datasource,
-            success: function(data) {
+            success: function(response) {
+
+                var data = response.data
 
                 // Prepare the definition list
                 var html = $('<dl class="dl-horizontal"></dl>');
@@ -179,18 +194,42 @@ var UIComponents =
                        && data[field.data_key] !== null) {
 
                         var value = data[field.data_key];
-                        
-                        // Apply store if needed
-                        if(typeof field.store_module !== 'undefined'
-                           && typeof field.store_name !== 'undefined'
-                           && field.store_module !== null
-                           && field.store_name !== null) {
-                            value = Stores.getValueForStoreAndKey(field.store_module, field.store_name, value);
-                        }
 
                         // Apply renderer if needed
-                        if(field.type !== null && field.type !== '' && typeof(Formatters[field.type]) === 'function') {
-                            dd = Formatters[field.type].call(field, value, data, null);  
+
+                        var applyFormatterToField = function(formatter, field) {
+                            // Apply store if needed
+                            if(typeof field.store_module !== 'undefined'
+                               && typeof field.store_name !== 'undefined'
+                               && field.store_module !== null
+                               && field.store_name !== null) {
+                                field.formatter = Formatters.store(field.store_module, field.store_name, formatter);
+                            } else {
+                                field.formatter = formatter;
+                            }
+                        }
+
+                        // Apply type to field
+                        if(!field.type) field.type = 'plain';
+                        switch(field.type) {
+                            case 'link' :
+                                applyFormatterToField(Formatters.link(), field);
+                                break;
+
+                            case 'email' : 
+                                applyFormatterToField(Formatters.email(), field);
+                                break;
+
+                            case 'int' :
+                            case 'plain' :
+                                break;
+
+                            default:
+                                console.error('Unsupported column type "' + column.type + '"');
+                        }
+
+                        if(typeof field.formatter === 'function') {
+                            dd = field.formatter.call(field, value, data, null);
                         } else {
                             dd = value;
                         }
@@ -226,7 +265,9 @@ var UIComponents =
         Server.ajax({
             dataType: 'json',
             url: datasource,
-            success: function(data) {
+            success: function(response) {
+
+                var data = response.data;
 
                 // Prepare the definition list
                 var html = $('<form class="form-horizontal" action="' + datasource + '"></form>');
@@ -311,14 +352,8 @@ var UIComponents =
                         data: JSON.stringify(data),
                         dataType: 'json',
                         type: 'POST',
-                        success: function(response_data) {
+                        success: function(response) {
                             UI.showAlert('success', 'Data was successfully saved!');
-                            if(typeof response_data.db_changes !== 'undefined') {
-                                for(i in response_data.db_changes) {
-                                    var store_data = response_data.db_changes[i];
-                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                }
-                            }
                             
                             window.history.back();
                         },
@@ -372,12 +407,12 @@ var UIComponents =
                     url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
                     field_dom: field_dom,
-                    success: function(data) {
+                    success: function(response) {
                         if(first_component) {
                             first_component = false;
                             combined_target.find('.spinner').remove();
                         }
-                        UI.applyViewConfig(data, this.view_params.slice(3), this.field_dom);
+                        UI.applyViewConfig(response.data, this.view_params.slice(3), this.field_dom);
                     }
                 });
 
@@ -443,30 +478,13 @@ var UIComponents =
                                     dataType: 'json',
                                     type: 'DELETE',
                                     success: function(response_data) {
-                                        var message;
+                                        var message = 'Data was successfully saved!';
+
                                         if(response_data.message) {
                                             message = response_data.message;
                                         }
-                                        if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                                            if(!message) {
-                                                message = 'Data was successfully saved!';
-                                            }
 
-                                            UI.showAlert('success', message);
-                                            
-                                            if(typeof response_data.db_changes !== 'undefined') {
-                                                for(i in response_data.db_changes) {
-                                                    var store_data = response_data.db_changes[i];
-                                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                                }
-                                            }
-                                        } else {
-                                            if(!message) {
-                                                message = 'Could not save data!';
-                                            }
-
-                                            UI.showAlert('danger', message);
-                                        }
+                                        UI.showAlert('success', message);
                                         
                                         $('#modalContainer').modal('hide');
                                         window.history.back();
@@ -488,30 +506,14 @@ var UIComponents =
                                     dataType: 'json',
                                     type: 'POST',
                                     success: function(response_data) {
-                                        var message;
+                                        var message = 'Data was successfully saved!';
+                                        
                                         if(response_data.message) {
                                             message = response_data.message;
                                         }
-                                        if(typeof response_data.success === 'undefined' || response_data.success === true) {
-                                            if(!message) {
-                                                message = 'Data was successfully saved!';
-                                            }
 
-                                            UI.showAlert('success', message);
-                                            
-                                            if(typeof response_data.db_changes !== 'undefined') {
-                                                for(i in response_data.db_changes) {
-                                                    var store_data = response_data.db_changes[i];
-                                                    Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
-                                                }
-                                            }
-                                        } else {
-                                            if(!message) {
-                                                message = 'Could not save data!';
-                                            }
+                                        UI.showAlert('success', message);
 
-                                            UI.showAlert('danger', message);
-                                        }
                                         
                                         $('#modalContainer').modal('hide');
                                         window.history.back();

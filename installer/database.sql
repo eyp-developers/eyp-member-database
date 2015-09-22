@@ -3,6 +3,7 @@
 CREATE TABLE core_modules (
     name        VARCHAR(200) NOT NULL,
     title       VARCHAR(200),
+    icon        VARCHAR(200),
     description TEXT,
     version     INT NOT NULL,
     enabled     BOOL NOT NULL DEFAULT 1,
@@ -30,6 +31,7 @@ CREATE TABLE core_views (
     module_name VARCHAR(200) NOT NULL,
     name        VARCHAR(200) NOT NULL,
     title       VARCHAR(200),
+    icon        VARCHAR(200),
     type        VARCHAR(200) NOT NULL,
     datasource  VARCHAR(200),
     container   VARCHAR(200),
@@ -155,8 +157,8 @@ BEGIN
 END;
 
 /* Insert intallation data */
-INSERT INTO core_modules VALUES('modules', 'Modules', 'A module to manage all other modules', 1, 1, 1, 1);
-INSERT INTO core_modules VALUES('auth', 'Authentication', 'A module to handle authentication', 1, 1, 2, 1);
+INSERT INTO core_modules VALUES('modules', 'Modules', NULL, 'A module to manage all other modules', 1, 1, 1, 1);
+INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to handle authentication', 1, 1, 2, 1);
 
 /* Create admin user */
 CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);

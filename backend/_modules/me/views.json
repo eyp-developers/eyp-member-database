@@ -1,9 +1,9 @@
 {
     "views": {
-        "me" : {
+        "edit" : {
             "title" : "Edit user account",
             "type" : "form",
-            "datasource" : "/backend/users/",
+            "datasource" : "/backend/me",
             "in_sidebar" : false,
             "does_edit": true,
             "fields":

@@ -2,8 +2,14 @@
 
 namespace Modules;
 
+/**
+ * The Modules module
+ */
 class Schools extends \Core\Module {
 
+    /**
+     * Constructs a new instance
+     */
     public function __construct() {
         // Call Module constructur
         parent::__construct();
@@ -12,6 +18,12 @@ class Schools extends \Core\Module {
         $this->_actions['GET']['/students/:id'] = 'students';
     }
 
+    /**
+     * Gets all students of a certain schoool
+     *
+     * @param {int} $school_id The Id of the school
+     * @return void
+     */
     public function students($school_id) {
     	// Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
@@ -28,7 +40,11 @@ class Schools extends \Core\Module {
         $data = \Helpers\Database::getObjects('people', 'people', $fields, $search, $where, $offset, $limit, $sort, $order);
         $count = \Helpers\Database::countObjects('people', 'people', $fields, $search, $where);
 
-        echo json_encode(['total' => $count, 'rows' => $data]);
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
     }
 
 

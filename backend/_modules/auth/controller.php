@@ -2,8 +2,14 @@
 
 namespace Modules;
 
+/**
+ * The Auth module
+ */
 class Auth extends \Core\Module {
 
+    /**
+     * Constructs a new instance
+     */
     public function __construct() {
         // Call Module constructur
         parent::__construct();
@@ -16,6 +22,11 @@ class Auth extends \Core\Module {
         ];
     }
 
+    /**
+     * Logs in the specified user
+     *
+     * @return void
+     */
     public function login() {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
@@ -23,17 +34,19 @@ class Auth extends \Core\Module {
 
         // Validate auth data
         if(!isset($auth_data['username']) || !isset($auth_data['password'])) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error(\Helpers\Response::$E_INVALID_LOGIN_DATA);
             return;
         }
 
-        $authToken = \Core\User::login($auth_data['username'], $auth_data['password']);
-        if($authToken === false) {
-            echo json_encode(['success' => false]);
+        $auth_token = \Core\User::login($auth_data['username'], $auth_data['password']);
+        if($auth_token === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_INVALID_LOGIN_DATA);
             return;
         }
 
-        echo json_encode(['success' => true, 'authToken' => $authToken]);
+        \Helpers\Response::success([
+            'auth_token' => $auth_token
+        ]);
     }
 }
 

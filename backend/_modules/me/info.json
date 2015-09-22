@@ -1,6 +1,6 @@
 {
-	"name" : "users",
-	"title" : "User",
+	"name" : "me",
+	"title" : "Me",
 	"description" : "A module to manage your own user account",
 	"version" : 1,
 	"min_permission" : 2,

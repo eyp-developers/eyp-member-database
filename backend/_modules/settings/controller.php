@@ -2,8 +2,14 @@
 
 namespace Modules;
 
+/**
+ * The Settings module
+ */
 class Settings extends \Core\Module {
 
+    /**
+     * Constructs a new instance
+     */
     public function __construct() {
         // Call Module constructur
         parent::__construct();
@@ -12,54 +18,27 @@ class Settings extends \Core\Module {
         $this->_actions = [
             'GET' => [
                 '/' => 'index',
-                '/app_settings' => 'app_settings',
-                '/users' => 'list_users',
-                '/user/:username' => 'show_user'
+                '/sidebar' => 'sidebar',
+                '/app_settings' => 'appSettings',
+                '/users' => 'listUsers',
+                '/user/:username' => 'viewUser'
             ],
             'POST' => [
-                '/app_settings' => 'save_settings',
-                '/users' => 'create_user',
-                '/user/:username' => 'update_user'
+                '/app_settings' => 'saveSettings',
+                '/users' => 'createUser',
+                '/user/:username' => 'updateUser'
             ],
             'DELETE' => [
-                '/user/:username' => 'delete_user'
+                '/user/:username' => 'deleteUser'
             ]
         ];
     }
 
-    public function app_settings() {
-        // Get the app settings
-        $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
-        $app_settings = [];
-        foreach($db_app_settings as $app_setting) {
-            $app_settings[$app_setting['id']] = $app_setting['value'];
-        }
-
-        echo json_encode($app_settings);
-    }
-
-    public function save_settings() {
-        // Get the transmitted data
-        $data = \Core\App::getInstance()->request->getBody();
-        $new_settings = json_decode($data, true);
-
-        // Replace empty values with null
-        foreach($new_settings as $key => $value) {
-            if($value === '') {
-                $new_data[$key] = NULL;
-            }
-        }
-
-        // Update settings
-        foreach($new_settings as $setting_name => $setting_value) {
-            \Helpers\Database::updateObject('settings', 'settings', $setting_name, [
-                'value' => $setting_value
-            ]);
-        }
-
-        echo json_encode(['success' => true, 'query' => \Core\Database::getInstance()->last_query()]);
-    }
-
+    /**
+     * Gets a summary of the application configuration
+     *
+     * @return void
+     */
     public function index() {
 
         // Get the app settings
@@ -77,6 +56,7 @@ class Settings extends \Core\Module {
         foreach($enabled_modules as $module) {
             $menu_item = [
                 "title" => $module['title'],
+                "icon" => $module['icon'],
                 "items" => []
             ];
 
@@ -86,6 +66,7 @@ class Settings extends \Core\Module {
                 foreach($module_views as $view) {
                     $sub_item = [
                         'title' => $view['title'],
+                        "icon" => $view['icon'],
                         'target' => '/' . $module['name'] . '/' . $view['name']
                     ];
                     $menu_item['items'][] = $sub_item;
@@ -102,7 +83,7 @@ class Settings extends \Core\Module {
             'items' => [
                 [
                     'title' => 'Edit account',
-                    'target' => '/users/me'
+                    'target' => '/me/edit'
                 ],
                 [
                     'title' => 'Log out',
@@ -121,10 +102,113 @@ class Settings extends \Core\Module {
             'stores' => $store_config
         ];
 
-        echo json_encode($config);
+        \Helpers\Response::success($config);
     }
 
-    public function list_users() {
+    /**
+     * Gets the sidebar configuration
+     *
+     * @return void
+     */
+    public function sidebar() {
+
+        // Get sidebar config
+        $sidebar_config = [];
+        $enabled_modules = \Helpers\Database::getAllModules(true);
+
+        // Create top-level sidebar entries for all modules
+        foreach($enabled_modules as $module) {
+            $menu_item = [
+                "title" => $module['title'],
+                "icon" => $module['icon'],
+                "items" => []
+            ];
+
+            // Create sub-entries for all views of the module
+            $module_views = \Helpers\Database::getModuleViews($module['name'], true, true);
+            if($module_views) {
+                foreach($module_views as $view) {
+                    $sub_item = [
+                        'title' => $view['title'],
+                        "icon" => $view['icon'],
+                        'target' => '/' . $module['name'] . '/' . $view['name']
+                    ];
+                    $menu_item['items'][] = $sub_item;
+                }
+
+                // Add the finished menu item to the config
+                $sidebar_config[] = $menu_item;
+            }
+        }
+
+        // Add user menu
+        $sidebar_config[] = [
+            'title' => \Core\User::getInstance()->getName(),
+            'items' => [
+                [
+                    'title' => 'Edit account',
+                    'target' => '/me/edit'
+                ],
+                [
+                    'title' => 'Log out',
+                    'target' => '/logout'
+                ]
+            ]
+        ];
+
+        \Helpers\Response::success($sidebar_config);
+    }
+
+    /**
+     * Gets the application settiongs
+     *
+     * @return void
+     */
+    public function appSettings() {
+        // Get the app settings
+        $db_app_settings = \Helpers\Database::getObjects('settings', 'settings');
+
+        $app_settings = [];
+        foreach($db_app_settings as $app_setting) {
+            $app_settings[$app_setting['id']] = $app_setting['value'];
+        }
+
+        \Helpers\Response::success($app_setting);
+    }
+
+    /**
+     * Saves the application settiongs
+     *
+     * @return void
+     */
+    public function saveSettings() {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_settings = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_settings as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Update settings
+        foreach($new_settings as $setting_name => $setting_value) {
+            \Helpers\Database::updateObject('settings', 'settings', $setting_name, [
+                'value' => $setting_value
+            ]);
+        }
+
+        \Helpers\Response::success();
+    }
+
+    /**
+     * Gets all users
+     *
+     * @return void
+     */
+    public function listUsers() {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -146,36 +230,51 @@ class Settings extends \Core\Module {
             }
         }
 
-        echo json_encode(['total' => $count, 'rows' => $data]);
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
     }
 
-    public function show_user($username) {
+    /**
+     * Gets a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function viewUser($username) {
+        // Get data
         $data = \Core\Database::getInstance()->select('core_users', ['username', 'name', 'default_permission'], ['username' => $username]);
 
         if(!is_array($data) || count($data) === 0) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
             return;
         }
 
         $data = $data[0];
 
+        // Get permissions
         $permissions = \Core\Database::getInstance()->select('core_users_permissions', ['module_name', 'permission'], ['username' => $username]);
 
         if(!is_array($permissions) || count($permissions) === 0) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
             return;
         }
 
         foreach($permissions as $permission) {
-
             $data['permission_' . $permission['module_name']] = $permission['permission'];
         }
 
-        echo json_encode($data);
-        return;
+        \Helpers\Response::success($data);
     }
 
-    public function update_user($username) {
+    /**
+     * Updates a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function updateUser($username) {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
@@ -220,25 +319,32 @@ class Settings extends \Core\Module {
         }
 
         // Update the data
-        $num_rows = \Core\Database::getInstance()->update('core_users', $new_data, ['username' => $username]);
-        $success = ($num_rows > 0);
+        \Core\Database::getInstance()->update('core_users', $new_data, ['username' => $username]);
 
         // Return the appropriate result
-        echo json_encode([
-            'success' => $success
-        ]);
+        \Helpers\Response::success(false, false, true);
     }
 
-    public function delete_user($username) {
+    /**
+     * Deletes a certain user
+     *
+     * @param {string} $username The user's username
+     * @return void
+     */
+    public function deleteUser($username) {
         // Get the data
         $num_rows = \Core\Database::getInstance()->delete('core_users', ['username' => $username]);
+        $success = ($num_rows > 0);
 
-        $status = ($num_rows > 0);
-
-        echo json_encode(['success' => $status]);
+        \Helpers\Response::respond($success);
     }
 
-    public function create_user() {
+    /**
+     * Creates a certain user
+     *
+     * @return void
+     */
+    public function createUser() {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
@@ -259,17 +365,17 @@ class Settings extends \Core\Module {
 
         // Return the appropriate result
         if($result === false) {
-            echo json_encode(['success' => false]);
+            \Helpers\Response::error();
         } else {
-            echo json_encode([
-                'success' => true,
-                'db_changes' => [
+            \Helpers\Response::success(
+                false,
+                [
                     [
                         'module_name' => 'core',
                         'model_name' => 'users'
                     ]
                 ]
-            ]);
+            );
         }
     }
 }
