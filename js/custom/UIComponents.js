@@ -57,7 +57,7 @@ var UIComponents =
 
         // Group up action columns
         var action_column = {
-            'formatter' : Formatters.action,
+            'formatter' : Formatters.action(),
             'sortable' : false,
             'actions' : []
         };
@@ -75,12 +75,16 @@ var UIComponents =
                 'sortable' : (column.sortable !== undefined ? column.sortable : true)
             }
 
-            // Apply store if needed
-            if(typeof column.store_module !== 'undefined'
-               && typeof column.store_name !== 'undefined'
-               && column.store_module !== null
-               && column.store_name !== null) {
-                column_config.formatter = Formatters.store(column.store_module, column.store_name);
+            var applyFormatterToColumn = function(formatter, column, column_config) {
+                // Apply store if needed
+                if(typeof column.store_module !== 'undefined'
+                   && typeof column.store_name !== 'undefined'
+                   && column.store_module !== null
+                   && column.store_name !== null) {
+                    column_config.formatter = Formatters.store(column.store_module, column.store_name, formatter);
+                } else if(typeof formatter === 'function') {
+                    column_config.formatter = formatter;
+                }
             }
 
             // Apply type to column
@@ -88,11 +92,11 @@ var UIComponents =
             switch(column.type) {
                 case 'link' :
                     column_config.target = column.target;
-                    column_config.formatter = Formatters.link;
+                    applyFormatterToColumn(Formatters.link(), column, column_config);
                     break;
 
                 case 'email' : 
-                    column_config.formatter = Formatters.email;
+                    applyFormatterToColumn(Formatters.email(), column, column_config);
                     break;
 
                 case 'action' :
@@ -104,6 +108,7 @@ var UIComponents =
 
                 case 'int' :
                 case 'plain' :
+                    applyFormatterToColumn(null, column, column_config);
                     break;
 
                 default:
@@ -189,18 +194,42 @@ var UIComponents =
                        && data[field.data_key] !== null) {
 
                         var value = data[field.data_key];
-                        
-                        // Apply store if needed
-                        if(typeof field.store_module !== 'undefined'
-                           && typeof field.store_name !== 'undefined'
-                           && field.store_module !== null
-                           && field.store_name !== null) {
-                            value = Stores.getValueForStoreAndKey(field.store_module, field.store_name, value);
-                        }
 
                         // Apply renderer if needed
-                        if(field.type !== null && field.type !== '' && typeof(Formatters[field.type]) === 'function') {
-                            dd = Formatters[field.type].call(field, value, data, null);  
+
+                        var applyFormatterToField = function(formatter, field) {
+                            // Apply store if needed
+                            if(typeof field.store_module !== 'undefined'
+                               && typeof field.store_name !== 'undefined'
+                               && field.store_module !== null
+                               && field.store_name !== null) {
+                                field.formatter = Formatters.store(field.store_module, field.store_name, formatter);
+                            } else {
+                                field.formatter = formatter;
+                            }
+                        }
+
+                        // Apply type to field
+                        if(!field.type) field.type = 'plain';
+                        switch(field.type) {
+                            case 'link' :
+                                applyFormatterToField(Formatters.link(), field);
+                                break;
+
+                            case 'email' : 
+                                applyFormatterToField(Formatters.email(), field);
+                                break;
+
+                            case 'int' :
+                            case 'plain' :
+                                break;
+
+                            default:
+                                console.error('Unsupported column type "' + column.type + '"');
+                        }
+
+                        if(typeof field.formatter === 'function') {
+                            dd = field.formatter.call(field, value, data, null);
                         } else {
                             dd = value;
                         }

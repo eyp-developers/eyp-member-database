@@ -29,6 +29,28 @@
         }
     },
 
+    haveStoresForModule : function(module_name) {
+        return (typeof Stores.data[module_name] !== 'undefined' && Stores.data[module_name] !== null);
+    },
+
+    loadStoresForModule : function(module_name) {
+        Stores.data[module_name] = {};
+
+        Server.ajax({
+            dataType: "json",
+            url: "/backend/modules/"+module_name+'/stores',
+            success: function(response) {
+                var stores = response.data;
+
+                for(var i = 0; i < stores.length; i++) {
+                    var store = stores[i];
+
+                    Stores.data[module_name][store.name] = store;
+                }
+            }
+        });
+    },
+
     load : function(module_name, store_name) {
         Server.ajax({
             dataType: "json",

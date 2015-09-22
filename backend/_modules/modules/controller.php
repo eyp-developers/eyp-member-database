@@ -22,6 +22,7 @@ class Modules extends \Core\Module {
                 '/available' => 'availableModules',
                 '/:module_name/views' => 'moduleViews',
                 '/:module_name/views/:view_name' => 'moduleView',
+                '/:module_name/stores/' => 'moduleStores',
                 '/:module_name/stores/:store_name' => 'moduleStore'
             ],
 
@@ -423,7 +424,7 @@ class Modules extends \Core\Module {
 
                 $new_stores[] = [
                     'module_name' => $store_config['module_name'],
-                    'model_name' => $store_name
+                    'model_name' => $store_config['model_name']
                 ];
             }
         }
@@ -620,10 +621,26 @@ class Modules extends \Core\Module {
     }
 
     /**
+     * Returns all stores for a module
+     *
+     * @param {string} $module_name The name of the module
+     * @return void
+     */
+    public function moduleStores($module_name) {
+        $stores = \Helpers\Database::getModuleStores($module_name);
+
+        if($stores === false) {
+            \Helpers\Response::error();
+        } else {
+            \Helpers\Response::success($stores);
+        }
+    }
+
+    /**
      * Returns a store of a given module
      *
      * @param {string} $module_name The name of the module
-     * @param {string} $store The name of the store
+     * @param {string} $store_name The name of the store
      * @return void
      */
     public function moduleStore($module_name, $store_name) {

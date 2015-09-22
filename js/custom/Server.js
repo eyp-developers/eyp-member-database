@@ -41,8 +41,8 @@ var Server =
                 for(i in response.db_changes) {
                     var store_data = response.db_changes[i];
 
-                    if(Stores.getStore(store_data.module_name, store_data.model_name) === null) {
-                        Stores.load(store_data.module_name, store_data.model_name);
+                    if(!Stores.haveStoresForModule(store_data.module_name)) {
+                        Stores.loadStoresForModule(store_data.module_name);
                     } else {
                         Stores.reloadStoresForModuleAndModel(store_data.module_name, store_data.model_name);
                     }

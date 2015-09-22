@@ -313,6 +313,54 @@ class Database {
 	}
 
 	/**
+	 * Gets all stores of a certain module
+	 *
+	 * @param {string} $module_name The name of the module
+	 * @return {array/false} The store data, or false
+	 */
+	public static function getModuleStores($module_name) {
+		// Get information about the store
+		$store_configs = \Core\Database::getInstance()->select(
+			'core_stores',
+			['name', 'module_name', 'model_name', 'data_key', 'value'],
+			['AND' =>
+				[
+					'module_name' => $module_name
+				]
+			]
+		);
+
+		if(!is_array($store_configs) || count($store_configs) == 0) {
+			return false;
+		}
+
+		for($i = 0; $i < count($store_configs); $i++) {
+			$data_table = $store_configs[$i]['module_name'] . '_' . $store_configs[$i]['model_name'];
+			$data = \Core\Database::getInstance()->select(
+				$data_table,
+				[
+					$store_configs[$i]['data_key'],
+					$store_configs[$i]['value']
+				],
+				[
+					'ORDER' => $store_configs[$i]['value'].' ASC'
+				]
+			);
+
+			// Parse information
+			$data_dict = [];
+			foreach($data as $row) {
+				$data_dict[$row[$store_configs[$i]['data_key']]] = $row[$store_configs[$i]['value']];
+			}
+			$store_configs[$i]['data'] = $data_dict;
+		}
+
+		error_log(print_r($store_configs, true));
+
+		return $store_configs;
+	}
+
+	/**
 	 * Gets a store of a certain module
 	 *
 	 * @param {string} $module_name The name of the module
