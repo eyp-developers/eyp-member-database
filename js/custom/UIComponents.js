@@ -132,6 +132,7 @@ var UIComponents =
 
                 case 'int' :
                 case 'plain' :
+                case 'date' :
                     applyFormatterToColumn(null, column, column_config);
                     break;
 
@@ -248,10 +249,11 @@ var UIComponents =
 
                             case 'int' :
                             case 'plain' :
+                            case 'date' :
                                 break;
 
                             default:
-                                console.error('Unsupported column type "' + column.type + '"');
+                                console.error('Unsupported field type "' + column.type + '"');
                         }
 
                         if(typeof field.formatter === 'function') {
@@ -296,7 +298,7 @@ var UIComponents =
             for(field_id in fields) {
                 var field = fields[field_id];
 
-                var form_group = $('<div class="form-group"></div>');
+                var form_group = $('<div id="form_group_' + field.data_key + '" class="form-group"></div>');
                 
                 if(field.visible != true) {
                     form_group.css('display', 'none');
@@ -307,6 +309,12 @@ var UIComponents =
                 if(field.title !== undefined
                    && field.title !== null) {
                     label_text = field.title;
+                }
+
+                required_attribute = '';
+                if(field.required == 1) {
+                    label_text += '*'
+                    required_attribute = 'required'
                 }
 
                 label = $('<label for="input_' + field.data_key + '" class="col-sm-3 control-label">' + label_text + '</label>'); 
@@ -322,11 +330,11 @@ var UIComponents =
                 switch(field.type) {
 
                     case 'textarea':
-                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
+                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" ' + required_attribute + '>' + input_text + '</textarea></div>');
                         break;
 
                     case 'select':
-                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + required_attribute + '></select>');
                         select.append($('<option value=""></option>'));
                         
                         var store = Stores.getStore(field.store_module, field.store_name);
@@ -346,7 +354,7 @@ var UIComponents =
 
                     default:
                         var input_type = Helpers.getInputTypeForDataType(field.type);
-                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '" ' + required_attribute + '></div>');
                 }
 
                 form_group.append(input);
@@ -365,6 +373,7 @@ var UIComponents =
 
             html.submit(function() {
                 var me = $(this);
+                me.find('.has-error').removeClass('has-error')
                 var data = Helpers.getFormData(me);
 
                 Server.ajax({
@@ -378,6 +387,12 @@ var UIComponents =
                         window.history.back();
                     },
                     error: function(response_data) {
+                        if(response_data.data && response_data.data.invalid_fields instanceof Array) {
+                            for(var i = 0; i < response_data.data.invalid_fields.length; i++) {
+                                var field_key = response_data.data.invalid_fields[i];
+                                $('#form_group_' + field_key).addClass('has-error');
+                            }
+                        }
                         UI.showAlert('danger', 'Could not save data!');
                     }
                 });

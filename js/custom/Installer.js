@@ -6,7 +6,8 @@
     init : function() {
         // Hide sidebar
         $('#sidebar').remove();
-        $('body').css('padding-left', 0);
+        $('#navbar').remove();
+        $('#main').css('padding-left', 0);
 
         var $dom_main = $('#main');
         

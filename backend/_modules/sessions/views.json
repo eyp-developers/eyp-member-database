@@ -179,7 +179,8 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "start_date" : {
                     "data_key" : "start_date",
@@ -220,7 +221,8 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "start_date" : {
                     "data_key" : "start_date",
@@ -262,6 +264,7 @@
                 "person" : {
                     "data_key" : "person",
                     "title" : "Person",
+                    "required" : true,
                     "type" : "select",
                     "store_module" : "people",
                     "store_name" : "people_names"
@@ -269,6 +272,7 @@
                 "session" : {
                     "data_key" : "session",
                     "title" : "Session",
+                    "required" : true,
                     "type" : "select",
                     "store_module" : "sessions",
                     "store_name" : "session_names"
@@ -276,6 +280,7 @@
                 "role" : {
                     "data_key" : "role",
                     "title" : "Role",
+                    "required" : true,
                     "type" : "select",
                     "store_module" : "sessions",
                     "store_name" : "role_names"

@@ -8,7 +8,8 @@
 			},
 
 			"name" : {
-				"type" : "string"
+				"type" : "string",
+				"required" : true
 			},
 
 			"start_date" : {
@@ -47,6 +48,7 @@
 
 			"person" : {
 				"type" : "int",
+				"required" : true,
 				"foreign_key" : {
 					"module" : "people",
 					"table" : "people",
@@ -56,6 +58,7 @@
 
 			"role" : {
 				"type": "int",
+				"required" : true,
 				"foreign_key" : {
 					"module" : "sessions",
 					"table" : "roles",
@@ -65,6 +68,7 @@
 
 			"session" : {
 				"type" : "int",
+				"required" : true,
 				"foreign_key" : {
 					"module" : "sessions",
 					"table" : "sessions",

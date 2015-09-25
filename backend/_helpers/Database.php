@@ -161,9 +161,16 @@ class Database {
 	 * @param {string} $module_name The module the object belongs to
 	 * @param {string} $table_name The table the object belongs to
 	 * @param {array} $data The new object's data
+	 * @param {array} &$invalid_field An array that will be populated with the names of all invalid fields
 	 * @return {int/boolean} The id of the newly created object, or false
 	 */
-	public static function createObject($module_name, $table_name, $data) {
+	public static function createObject($module_name, $table_name, $data, &$invalid_fields = []) {
+		// Validate data
+		$validate_result = \Helpers\Validator::validateDataForModuleAndModel($data, $module_name, $table_name, $invalid_fields);
+		if(!$validate_result) {
+			return false;
+		}
+
 		$data_table_name = $module_name.'_'.$table_name;
 		$new_id = \Core\Database::getInstance()->insert($data_table_name, $data);
 
@@ -178,13 +185,20 @@ class Database {
 	 * @param {string} $id The object's id
 	 * @param {array} $data The object's new data
 	 * @param {string} $id_property The id property. Defaults to 'id'.
+	 * @param {array} &$invalid_field An array that will be populated with the names of all invalid fields
 	 * @return {boolean} Whether the object was updated
 	 */
-	public static function updateObject($module_name, $table_name, $id, $data, $id_property = 'id') {
+	public static function updateObject($module_name, $table_name, $id, $data, $id_property = 'id', &$invalid_fields = []) {
+		// Validate data
+		$validate_result = \Helpers\Validator::validateDataForModuleAndModel($data, $module_name, $table_name, $invalid_fields);
+		if(!$validate_result) {
+			return false;
+		}
+
 		$data_table_name = $module_name.'_'.$table_name;
 		$num_rows = \Core\Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
 
-	    return ($num_rows > 0 ? true : false);
+	    return true;
 	}
 
 	/**
@@ -268,6 +282,7 @@ class Database {
 				'target',
 				'icon',
 				'visible',
+				'required',
 				'store_module',
 				'store_name'
 			],
@@ -419,6 +434,42 @@ class Database {
 		);
 
 		return $data;
+	}
+
+	/**
+	 * Gets a model of a certain module
+	 *
+	 * @param {string} $module_name The name of the module
+	 * @param {string} $model_name The name of the model
+	 * @return {array/false} The store data, or false
+	 */
+	public static function getModuleModel($module_name, $model_name) {
+		// Get information about the store
+		$model_fields = \Core\Database::getInstance()->select(
+			'core_models_fields',
+			'*',
+			['AND' =>
+				[
+					'module_name' => $module_name,
+					'model_name' => $model_name 
+				]
+			]
+		);
+
+		$model = [];
+		if(is_array($model_fields) && count($model_fields) >= 1) {
+			foreach($model_fields as $field) {
+				$model[$field['name']] = [
+					'type' => $field['type'],
+					'required' => $field['required'],
+					'generated' => $field['generated']
+				];
+			}
+		} else {
+			return false;
+		}
+
+		return $model;
 	}
 
 }

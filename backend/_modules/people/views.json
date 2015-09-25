@@ -111,7 +111,8 @@
             {
                 "first_name" : {
                     "data_key" : "first_name",
-                    "title" : "First Name"
+                    "title" : "First Name",
+                    "required" : true
                 },
                 "last_name" : {
                     "data_key" : "last_name",
@@ -167,7 +168,8 @@
             {
                 "first_name" : {
                     "data_key" : "first_name",
-                    "title" : "First Name"
+                    "title" : "First Name",
+                    "required" : true
                 },
                 "last_name" : {
                     "data_key" : "last_name",
