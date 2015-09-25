@@ -309,6 +309,12 @@ var UIComponents =
                     label_text = field.title;
                 }
 
+                required_attribute = '';
+                if(field.required == 1) {
+                    label_text += '*'
+                    required_attribute = 'required'
+                }
+
                 label = $('<label for="input_' + field.data_key + '" class="col-sm-3 control-label">' + label_text + '</label>'); 
                 form_group.append(label);
 
@@ -322,11 +328,11 @@ var UIComponents =
                 switch(field.type) {
 
                     case 'textarea':
-                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
+                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" ' + required_attribute + '>' + input_text + '</textarea></div>');
                         break;
 
                     case 'select':
-                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + required_attribute + '></select>');
                         select.append($('<option value=""></option>'));
                         
                         var store = Stores.getStore(field.store_module, field.store_name);
@@ -346,7 +352,7 @@ var UIComponents =
 
                     default:
                         var input_type = Helpers.getInputTypeForDataType(field.type);
-                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '" ' + required_attribute + '></div>');
                 }
 
                 form_group.append(input);

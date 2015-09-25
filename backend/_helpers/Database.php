@@ -268,6 +268,7 @@ class Database {
 				'target',
 				'icon',
 				'visible',
+				'required',
 				'store_module',
 				'store_name'
 			],

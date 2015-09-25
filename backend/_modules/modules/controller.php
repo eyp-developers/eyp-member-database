@@ -334,8 +334,9 @@ class Modules extends \Core\Module {
                         foreach($null_fields as $null_field) {
                             if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
                         }
-                        if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
-                        if(!isset($field_config['visible'])) $field_config['visible'] = 1;
+                        if(!isset($field_config['enabled'])) $field_config['enabled'] = true;
+                        if(!isset($field_config['visible'])) $field_config['visible'] = true;
+                        if(!isset($field_config['required'])) $field_config['required'] = false;
 
                         // Add an entry to the meta table
                         $db->insert('core_views_fields', [
@@ -349,6 +350,7 @@ class Modules extends \Core\Module {
                             'icon' => $field_config['icon'],
                             'enabled' => $field_config['enabled'],
                             'visible' => $field_config['visible'],
+                            'required' => $field_config['required'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
                             'store_name' => $field_config['store_name'],

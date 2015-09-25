@@ -53,6 +53,7 @@ CREATE TABLE core_views_fields (
     icon                VARCHAR(200),
     enabled             BOOL NOT NULL DEFAULT 1,
     visible             BOOL NOT NULL DEFAULT 1,
+    required          BOOL NOT NULL DEFAULT 0,
     view_order          INT NOT NULL DEFAULT 0,
     store_module        VARCHAR(200),
     store_name          VARCHAR(200),

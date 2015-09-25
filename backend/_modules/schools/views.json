@@ -134,7 +134,8 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
@@ -181,7 +182,8 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
