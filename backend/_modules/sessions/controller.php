@@ -99,11 +99,14 @@ class Sessions extends \Core\Module {
         }
 
         // Insert the data
-        $new_id = \Helpers\Database::createObject('sessions', 'participations', $new_data);
+        $invalid_fields = [];
+        $new_id = \Helpers\Database::createObject('sessions', 'participations', $new_data, $invalid_fields);
         
         // Return the appropriate result
         if($new_id === false) {
-            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED);
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
         } else {
             \Helpers\Response::success(
                 [

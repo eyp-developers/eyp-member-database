@@ -213,6 +213,7 @@ class Modules extends \Core\Module {
 
                     // Set default values if values are not set for $field_config
                     if(!isset($field_config['primary_key'])) $field_config['primary_key'] = false;
+                    if(!isset($field_config['required'])) $field_config['required'] = false;
 
                     // Add field name and type
                     $field_type = \Helpers\Database::getDBType($field_config['type']);
@@ -235,6 +236,8 @@ class Modules extends \Core\Module {
                         'model_name' => $table_name,
                         'name' => $field_name,
                         'type' => $field_config['type'],
+                        'required' => $field_config['required'],
+                        'generated' => ($field_config['primary_key'] && $field_config['type'] === 'int'),
                         'creator_module_name' => $module_name
                     ]);
 
@@ -263,6 +266,7 @@ class Modules extends \Core\Module {
             foreach($model['external'] as $ext_module_name => $ext_module_tables) {
                 foreach($ext_module_tables as $ext_table_name => $ext_fields) {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
+                        if(!isset($ext_field_config['required'])) $ext_field_config['required'] = false;
 
                         // Add an entry to the meta table
                         $db->insert('core_models_fields', [
@@ -270,6 +274,7 @@ class Modules extends \Core\Module {
                             'model_name' => $ext_table_name,
                             'name' => $ext_field_name,
                             'type' => $ext_field_config['type'],
+                            'required' => $ext_field_config['required'],
                             'creator_module_name' => $module_name
                         ]);
 

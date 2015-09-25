@@ -132,6 +132,7 @@ var UIComponents =
 
                 case 'int' :
                 case 'plain' :
+                case 'date' :
                     applyFormatterToColumn(null, column, column_config);
                     break;
 
@@ -248,10 +249,11 @@ var UIComponents =
 
                             case 'int' :
                             case 'plain' :
+                            case 'date' :
                                 break;
 
                             default:
-                                console.error('Unsupported column type "' + column.type + '"');
+                                console.error('Unsupported field type "' + column.type + '"');
                         }
 
                         if(typeof field.formatter === 'function') {
@@ -296,7 +298,7 @@ var UIComponents =
             for(field_id in fields) {
                 var field = fields[field_id];
 
-                var form_group = $('<div class="form-group"></div>');
+                var form_group = $('<div id="form_group_' + field.data_key + '" class="form-group"></div>');
                 
                 if(field.visible != true) {
                     form_group.css('display', 'none');
@@ -371,6 +373,7 @@ var UIComponents =
 
             html.submit(function() {
                 var me = $(this);
+                me.find('.has-error').removeClass('has-error')
                 var data = Helpers.getFormData(me);
 
                 Server.ajax({
@@ -384,6 +387,12 @@ var UIComponents =
                         window.history.back();
                     },
                     error: function(response_data) {
+                        if(response_data.data && response_data.data.invalid_fields instanceof Array) {
+                            for(var i = 0; i < response_data.data.invalid_fields.length; i++) {
+                                var field_key = response_data.data.invalid_fields[i];
+                                $('#form_group_' + field_key).addClass('has-error');
+                            }
+                        }
                         UI.showAlert('danger', 'Could not save data!');
                     }
                 });

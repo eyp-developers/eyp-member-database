@@ -23,6 +23,8 @@ CREATE TABLE core_models_fields (
     model_name          VARCHAR(200) NOT NULL,
     name                VARCHAR(200) NOT NULL,
     type                CHAR(10) NOT NULL,
+    required            BOOL NOT NULL DEFAULT 0,
+    generated           BOOL NOT NULL DEFAULT 0,
     creator_module_name VARCHAR(200),
     PRIMARY KEY (module_name, model_name, name)
 );
@@ -53,7 +55,7 @@ CREATE TABLE core_views_fields (
     icon                VARCHAR(200),
     enabled             BOOL NOT NULL DEFAULT 1,
     visible             BOOL NOT NULL DEFAULT 1,
-    required          BOOL NOT NULL DEFAULT 0,
+    required            BOOL NOT NULL DEFAULT 0,
     view_order          INT NOT NULL DEFAULT 0,
     store_module        VARCHAR(200),
     store_name          VARCHAR(200),
