@@ -78,7 +78,7 @@ class Settings extends \Core\Module {
         }
 
         // Add user menu
-        $sidebar_config[] = [
+        $user_menu = [
             'title' => \Core\User::getInstance()->getName(),
             'items' => [
                 [
@@ -99,6 +99,7 @@ class Settings extends \Core\Module {
         $config = [
             'app_settings' => $app_settings,
             'sidebar' => $sidebar_config,
+            'user_menu' => $user_menu,
             'stores' => $store_config
         ];
 

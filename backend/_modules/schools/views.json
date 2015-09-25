@@ -134,7 +134,8 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
@@ -174,13 +175,15 @@
             "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/schools",
+            "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
             "fields" :
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
@@ -235,7 +238,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/school/:id"
+                    "target" : "/backend/schools/:id"
                 }
             }
         }

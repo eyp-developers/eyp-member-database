@@ -1,10 +1,27 @@
 /* Basic Layout */
-body {
-    padding-left: 300px;
+@media (min-width: 768px) {
+    #main {
+        padding-left: 215px;
+    }
+
+    .navmenu {
+        top: 51px;
+        padding-top: 0px;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar-toggle {
+        display: block !important;
+    }
+
+    #app-title {
+        display: none;
+    }
 }
 
 #main {
-    padding: 20px;
+    padding-top: 65px;
 }
 
 #main .page-header {
@@ -14,6 +31,36 @@ body {
 #alerts {
     position: fixed;
     width: 100%;
+    z-index: 1040;
+}
+
+.navmenu {
+    width: 200px;
+    padding-top: 10px;
+}
+
+.navbar-toggle {
+    float: left;
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.navbar-right {
+    float: right;
+    margin-right: 0;
+}
+
+#user-menu.navbar-nav {
+    margin: 0;
+}
+
+#user-menu.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.view {
+    margin-bottom: 20px;
 }
 
 .mono {
@@ -28,6 +75,7 @@ body {
     border-radius: 0;
     margin-bottom: 0;
     font-size: 14px;
+    text-align: center;
 }
 
 .alert-success {

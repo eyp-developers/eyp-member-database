@@ -7,7 +7,7 @@ class Module {
     /**
      * @var {string} $_lc_classname The name of the class as a lowercase string
      */
-    private $_lc_classname;
+    protected $_lc_classname;
 
     /**
      * @var {array} $_actions All actions supported by this module
@@ -118,11 +118,14 @@ class Module {
         }
 
         // Insert the data
-        $new_id = \Helpers\Database::createObject($this->_lc_classname, $this->_lc_classname, $new_data);
+        $invalid_fields = [];
+        $new_id = \Helpers\Database::createObject($this->_lc_classname, $this->_lc_classname, $new_data, $invalid_fields);
 
         // Return the appropriate result
         if($new_id === false) {
-            \Helper\sReponse::error(\Helpers\Response::$E_SAVE_FAILED);
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
         } else {
             \Helpers\Response::success(
                 [
@@ -157,11 +160,14 @@ class Module {
         }
 
         // Update the data
-        $success = \Helpers\Database::updateObject($this->_lc_classname, $this->_lc_classname, $id, $new_data);
+        $invalid_fields = [];
+        $success = \Helpers\Database::updateObject($this->_lc_classname, $this->_lc_classname, $id, $new_data, 'id', $invalid_fields);
 
         // Return the appropriate result
         if($success === false) {
-            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
         } else {
             \Helpers\Response::success(
                 false,

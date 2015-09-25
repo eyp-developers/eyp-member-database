@@ -156,7 +156,7 @@ class Modules extends \Core\Module {
 
         // Make sure we have at least the minimum required information about the module
         if($module_info === false || !isset($module_info['name']) || !isset($module_info['version'])) {
-            \Helpers\Response::error(E_MISSING_MODULE_INFO);
+            \Helpers\Response::error(\Helpers\Response::E_MISSING_MODULE_INFO);
             return;
         }
 
@@ -213,6 +213,7 @@ class Modules extends \Core\Module {
 
                     // Set default values if values are not set for $field_config
                     if(!isset($field_config['primary_key'])) $field_config['primary_key'] = false;
+                    if(!isset($field_config['required'])) $field_config['required'] = false;
 
                     // Add field name and type
                     $field_type = \Helpers\Database::getDBType($field_config['type']);
@@ -235,6 +236,8 @@ class Modules extends \Core\Module {
                         'model_name' => $table_name,
                         'name' => $field_name,
                         'type' => $field_config['type'],
+                        'required' => $field_config['required'],
+                        'generated' => ($field_config['primary_key'] && $field_config['type'] === 'int'),
                         'creator_module_name' => $module_name
                     ]);
 
@@ -263,6 +266,7 @@ class Modules extends \Core\Module {
             foreach($model['external'] as $ext_module_name => $ext_module_tables) {
                 foreach($ext_module_tables as $ext_table_name => $ext_fields) {
                     foreach($ext_fields as $ext_field_name => $ext_field_config) {
+                        if(!isset($ext_field_config['required'])) $ext_field_config['required'] = false;
 
                         // Add an entry to the meta table
                         $db->insert('core_models_fields', [
@@ -270,6 +274,7 @@ class Modules extends \Core\Module {
                             'model_name' => $ext_table_name,
                             'name' => $ext_field_name,
                             'type' => $ext_field_config['type'],
+                            'required' => $ext_field_config['required'],
                             'creator_module_name' => $module_name
                         ]);
 
@@ -306,6 +311,8 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['container'])) $view_config['container'] = null;
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
                 if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
+                if(!isset($view_config['load_data'])) $view_config['load_data'] = true;
+                if(!isset($view_config['show_title'])) $view_config['show_title'] = true;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -315,9 +322,11 @@ class Modules extends \Core\Module {
                     'icon' => $view_config['icon'],
                     'type' => $view_config['type'],
                     'datasource' => $view_config['datasource'],
+                    'load_data' => $view_config['load_data'],
                     'container' => $view_config['container'],
                     'in_sidebar' => $view_config['in_sidebar'],
-                    'does_edit' => $view_config['does_edit']
+                    'does_edit' => $view_config['does_edit'],
+                    'show_title' => $view_config['show_title']
                 ]);
 
                 // Iterate over all fields of the view
@@ -330,8 +339,9 @@ class Modules extends \Core\Module {
                         foreach($null_fields as $null_field) {
                             if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
                         }
-                        if(!isset($field_config['enabled'])) $field_config['enabled'] = 1;
-                        if(!isset($field_config['visible'])) $field_config['visible'] = 1;
+                        if(!isset($field_config['enabled'])) $field_config['enabled'] = true;
+                        if(!isset($field_config['visible'])) $field_config['visible'] = true;
+                        if(!isset($field_config['required'])) $field_config['required'] = false;
 
                         // Add an entry to the meta table
                         $db->insert('core_views_fields', [
@@ -345,6 +355,7 @@ class Modules extends \Core\Module {
                             'icon' => $field_config['icon'],
                             'enabled' => $field_config['enabled'],
                             'visible' => $field_config['visible'],
+                            'required' => $field_config['required'],
                             'view_order' => $view_order,
                             'store_module' => $field_config['store_module'],
                             'store_name' => $field_config['store_name'],
@@ -489,7 +500,7 @@ class Modules extends \Core\Module {
         }
 
         if(count($dependent_modules) > 0) {
-            \Helpers\Response::error(E_EXISTING_DEPENDENCIES, $dependent_modules);
+            \Helpers\Response::error(\Helpers\Response::$E_EXISTING_DEPENDENCIES, $dependent_modules);
             return;
         }
 

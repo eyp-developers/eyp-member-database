@@ -22,6 +22,7 @@
             "type" : "combined",
             "in_sidebar" : true,
             "does_edit": true,
+            "show_title": false,
             "fields" : {
                 "installed_modules" : {
                     "data_key" : "/settings/installed_modules"

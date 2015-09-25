@@ -1,0 +1,10 @@
+{
+	"name" : "sessions",
+	"title" : "Sessions",
+	"icon" : "globe",
+	"description" : "A module to manage sessions and session participations",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}

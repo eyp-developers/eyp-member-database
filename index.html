@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
         <title>EYP Member Database</title>
 
@@ -22,38 +22,36 @@
     </head>
     <body>
 
-        <!-- Container for all the content -->
-        <div class="container-fluid">
-            <div class="row">
+        <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id='app-title' class="navbar-brand" href="#"></a>
+            <ul id="user-menu" class="nav navbar-nav navbar-right"></ul>
+        </div>
 
-                <!-- Sidebar for module navigation -->
-                <nav class="navmenu navmenu-default navmenu-fixed-left" id="sidebar" role="navigation">
-                    <a id='app-title' class="navmenu-brand" href="#"></a>
+        <!-- Sidebar for module navigation -->
+        <nav class="navmenu navmenu-default navmenu-fixed-left offcanvas-xs" id="sidebar" role="navigation">
+            <ul id="sidebar-main-menu" class="nav navmenu-nav"></ul>
+        </nav>
 
-                    <ul id="sidebar-main-menu" class="nav navmenu-nav">
+        <!-- Container for alerts -->
+        <div id="alerts">
+        <div class="alert alert-success" role="alert" style="display: none;">Permanent alert</div>
+        </div>
 
-                    </ul>
-
-                </nav>
-
-                <!-- Container for alerts -->
-                <div id="alerts">
-
-                </div>
-
-                <!-- Container for modals -->
-                <div class="modal fade" id="modalContainer" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content" id='modal'></div>
-                    </div>
-                </div>
-
-                <!-- Container for main content -->
-                <div id="main">
-                
-                </div>
-
+        <!-- Container for modals -->
+        <div class="modal fade" id="modalContainer" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id='modal'></div>
             </div>
+        </div>
+
+        <!-- Container for main content -->
+        <div id="main" class="container-fluid">
+        
         </div>
 
 
