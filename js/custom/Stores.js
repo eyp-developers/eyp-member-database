@@ -15,6 +15,9 @@
 
     getValueForStoreAndKey : function(module_name, store_name, key) {
         var store = this.getStore(module_name, store_name);
+        if(store === null) {
+            return null;
+        }
         return store.data[key];
     },
 

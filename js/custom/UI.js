@@ -30,7 +30,7 @@ var UI =
 
             case 'form':
                 var datasource = Helpers.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.form(config.title, datasource, config.fields, dom_target);
+                UIComponents.form(config.title, datasource, config.load_data, config.fields, dom_target);
                 break;
 
             case 'combined':

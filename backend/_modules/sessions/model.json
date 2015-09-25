@@ -1,0 +1,88 @@
+{
+	"tables" : {
+		"sessions" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			},
+
+			"start_date" : {
+				"type" : "date"
+			},
+
+			"end_date" : {
+				"type" : "date"
+			},
+
+			"head_organiser_1" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"head_organiser_2" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			}
+		},
+
+		"participations" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"person" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"role" : {
+				"type": "int",
+				"foreign_key" : {
+					"module" : "sessions",
+					"table" : "roles",
+					"field" : "id"
+				}
+			},
+
+			"session" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "sessions",
+					"table" : "sessions",
+					"field" : "id"
+				}
+			}
+		},
+
+		"roles" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			}
+		}
+	}
+}

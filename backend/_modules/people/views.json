@@ -13,15 +13,11 @@
                     "title" : "ID",
                     "visible" : false
                 },
-                "first_name" : {
-                    "data_key" : "first_name",
-                    "title" : "First Name",
+                "name" : {
+                    "data_key" : "full_name",
+                    "title" : "Name",
                     "type" : "link",
-                    "target" : "/people/person_detail/:id"
-                },
-                "last_name" : {
-                    "data_key" : "last_name",
-                    "title" : "Last Name"
+                    "target" : "/people/person/:id"
                 },
                 "email" : {
                     "data_key" : "email",
@@ -37,6 +33,15 @@
                     "type" : "action",
                     "target" : "/people/delete_person/:id",
                     "icon" : "trash"
+                }
+            }
+        },
+
+        "person" : {
+            "type" : "combined",
+            "fields" : {
+                "person_detail" : {
+                    "data_key" : "/people/person_detail/:id"
                 }
             }
         },
@@ -155,6 +160,7 @@
             "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/people",
+            "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
             "fields":

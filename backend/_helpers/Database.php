@@ -244,7 +244,7 @@ class Database {
 		// Get information about the view
 		$view = \Core\Database::getInstance()->select(
 			'core_views',
-			['title', 'type', 'container', 'datasource', 'does_edit'],
+			['title', 'type', 'container', 'datasource', 'load_data', 'does_edit'],
 			['AND' =>
 				[
 					'module_name' => $module_name,
@@ -354,8 +354,6 @@ class Database {
 			}
 			$store_configs[$i]['data'] = $data_dict;
 		}
-
-		error_log(print_r($store_configs, true));
 
 		return $store_configs;
 	}
