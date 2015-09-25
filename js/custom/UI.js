@@ -113,7 +113,7 @@ var UI =
 
         // Show alert
         $('#alerts').append(alert);
-        alert.fadeIn(300).delay(3000).fadeOut(300, function() { $(this).remove(); });
+        alert.slideDown(300).delay(3000).slideUp(300, function() { $(this).remove(); });
 
     },
 

@@ -17,7 +17,7 @@ var UIComponents =
         if(icon) {
             var dom_icon = '<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>';
         }
-        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + ' <b class="caret"></b></a></li>');
+        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + '</a></li>');
         var dom_menu = $('<ul class="dropdown-menu navmenu-nav" role="menu"></ul>');
 
         // Generate menu entries
