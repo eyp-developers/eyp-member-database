@@ -307,6 +307,7 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
                 if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
                 if(!isset($view_config['load_data'])) $view_config['load_data'] = true;
+                if(!isset($view_config['show_title'])) $view_config['show_title'] = true;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -319,7 +320,8 @@ class Modules extends \Core\Module {
                     'load_data' => $view_config['load_data'],
                     'container' => $view_config['container'],
                     'in_sidebar' => $view_config['in_sidebar'],
-                    'does_edit' => $view_config['does_edit']
+                    'does_edit' => $view_config['does_edit'],
+                    'show_title' => $view_config['show_title']
                 ]);
 
                 // Iterate over all fields of the view

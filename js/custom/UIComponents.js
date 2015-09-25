@@ -35,6 +35,30 @@ var UIComponents =
         return dom_dropdown;
     },
 
+    userMenuDropdown : function(title, icon, items) {
+        // Generate dropdown and menu
+        var dom_icon = '';
+        if(icon) {
+            var dom_icon = '<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>';
+        }
+        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + ' <b class="caret"></b></a></li>');
+        var dom_menu = $('<ul class="dropdown-menu" role="menu"></ul>');
+
+        // Generate menu entries
+        for(item_id in items) {
+            var menu_item = items[item_id];
+            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
+
+            // Append menu entry
+            dom_menu.append(dom_menu_item);
+        }
+
+        // Append menu
+        dom_dropdown.append(dom_menu);
+
+        return dom_dropdown;
+    },
+
     table : function(title, datasource, columns, target) {
 
         // Clear the target
@@ -42,7 +66,7 @@ var UIComponents =
 
         // Build header
         if(title && title.length != 0) {
-            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
             target.append(dom_header);
         }
 
@@ -127,10 +151,12 @@ var UIComponents =
         }
 
         // Build table
-        var dom_table = $('<table id="main-table"></table>');
-        target.append(dom_table);
+        var $dom_table_container = $('<div class="col-xs-12"></div>');
+        var $dom_table = $('<table></table>');
+        $dom_table_container.append($dom_table);
+        target.append($dom_table_container);
 
-        dom_table.bootstrapTable({
+        $dom_table.bootstrapTable({
             url: datasource,
             columns: columns_config,
             sortable: true,
@@ -152,12 +178,12 @@ var UIComponents =
 
         // Build header
         if(title && title.length != 0) {
-            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
             dom_target.append(dom_header);
         }
 
         // Generate container for the detail view
-        var dl_target = $('<div class="row"></div>');
+        var dl_target = $('<div class="col-xs-12"></div>');
         dom_target.append(dl_target);
     
         // Show loading mask
@@ -250,12 +276,12 @@ var UIComponents =
 
         // Build header
         if(title && title.length != 0) {
-            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
             dom_target.append(dom_header);
         }
 
         // Generate container for the detail view
-        var dl_target = $('<div class="row"></div>');
+        var dl_target = $('<div class="col-xs-12"></div>');
         dom_target.append(dl_target);
     
         // Show loading mask
@@ -381,23 +407,22 @@ var UIComponents =
         // Clear the target
         dom_target.html('');
 
+        // Make sure the target is not a row - we do our own layouting
+        dom_target.removeClass('row');
+
         // Build header
         if(title && title.length != 0) {
-            var dom_header = $('<h1 class="page-header">' + title + '</h1>');
+            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
             dom_target.append(dom_header);
         }
 
-        // Generate container for the combined view
-        var combined_target = $('<div></div>');
-        dom_target.append(combined_target);
-
         // Show loading mask
-        UIComponents.loadingMask(combined_target);
+        UIComponents.loadingMask(dom_target);
 
         // Iterate over all components
         for(field_id in fields) {
-            var field_dom = $('<div></div>');
-            combined_target.append(field_dom);
+            var field_dom = $('<div class="row view"></div>');
+            dom_target.append(field_dom);
 
             var field = fields[field_id];
 
@@ -416,7 +441,7 @@ var UIComponents =
                     success: function(response) {
                         if(first_component) {
                             first_component = false;
-                            combined_target.find('.spinner').remove();
+                            dom_target.find('.spinner').remove();
                         }
                         UI.applyViewConfig(response.data, this.view_params.slice(3), this.field_dom);
                     }

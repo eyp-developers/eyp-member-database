@@ -27,6 +27,11 @@
         if(typeof settings.sidebar !== 'undefined') {
             UI.applySidebarConfig(settings.sidebar);
         }
+
+        // Apply user menu
+        if(typeof settings.user_menu !== 'undefined') {
+            UI.applyUserMenuConfig(settings.user_menu);
+        }
     },
 
     init : function() {

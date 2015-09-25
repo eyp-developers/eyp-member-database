@@ -38,6 +38,7 @@ CREATE TABLE core_views (
     container   VARCHAR(200),
     in_sidebar  BOOL DEFAULT 0,
     does_edit   BOOL DEFAULT 0,
+    show_title  BOOL DEFAULT 1,
     PRIMARY KEY (module_name, name)
 );
 

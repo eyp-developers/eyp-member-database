@@ -12,8 +12,15 @@ var UI =
                 && config.container !== '') {
                 dom_target = $('#' + config.container);
             } else {
-                dom_target = $("#main");
+                var $main = $("#main");
+                dom_target = $('<div class="row view"></div>');
+                $main.html(dom_target);
             }
+        }
+
+        // Apply show_title config
+        if(config.show_title == 0) {
+            config.title = false;
         }
 
         // Handle the type of the view
@@ -51,6 +58,7 @@ var UI =
         var sidebar_main_menu = $("#sidebar-main-menu");
         sidebar_main_menu.html('');
 
+        // Build sidebar
         for(var menu_index in sidebar_config) {
             var menu_item = sidebar_config[menu_index];
 
@@ -62,6 +70,21 @@ var UI =
 
             sidebar_main_menu.append(dom_menu_item);
         }
+    },
+
+    applyUserMenuConfig : function(menu_item) {
+        // Load sidebar items
+        var $user_menu = $("#user-menu");
+        $user_menu.html('');
+
+        // Build user menu
+        if(typeof menu_item.items !== 'undefined') {
+            var dom_menu_item = UIComponents.userMenuDropdown(menu_item.title, menu_item.icon, menu_item.items);
+        } else {
+            var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
+        }
+
+        $user_menu.append(dom_menu_item);
 
         // Handle Sidebar clicks
         $(".menu-item").click(function() {
@@ -97,7 +120,8 @@ var UI =
     showLogin : function() {
         // Hide sidebar
         $('#sidebar').remove();
-        $('body').css('padding-left', 0);
+        $('#navbar').remove();
+        $('#main').css('padding-left', 0);
 
         var $dom_main = $('#main');
         $dom_main.empty();
