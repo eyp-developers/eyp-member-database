@@ -117,7 +117,7 @@
                 },
                 "first_name" : {
                     "data_key" : "person",
-                    "title" : "First Name",
+                    "title" : "Name",
                     "type" : "link",
                     "target" : "/people/person/:person",
                     "store_module" : "people",

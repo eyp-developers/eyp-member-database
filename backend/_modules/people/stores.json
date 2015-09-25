@@ -4,7 +4,7 @@
 			"module_name" : "people",
 			"model_name" : "people",
 			"data_key" : "id",
-			"value" : "first_name"
+			"value" : "full_name"
 		}
 	}
 }

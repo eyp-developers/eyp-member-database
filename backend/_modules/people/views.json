@@ -13,15 +13,11 @@
                     "title" : "ID",
                     "visible" : false
                 },
-                "first_name" : {
-                    "data_key" : "first_name",
-                    "title" : "First Name",
+                "name" : {
+                    "data_key" : "full_name",
+                    "title" : "Name",
                     "type" : "link",
                     "target" : "/people/person/:id"
-                },
-                "last_name" : {
-                    "data_key" : "last_name",
-                    "title" : "Last Name"
                 },
                 "email" : {
                     "data_key" : "email",

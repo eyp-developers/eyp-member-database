@@ -21,8 +21,6 @@ class Sessions extends \Core\Module {
 
         // Add additional routes for participations
         $this->_actions['GET']['/participations/:id'] = 'participations';
-
-        error_log(print_r($this->_actions, true));
     }
 
     /**
@@ -102,8 +100,7 @@ class Sessions extends \Core\Module {
 
         // Insert the data
         $new_id = \Helpers\Database::createObject('sessions', 'participations', $new_data);
-        error_log(\Core\Database::getInstance()->last_query());
-
+        
         // Return the appropriate result
         if($new_id === false) {
             \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED);

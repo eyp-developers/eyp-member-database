@@ -355,8 +355,6 @@ class Database {
 			$store_configs[$i]['data'] = $data_dict;
 		}
 
-		error_log(print_r($store_configs, true));
-
 		return $store_configs;
 	}
 

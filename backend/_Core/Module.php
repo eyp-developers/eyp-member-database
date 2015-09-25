@@ -7,7 +7,7 @@ class Module {
     /**
      * @var {string} $_lc_classname The name of the class as a lowercase string
      */
-    private $_lc_classname;
+    protected $_lc_classname;
 
     /**
      * @var {array} $_actions All actions supported by this module
