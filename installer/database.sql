@@ -34,6 +34,7 @@ CREATE TABLE core_views (
     icon        VARCHAR(200),
     type        VARCHAR(200) NOT NULL,
     datasource  VARCHAR(200),
+    load_data   BOOL DEFAULT 1,
     container   VARCHAR(200),
     in_sidebar  BOOL DEFAULT 0,
     does_edit   BOOL DEFAULT 0,

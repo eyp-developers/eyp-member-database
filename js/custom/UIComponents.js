@@ -243,7 +243,7 @@ var UIComponents =
         });
     },
 
-    form : function(title, datasource, fields, dom_target) {
+    form : function(title, datasource, load_data, fields, dom_target) {
         
         // Clear the target
         dom_target.html('');
@@ -261,113 +261,119 @@ var UIComponents =
         // Show loading mask
         UIComponents.loadingMask(dl_target);
 
-        // Send a request for data
-        Server.ajax({
-            dataType: 'json',
-            url: datasource,
-            success: function(response) {
+        // Prepare function to build form
+        var build_form = function(data) {
+            // Prepare the definition list
+            var html = $('<form class="form-horizontal" action="' + datasource + '"></form>');
 
-                var data = response.data;
+            // Go through all the fields
+            for(field_id in fields) {
+                var field = fields[field_id];
 
-                // Prepare the definition list
-                var html = $('<form class="form-horizontal" action="' + datasource + '"></form>');
-
-                // Go through all the fields
-                for(field_id in fields) {
-                    var field = fields[field_id];
-
-                    var form_group = $('<div class="form-group"></div>');
-                    
-                    if(field.visible != true) {
-                        form_group.css('display', 'none');
-                    }
-
-                    var label_text = '';
-                    var label = '';
-                    if(field.title !== undefined
-                       && field.title !== null) {
-                        label_text = field.title;
-                    }
-
-                    label = $('<label for="input_' + field.data_key + '" class="col-sm-3 control-label">' + label_text + '</label>'); 
-                    form_group.append(label);
-
-                    var input_text = '';
-                    var input = '';
-                    if(data[field.data_key] !== undefined
-                       && data[field.data_key] !== null) {
-                        var input_text = data[field.data_key];
-                    }
-
-                    switch(field.type) {
-
-                        case 'textarea':
-                            input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
-                            break;
-
-                        case 'select':
-                            var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
-                            select.append($('<option value=""></option>'));
-                            
-                            var store = Stores.getStore(field.store_module, field.store_name);
-
-                            for(key in store.data) {
-                                if(key == input_text) {
-                                    var option = $('<option value="' + key + '" selected>' + store.data[key] + '</option>');
-                                } else {
-                                    var option = $('<option value="' + key + '">' + store.data[key] + '</option>');
-                                }
-                                select.append(option);
-                            }
-
-                            input = $('<div class="col-sm-8"></div>');
-                            input.append(select);
-                            break;
-
-                        default:
-                            var input_type = Helpers.getInputTypeForDataType(field.type);
-                            input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
-                    }
-
-                    form_group.append(input);
-
-                    html.append(form_group);
+                var form_group = $('<div class="form-group"></div>');
+                
+                if(field.visible != true) {
+                    form_group.css('display', 'none');
                 }
 
-                var submit_button = $(
-                    '<div class="form-group">'+
-                        '<div class="col-sm-offset-3 col-sm-8">'+
-                            '<button type="submit" class="btn btn-primary">Submit</button>'+
-                        '</div>'+
-                    '</div>'
-                );
-                html.append(submit_button);
+                var label_text = '';
+                var label = '';
+                if(field.title !== undefined
+                   && field.title !== null) {
+                    label_text = field.title;
+                }
 
-                html.submit(function() {
-                    var me = $(this);
-                    var data = Helpers.getFormData(me);
+                label = $('<label for="input_' + field.data_key + '" class="col-sm-3 control-label">' + label_text + '</label>'); 
+                form_group.append(label);
 
-                    Server.ajax({
-                        url: me.attr('action'),
-                        data: JSON.stringify(data),
-                        dataType: 'json',
-                        type: 'POST',
-                        success: function(response) {
-                            UI.showAlert('success', 'Data was successfully saved!');
-                            
-                            window.history.back();
-                        },
-                        error: function(response_data) {
-                            UI.showAlert('danger', 'Could not save data!');
+                var input_text = '';
+                var input = '';
+                if(data[field.data_key] !== undefined
+                   && data[field.data_key] !== null) {
+                    var input_text = data[field.data_key];
+                }
+
+                switch(field.type) {
+
+                    case 'textarea':
+                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '">' + input_text + '</textarea></div>');
+                        break;
+
+                    case 'select':
+                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '"></select>');
+                        select.append($('<option value=""></option>'));
+                        
+                        var store = Stores.getStore(field.store_module, field.store_name);
+
+                        for(key in store.data) {
+                            if(key == input_text) {
+                                var option = $('<option value="' + key + '" selected>' + store.data[key] + '</option>');
+                            } else {
+                                var option = $('<option value="' + key + '">' + store.data[key] + '</option>');
+                            }
+                            select.append(option);
                         }
-                    });
 
-                    return false;
-                })
+                        input = $('<div class="col-sm-8"></div>');
+                        input.append(select);
+                        break;
 
-                dl_target.html(html);
+                    default:
+                        var input_type = Helpers.getInputTypeForDataType(field.type);
+                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '"></div>');
+                }
+
+                form_group.append(input);
+
+                html.append(form_group);
             }
-        });
+
+            var submit_button = $(
+                '<div class="form-group">'+
+                    '<div class="col-sm-offset-3 col-sm-8">'+
+                        '<button type="submit" class="btn btn-primary">Submit</button>'+
+                    '</div>'+
+                '</div>'
+            );
+            html.append(submit_button);
+
+            html.submit(function() {
+                var me = $(this);
+                var data = Helpers.getFormData(me);
+
+                Server.ajax({
+                    url: me.attr('action'),
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function(response) {
+                        UI.showAlert('success', 'Data was successfully saved!');
+                        
+                        window.history.back();
+                    },
+                    error: function(response_data) {
+                        UI.showAlert('danger', 'Could not save data!');
+                    }
+                });
+
+                return false;
+            })
+
+            dl_target.html(html);
+        };
+
+        // Send a request for data if neeeded
+        if(load_data == 0) {
+            build_form([]);
+        } else {
+            Server.ajax({
+                dataType: 'json',
+                url: datasource,
+                success: function(response) {
+                    build_form(response.data);
+                }
+            });
+        }
     },
 
     combined : function(title, params, fields, dom_target) {

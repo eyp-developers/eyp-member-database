@@ -156,7 +156,7 @@ class Modules extends \Core\Module {
 
         // Make sure we have at least the minimum required information about the module
         if($module_info === false || !isset($module_info['name']) || !isset($module_info['version'])) {
-            \Helpers\Response::error(E_MISSING_MODULE_INFO);
+            \Helpers\Response::error(\Helpers\Response::E_MISSING_MODULE_INFO);
             return;
         }
 
@@ -306,6 +306,7 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['container'])) $view_config['container'] = null;
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
                 if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
+                if(!isset($view_config['load_data'])) $view_config['load_data'] = true;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -315,6 +316,7 @@ class Modules extends \Core\Module {
                     'icon' => $view_config['icon'],
                     'type' => $view_config['type'],
                     'datasource' => $view_config['datasource'],
+                    'load_data' => $view_config['load_data'],
                     'container' => $view_config['container'],
                     'in_sidebar' => $view_config['in_sidebar'],
                     'does_edit' => $view_config['does_edit']
@@ -489,7 +491,7 @@ class Modules extends \Core\Module {
         }
 
         if(count($dependent_modules) > 0) {
-            \Helpers\Response::error(E_EXISTING_DEPENDENCIES, $dependent_modules);
+            \Helpers\Response::error(\Helpers\Response::$E_EXISTING_DEPENDENCIES, $dependent_modules);
             return;
         }
 

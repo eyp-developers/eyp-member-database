@@ -6,7 +6,7 @@ var Formatters =
     email : function() {
         return function(value, row, index) {
             // In case this gets called for an invisible column
-            if(!this.visible || value === null) return '';
+            if(!this.visible || value === null || typeof value === 'undefined') return '';
 
             return '<a href="mailto:' + value + '">' + value + '</a>';
         }
@@ -15,7 +15,7 @@ var Formatters =
     link : function() {
         return function(value, row, index) {
             // In case this gets called for an invisible column
-            if(!this.visible || value === null) return '';
+            if(!this.visible || value === null || typeof value === 'undefined') return '';
 
             // Replace placeholders in target
             var target_parts = this.target.split('/');
@@ -59,6 +59,9 @@ var Formatters =
 
     store : function(store_module, store_name, next_formatter) {
         return function(value, row, index) {
+            // In case this gets called for an invisible column
+            if(value === null || typeof value === 'undefined') return '';
+
             value = Stores.getValueForStoreAndKey(store_module, store_name, value);
             if(typeof next_formatter === 'function') {
                 return next_formatter.call(this, value, row, index);

@@ -17,7 +17,7 @@
                     "data_key" : "first_name",
                     "title" : "First Name",
                     "type" : "link",
-                    "target" : "/people/person_detail/:id"
+                    "target" : "/people/person/:id"
                 },
                 "last_name" : {
                     "data_key" : "last_name",
@@ -37,6 +37,15 @@
                     "type" : "action",
                     "target" : "/people/delete_person/:id",
                     "icon" : "trash"
+                }
+            }
+        },
+
+        "person" : {
+            "type" : "combined",
+            "fields" : {
+                "person_detail" : {
+                    "data_key" : "/people/person_detail/:id"
                 }
             }
         },
@@ -155,6 +164,7 @@
             "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/people",
+            "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
             "fields":

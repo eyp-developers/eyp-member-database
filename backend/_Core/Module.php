@@ -122,7 +122,7 @@ class Module {
 
         // Return the appropriate result
         if($new_id === false) {
-            \Helper\sReponse::error(\Helpers\Response::$E_SAVE_FAILED);
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED);
         } else {
             \Helpers\Response::success(
                 [
