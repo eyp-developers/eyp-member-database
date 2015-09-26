@@ -161,7 +161,7 @@ var UI =
         // Hide sidebar
         $('#sidebar').remove();
         $('#navbar').remove();
-        $('#main').css('padding-left', 0);
+        $('#main').css('margin-left', 0);
 
         var $dom_main = $('#main');
         $dom_main.empty();
