@@ -313,6 +313,9 @@ class Modules extends \Core\Module {
                 if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
                 if(!isset($view_config['load_data'])) $view_config['load_data'] = true;
                 if(!isset($view_config['show_title'])) $view_config['show_title'] = true;
+                if(!isset($view_config['header_button_text'])) $view_config['header_button_text'] = null;
+                if(!isset($view_config['header_button_icon'])) $view_config['header_button_icon'] = null;
+                if(!isset($view_config['header_button_target'])) $view_config['header_button_target'] = null;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -326,7 +329,10 @@ class Modules extends \Core\Module {
                     'container' => $view_config['container'],
                     'in_sidebar' => $view_config['in_sidebar'],
                     'does_edit' => $view_config['does_edit'],
-                    'show_title' => $view_config['show_title']
+                    'show_title' => $view_config['show_title'],
+                    'header_button_text' => $view_config['header_button_text'],
+                    'header_button_icon' => $view_config['header_button_icon'],
+                    'header_button_target' => $view_config['header_button_target']
                 ]);
 
                 // Iterate over all fields of the view
@@ -463,6 +469,7 @@ class Modules extends \Core\Module {
                 'data_key' => "permission_$folder_name",
                 'title' => "Permission - $module_title",
                 'type' => 'select',
+                'required' => true,
                 'view_order' => 99,
                 'store_module' => 'settings',
                 'store_name' => 'permission_names',

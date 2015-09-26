@@ -41,9 +41,6 @@ var Navigation =
                 dataType: 'json',
                 url: '/backend/modules/' +  target[1] + '/views/' + target[2],
                 success: function(response) {
-                    // TODO: Set correct title
-
-
                     // Apply view config
                     UI.applyViewConfig(response.data, target.slice(3));
                 }
