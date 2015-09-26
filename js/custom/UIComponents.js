@@ -59,16 +59,38 @@ var UIComponents =
         return dom_dropdown;
     },
 
-    table : function(title, datasource, columns, target) {
+    header : function(title, button_text, button_icon, button_target) {
+        var dom_header = '';
+        if(title && title.length != 0) {
+            var dom_header_button = '';
+            if(button_target && button_target.length > 0) {
+                dom_button_icon = '';
+                if(button_icon && button_icon.length >0 ) {
+                    dom_button_icon = '<span class="glyphicon glyphicon-' + button_icon + '" aria-hidden="true"></span>';
+                }
+                dom_header_button = '<a href="#' + button_target + '" class="btn btn-primary header-button" role="button">' + dom_button_icon + ' ' + button_text + '</a>';
+            }
+            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + dom_header_button + '</h1></div>');
+        }
+        return dom_header;
+    },
+
+    table : function(view_config) {
+
+        var title = view_config.title;
+        var datasource = view_config.datasource;
+        var columns = view_config.columns;
+        var dom_target = view_config.dom_target;
+        var header_button_text = view_config.header_button_text;
+        var header_button_icon = view_config.header_button_icon;
+        var header_button_target = view_config.header_button_target;
 
         // Clear the target
-        target.html('');
+        dom_target.html('');
 
         // Build header
-        if(title && title.length != 0) {
-            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
-            target.append(dom_header);
-        }
+        var $dom_header = UIComponents.header(title, header_button_text, header_button_icon, header_button_target);
+        dom_target.append($dom_header);
 
         // Extract fields
         var fields = new Array;
@@ -155,7 +177,7 @@ var UIComponents =
         var $dom_table_container = $('<div class="col-xs-12"></div>');
         var $dom_table = $('<table></table>');
         $dom_table_container.append($dom_table);
-        target.append($dom_table_container);
+        dom_target.append($dom_table_container);
 
         $dom_table.bootstrapTable({
             url: datasource,
@@ -172,16 +194,22 @@ var UIComponents =
         });
     },
 
-    detail : function(title, datasource, fields, dom_target) {
+    detail : function(view_config) {
+
+        var title = view_config.title;
+        var datasource = view_config.datasource;
+        var fields = view_config.fields;
+        var dom_target = view_config.dom_target;
+        var header_button_text = view_config.header_button_text;
+        var header_button_icon = view_config.header_button_icon;
+        var header_button_target = view_config.header_button_target;
 
         // Clear the target
         dom_target.html('');
 
         // Build header
-        if(title && title.length != 0) {
-            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
-            dom_target.append(dom_header);
-        }
+        var $dom_header = UIComponents.header(title, header_button_text, header_button_icon, header_button_target);
+        dom_target.append($dom_header);
 
         // Generate container for the detail view
         var dl_target = $('<div class="col-xs-12"></div>');
@@ -271,16 +299,23 @@ var UIComponents =
         });
     },
 
-    form : function(title, datasource, load_data, fields, dom_target) {
+    form : function(view_config) {
         
+        var title = view_config.title;
+        var datasource = view_config.datasource;
+        var load_data = view_config.load_data;
+        var fields = view_config.fields;
+        var dom_target = view_config.dom_target;
+        var header_button_text = view_config.header_button_text;
+        var header_button_icon = view_config.header_button_icon;
+        var header_button_target = view_config.header_button_target;
+
         // Clear the target
         dom_target.html('');
 
         // Build header
-        if(title && title.length != 0) {
-            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
-            dom_target.append(dom_header);
-        }
+        var $dom_header = UIComponents.header(title, header_button_text, header_button_icon, header_button_target);
+        dom_target.append($dom_header);
 
         // Generate container for the detail view
         var dl_target = $('<div class="col-xs-12"></div>');
@@ -365,7 +400,7 @@ var UIComponents =
             var submit_button = $(
                 '<div class="form-group">'+
                     '<div class="col-sm-offset-3 col-sm-8">'+
-                        '<button type="submit" class="btn btn-primary">Submit</button>'+
+                        '<button type="submit" class="btn btn-primary submit-button">Submit</button>'+
                     '</div>'+
                 '</div>'
             );
@@ -417,7 +452,15 @@ var UIComponents =
         }
     },
 
-    combined : function(title, params, fields, dom_target) {
+    combined : function(view_config) {
+
+        var title = view_config.title;
+        var params = view_config.params;
+        var fields = view_config.fields;
+        var dom_target = view_config.dom_target;
+        var header_button_text = view_config.header_button_text;
+        var header_button_icon = view_config.header_button_icon;
+        var header_button_target = view_config.header_button_target;
 
         // Clear the target
         dom_target.html('');
@@ -426,10 +469,8 @@ var UIComponents =
         dom_target.removeClass('row');
 
         // Build header
-        if(title && title.length != 0) {
-            var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + '</h1></div>');
-            dom_target.append(dom_header);
-        }
+        var $dom_header = UIComponents.header(title, header_button_text, header_button_icon, header_button_target);
+        dom_target.append($dom_header);
 
         // Show loading mask
         UIComponents.loadingMask(dom_target);
@@ -478,7 +519,12 @@ var UIComponents =
         dom_target.html(loading_html);
     },
 
-    dialog : function(title, params, fields, dom_target) {
+    dialog : function(view_config) {
+
+        var title = view_config.title;
+        var params = view_config.params;
+        var fields = view_config.fields;
+        var dom_target = view_config.dom_target;
 
         // Clear the target
         dom_target.html('');

@@ -1,12 +1,7 @@
 /* Basic Layout */
 @media (min-width: 768px) {
     #main {
-        padding-left: 215px;
-    }
-
-    .navmenu {
-        top: 51px;
-        padding-top: 0px;
+        margin-left: 200px;
     }
 }
 
@@ -22,6 +17,9 @@
 
 #main {
     padding-top: 65px;
+    z-index: 1;
+    height: 100vh;
+    background-color: white;
 }
 
 #main .page-header {
@@ -37,6 +35,8 @@
 .navmenu {
     width: 200px;
     padding-top: 5px;
+    top: 51px;
+    z-index: 0;
 }
 
 .navbar-toggle {
@@ -92,6 +92,14 @@
 
 .alert-danger {
     background-color: rgba(235, 204, 209, 0.8);
+}
+
+.header-button {
+    float: right;
+}
+
+.submit-button {
+    width: 100%;
 }
 
 /* Loading animation */
@@ -219,11 +227,11 @@
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus,
 .navbar-inverse .navbar-toggle:hover {
-    background-color: #1A3E6E;
+    background-color: #1B4275;
 }
 
 .navbar-inverse .navbar-toggle {
-    border-color: #1A3E6E;
+    border-color: #1B4275;
 }
 
 .dropdown-toggle {
@@ -237,7 +245,13 @@
 .navmenu-default .navmenu-nav > .open > a:hover,
 .navbar-default .navbar-offcanvas .navmenu-nav > .open > a:hover,
 .navmenu-default .navmenu-nav > .open > a:focus,
-.navbar-default .navbar-offcanvas .navmenu-nav > .open > a:focus {
+.navbar-default .navbar-offcanvas .navmenu-nav > .open > a:focus,
+.navmenu-default .navmenu-nav > .active > a,
+.navbar-default .navbar-offcanvas .navmenu-nav > .active > a,
+.navmenu-default .navmenu-nav > .active > a:hover,
+.navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover,
+.navmenu-default .navmenu-nav > .active > a:focus,
+.navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
     color: inherit;
 }
 
@@ -247,4 +261,14 @@
 
 .bootstrap-table .table thead > tr > th {
     border-bottom-width: 1px;
+}
+
+.btn-primary {
+    background-color: #1E4E8A;
+    border-color: #1B4275;
+    color: white;
+}
+
+a {
+    color: #1E4E8A;
 }

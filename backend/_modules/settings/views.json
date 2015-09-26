@@ -154,6 +154,9 @@
             "datasource" : "/backend/settings/users",
             "in_sidebar" : true,
             "does_edit": true,
+            "header_button_text" : "Add user",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/settings/add_user",
             "fields":
             {
                 "name" : {
@@ -193,11 +196,13 @@
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required": true
                 },
                 "username" : {
                     "data_key" : "username",
-                    "title" : "Username"
+                    "title" : "Username",
+                    "required": true
                 },
                 "password" : {
                     "data_key" : "password",
@@ -207,6 +212,7 @@
                 "default_permission" : {
                     "data_key" : "default_permission",
                     "title" : "Default permission",
+                    "required": true,
                     "type" : "select",
                     "store_module" : "settings",
                     "store_name" : "permission_names"
@@ -219,27 +225,30 @@
             "icon" : "plus",
             "type" : "form",
             "datasource" : "/backend/settings/users",
-            "in_sidebar" : true,
             "does_edit": true,
             "fields":
             {
                 "name" : {
                     "data_key" : "name",
-                    "title" : "Name"
+                    "title" : "Name",
+                    "required": true
                 },
                 "username" : {
                     "data_key" : "username",
-                    "title" : "Username"
+                    "title" : "Username",
+                    "required": true
                 },
                 "password" : {
                     "data_key" : "password",
                     "title" : "Password",
-                    "type" : "password"
+                    "type" : "password",
+                    "required": true
                 },
                 "default_permission" : {
                     "data_key" : "default_permission",
                     "title" : "Default permission",
                     "type" : "select",
+                    "required": true,
                     "store_module" : "settings",
                     "store_name" : "permission_names"
                 }

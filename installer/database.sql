@@ -30,17 +30,21 @@ CREATE TABLE core_models_fields (
 );
 
 CREATE TABLE core_views (
-    module_name VARCHAR(200) NOT NULL,
-    name        VARCHAR(200) NOT NULL,
-    title       VARCHAR(200),
-    icon        VARCHAR(200),
-    type        VARCHAR(200) NOT NULL,
-    datasource  VARCHAR(200),
-    load_data   BOOL DEFAULT 1,
-    container   VARCHAR(200),
-    in_sidebar  BOOL DEFAULT 0,
-    does_edit   BOOL DEFAULT 0,
-    show_title  BOOL DEFAULT 1,
+    module_name         VARCHAR(200) NOT NULL,
+    name                VARCHAR(200) NOT NULL,
+    title               VARCHAR(200),
+    
+    icon                VARCHAR(200),
+    type                VARCHAR(200) NOT NULL,
+    datasource          VARCHAR(200),
+    header_button_text  VARCHAR(200),
+    header_button_icon  VARCHAR(200),
+    header_button_target VARCHAR(200),
+    load_data           BOOL DEFAULT 1,
+    container           VARCHAR(200),
+    in_sidebar          BOOL DEFAULT 0,
+    does_edit           BOOL DEFAULT 0,
+    show_title          BOOL DEFAULT 1,
     PRIMARY KEY (module_name, name)
 );
 

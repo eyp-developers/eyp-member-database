@@ -258,7 +258,7 @@ class Database {
 		// Get information about the view
 		$view = \Core\Database::getInstance()->select(
 			'core_views',
-			['title', 'type', 'container', 'datasource', 'load_data', 'does_edit', 'show_title'],
+			['title', 'type', 'container', 'datasource', 'load_data', 'does_edit', 'show_title', 'header_button_text', 'header_button_icon', 'header_button_target'],
 			['AND' =>
 				[
 					'module_name' => $module_name,

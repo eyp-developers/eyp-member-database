@@ -6,6 +6,9 @@
             "type" : "table",
             "datasource" : "/backend/sessions",
             "in_sidebar" : true,
+            "header_button_text" : "Add session",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/sessions/add_session",
             "fields":
             {
                 "id" : {
@@ -64,6 +67,9 @@
             "title" : "Session details",
             "type" : "detail",
             "datasource" : "/backend/sessions/:id",
+            "header_button_text" : "Edit session",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/sessions/edit_session/:id",
             "fields" :
             {
                 "id" : {
@@ -108,6 +114,9 @@
             "title" : "Participants",
             "type" : "table",
             "datasource" : "/backend/sessions/participants/:id",
+            "header_button_text" : "Add participant",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/sessions/add_participation",
             "fields":
             {
                 "id" : {
@@ -141,6 +150,9 @@
             "title" : "Participations",
             "type" : "table",
             "datasource" : "/backend/sessions/participations/:id",
+            "header_button_text" : "Add participation",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/sessions/add_participation",
             "fields":
             {
                 "id" : {
@@ -257,7 +269,6 @@
             "type" : "form",
             "datasource" : "/backend/sessions/participants/create",
             "load_data" : false,
-            "in_sidebar" : true,
             "does_edit" : true,
             "fields" :
             {

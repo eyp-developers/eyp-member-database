@@ -26,26 +26,66 @@ var UI =
         // Handle the type of the view
         switch(config.type) {
             case 'table':
-                var datasource = Helpers.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.table(config.title, datasource, config.fields, dom_target);
+                var view_config = {
+                    title: config.title,
+                    datasource: Helpers.replacePlaceholdersInURL(config.datasource, params),
+                    columns: config.fields,
+                    dom_target: dom_target,
+                    header_button_text: config.header_button_text,
+                    header_button_icon: config.header_button_icon,
+                    header_button_target: Helpers.replacePlaceholdersInURL(config.header_button_target, params)
+                };
+                UIComponents.table(view_config);
                 break;
 
             case 'detail':
-                var datasource = Helpers.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.detail(config.title, datasource, config.fields, dom_target);
+                var view_config = {
+                    title: config.title,
+                    datasource: Helpers.replacePlaceholdersInURL(config.datasource, params),
+                    fields: config.fields,
+                    dom_target: dom_target,
+                    header_button_text: config.header_button_text,
+                    header_button_icon: config.header_button_icon,
+                     header_button_target: Helpers.replacePlaceholdersInURL(config.header_button_target, params)
+                };
+                UIComponents.detail(view_config);
                 break;
 
             case 'form':
-                var datasource = Helpers.replacePlaceholdersInURL(config.datasource, params);
-                UIComponents.form(config.title, datasource, config.load_data, config.fields, dom_target);
+                var view_config = {
+                    title: config.title,
+                    datasource: Helpers.replacePlaceholdersInURL(config.datasource, params),
+                    load_data: config.load_data,
+                    fields: config.fields,
+                    dom_target: dom_target,
+                    header_button_text: config.header_button_text,
+                    header_button_icon: config.header_button_icon,
+                     header_button_target: Helpers.replacePlaceholdersInURL(config.header_button_target, params)
+                };
+                UIComponents.form(view_config);
                 break;
 
             case 'combined':
-                UIComponents.combined(config.title, params, config.fields, dom_target);
+                var view_config = {
+                    title: config.title,
+                    params: params,
+                    fields: config.fields,
+                    dom_target: dom_target,
+                    header_button_text: config.header_button_text,
+                    header_button_icon: config.header_button_icon,
+                     header_button_target: Helpers.replacePlaceholdersInURL(config.header_button_target, params)
+                };
+                UIComponents.combined(view_config);
                 break;
 
             case 'dialog':
-                UIComponents.dialog(config.title, params, config.fields, dom_target);
+                var view_config = {
+                    title: config.title,
+                    params: params,
+                    fields: config.fields,
+                    dom_target: dom_target
+                };  
+                UIComponents.dialog(view_config);
                 break;
 
             default:

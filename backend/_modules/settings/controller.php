@@ -142,21 +142,6 @@ class Settings extends \Core\Module {
             }
         }
 
-        // Add user menu
-        $sidebar_config[] = [
-            'title' => \Core\User::getInstance()->getName(),
-            'items' => [
-                [
-                    'title' => 'Edit account',
-                    'target' => '/me/edit'
-                ],
-                [
-                    'title' => 'Log out',
-                    'target' => '/logout'
-                ]
-            ]
-        ];
-
         \Helpers\Response::success($sidebar_config);
     }
 
