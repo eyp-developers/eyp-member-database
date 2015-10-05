@@ -24,7 +24,7 @@ spl_autoload_register(function($classname) {
 
 	// Load file
 	if($namespace === 'Modules') {
-		$filename = '_'.$namespace.'/'.$class.'/controller.php';
+		$filename = '_'.$namespace.'/'.strtolower($class).'/controller.php';
 	} else {
 		$filename = '_'.$namespace.'/'.$class.'.php';
 	}
