@@ -1,0 +1,285 @@
+{
+    "views": {
+        "schools" : {
+            "title" : "All Schools",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "/backend/schools",
+            "in_sidebar" : true,
+            "header_button_text" : "Add school",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/schools/add_school",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/schools/school/:id"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/schools/edit_school/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/schools/delete_school/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "school" : {
+            "type" : "combined",
+            "fields" : {
+                "school_detail" : {
+                    "data_key" : "/schools/school_detail/:id"
+                },
+                "students" : {
+                    "data_key" : "/schools/students/:id"
+                }
+            }
+        },
+
+        "school_detail" : {
+            "title" : "School details",
+            "type" : "detail",
+            "datasource" : "/backend/schools/:id",
+            "header_button_text" : "Edit school",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/schools/edit_school/:id",
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
+                }
+            }
+        },
+
+        "students" : {
+            "title" : "Students",
+            "type" : "table",
+            "datasource" : "/backend/schools/students/:id",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "first_name" : {
+                    "data_key" : "first_name",
+                    "title" : "First Name",
+                    "type" : "link",
+                    "target" : "/people/person_detail/:id"
+                },
+                "last_name" : {
+                    "data_key" : "last_name",
+                    "title" : "Last Name"
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                }
+            }
+        },
+
+        "edit_school" : {
+            "title" : "Edit school",
+            "type" : "form",
+            "datasource" : "/backend/schools/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_school" : {
+            "title" : "Add school",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/schools",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "email" : {
+                    "data_key" : "email",
+                    "title" : "Email",
+                    "type" : "email"
+                },
+                "phone" : {
+                    "data_key" : "phone",
+                    "title" : "Phone"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "country" : {
+                    "data_key" : "country",
+                    "title" : "Country"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "delete_school" : {
+            "title" : "Delete school",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this school?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/schools/:id"
+                }
+            }
+        }
+    },
+
+    "external" : {
+        "people": {
+            "person_detail" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School",
+                    "type" : "link",
+                    "target" : "/schools/school/:school",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
+                }
+            },
+            "edit_person" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
+                }
+            },
+            "add_person" : {
+                "school" : {
+                    "data_key" : "school",
+                    "title" : "School",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "school_names"
+                }
+            }
+        }
+    }
+}

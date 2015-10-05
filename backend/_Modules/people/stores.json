@@ -1,0 +1,17 @@
+{
+	"stores" : {
+		"people_names" : {
+			"module_name" : "people",
+			"model_name" : "people",
+			"data_key" : "id",
+			"value" : "full_name"
+		},
+
+		"people_kinds" :  {
+			"module_name" : "people",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name" : "sponsors",
+	"title" : "Sponsors",
+	"icon" : "euro",
+	"description" : "A module to manage companies and sponsorships",
+	"version" : 1,
+	"dependencies" : [
+		"people",
+		"sessions"
+	]
+}

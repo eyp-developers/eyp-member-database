@@ -1,0 +1,34 @@
+{
+	"people" : {
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "EYPer"
+			},
+			{
+				"id" : "2",
+				"name" : "Teacher"
+			},
+			{
+				"id" : "3",
+				"name" : "Sponsor"
+			},
+			{
+				"id" : "4",
+				"name" : "Politician"
+			},
+			{
+				"id" : "5",
+				"name" : "Expert"
+			},
+			{
+				"id" : "6",
+				"name" : "Journalist"
+			},
+			{
+				"id" : "7",
+				"name" : "Contact"
+			}
+		]
+	}
+}
