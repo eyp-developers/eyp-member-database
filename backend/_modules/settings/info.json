@@ -1,9 +1,0 @@
-{
-	"name" : "settings",
-	"title" : "Settings",
-	"icon" : "cog",
-	"description" : "A module to manage the App's configuration",
-	"version" : 1,
-	"min_permission" : 1,
-	"system" : true
-}
