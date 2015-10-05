@@ -20,6 +20,15 @@
 				"type" : "string"
 			},
 
+			"kind": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "kinds",
+					"field" : "id"
+				}
+			},
+
 			"email" : {
 				"type" : "string"
 			},
@@ -50,6 +59,18 @@
 
 			"comment" : {
 				"type" : "text"
+			}
+		},
+
+		"kinds" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
 			}
 		}
 	}

@@ -22,6 +22,12 @@
                     "type" : "link",
                     "target" : "/people/person/:id"
                 },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "people",
+                    "store_name" : "people_kinds"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -70,6 +76,12 @@
                 "last_name" : {
                     "data_key" : "last_name",
                     "title" : "Last Name"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "people",
+                    "store_name" : "people_kinds"
                 },
                 "email" : {
                     "data_key" : "email",
@@ -123,6 +135,13 @@
                 "last_name" : {
                     "data_key" : "last_name",
                     "title" : "Last Name"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_kinds"
                 },
                 "email" : {
                     "data_key" : "email",
@@ -180,6 +199,13 @@
                 "last_name" : {
                     "data_key" : "last_name",
                     "title" : "Last Name"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_kinds"
                 },
                 "email" : {
                     "data_key" : "email",

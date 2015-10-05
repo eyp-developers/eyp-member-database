@@ -278,6 +278,7 @@ var UIComponents =
                             case 'int' :
                             case 'plain' :
                             case 'date' :
+                                applyFormatterToField(Formatters.plain(), field);
                                 break;
 
                             default:

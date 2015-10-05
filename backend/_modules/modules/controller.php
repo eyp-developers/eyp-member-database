@@ -592,9 +592,11 @@ class Modules extends \Core\Module {
         $tables = $db->query('SELECT table_name FROM information_schema.tables WHERE table_name LIKE \''.$folder_name.'_%\';');
 
         // Remove all tables from the module
+        $db->query('SET foreign_key_checks = 0');
         foreach($tables as $table) {
             $db->query('DROP TABLE '.$table['table_name']);
         }
+        $db->query('SET foreign_key_checks = 1');
 
         // Send response
         \Helpers\Response::success(false, false, true);

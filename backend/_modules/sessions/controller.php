@@ -3,7 +3,7 @@
 namespace Modules;
 
 /**
- * The Modules module
+ * The Sessions module
  */
 class Sessions extends \Core\Module {
 
@@ -123,7 +123,7 @@ class Sessions extends \Core\Module {
     }
 
     /**
-     * Deletes a participant of a session
+     * Deletes a participant
      * 
      * @param {int} $id The ID of the record
      * @return void
