@@ -15,7 +15,7 @@ class Sponsors extends \Core\Module {
         parent::__construct();
 
         // Add additional routes for sponsorships
-        $this->_actions['GET']['/sponsorship/:id'] = 'sponsorship';
+        $this->_actions['GET']['/sponsorships/:id'] = 'sponsorship';
         $this->_actions['POST']['/sponsorships/create'] = 'createSponsorship';
         $this->_actions['POST']['/sponsorships/:id'] = 'editSponsorship';
         $this->_actions['DELETE']['/sponsorships/:id'] = 'deleteSponsorship';
@@ -152,7 +152,7 @@ class Sponsors extends \Core\Module {
      */
     public function editSponsorship($id) {
         // Get the transmitted data
-        $data = App::getInstance()->request->getBody();
+        $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
 
         // Replace empty values with null

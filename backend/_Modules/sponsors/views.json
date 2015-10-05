@@ -418,7 +418,10 @@
         "sponsorship_detail" : {
             "title" : "Sponsorship detail",
             "type" : "detail",
-            "datasource" : "/backend/sponsors/sponsorship/:id",
+            "datasource" : "/backend/sponsors/sponsorships/:id",
+            "header_button_text" : "Edit sponsorship",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/sponsors/edit_sponsorship/:id",
             "fields" :
             {
                 "sponsor" : {

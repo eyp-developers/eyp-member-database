@@ -126,6 +126,7 @@ class Settings extends \Core\Module {
         $enabled_modules = \Helpers\Database::getAllModules(true);
 
         // Create top-level sidebar entries for all modules
+        $settings_menu = null;
         foreach($enabled_modules as $module) {
             $menu_item = [
                 "title" => $module['title'],
@@ -146,8 +147,15 @@ class Settings extends \Core\Module {
                 }
 
                 // Add the finished menu item to the config
-                $sidebar_config[] = $menu_item;
+                if($module['name'] === 'settings') {
+                    $settings_menu = $menu_item;
+                } else {
+                    $sidebar_config[] = $menu_item;
+                }
             }
+        }
+        if($settings_menu) {
+            $sidebar_config[] = $settings_menu;
         }
 
         \Helpers\Response::success($sidebar_config);
