@@ -17,6 +17,17 @@ var Formatters =
             // In case this gets called for an invisible column
             if(!this.visible || value === null || typeof value === 'undefined') return '';
 
+            // Check if this is an external target
+            if(!this.target) {
+                if(value.indexOf('http://') === 0 ||
+                   value.indexOf('https://') === 0 ||
+                   value.indexOf('ftp://') === 0) {
+                    return '<a href="' + value + '" >' + value + '</a>';
+                } else {
+                    return '<a href="http://' + value + '" >' + value + '</a>';
+                }
+            }
+
             // Replace placeholders in target
             var target_parts = this.target.split('/');
             for(part_index in target_parts) {

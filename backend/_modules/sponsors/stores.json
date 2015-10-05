@@ -1,0 +1,38 @@
+{
+	"stores" : {
+		"sponsors_names" : {
+			"module_name" : "sponsors",
+			"model_name" : "sponsors",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"regions" : {
+			"module_name" : "sponsors",
+			"model_name" : "regions",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"kinds" : {
+			"module_name" : "sponsors",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"sizes" : {
+			"module_name" : "sponsors",
+			"model_name" : "sizes",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"structures" : {
+			"module_name" : "sponsors",
+			"model_name" : "structures",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}
