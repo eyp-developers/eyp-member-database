@@ -69,5 +69,11 @@ var Formatters =
                 return value;
             }
         };
+    },
+
+    plain : function() {
+        return function(value, row, index) {
+            return value;
+        }
     }
 };
