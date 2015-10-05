@@ -17,7 +17,14 @@ var Server =
         }
 
         config.error = function(response, textStatus, error) {
-            UI.showAlert('danger', 'The server responded with an error (' + response.status + ')');
+            // Check if we need to run the installation
+            if(this.url === '/backend/settings') {
+                // Start the installer
+                Installer.init();
+            } else {
+                // Show error message
+                UI.showAlert('danger', 'The server responded with an error (' + response.status + ')');
+            }
         };
 
         config.success = function(response, textStatus, jqXHR) {

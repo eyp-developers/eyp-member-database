@@ -45,11 +45,6 @@
             url: "/backend/settings",
             success: function(response) {
                 App.applySettings(response.data);
-            },
-            error: function(response) {
-                // This only happens if the app has not been installed yet
-                // Start the installer
-                Installer.init();
             }
         });
     }
