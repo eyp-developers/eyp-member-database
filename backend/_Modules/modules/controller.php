@@ -156,7 +156,7 @@ class Modules extends \Core\Module {
 
         // Make sure we have at least the minimum required information about the module
         if($module_info === false || !isset($module_info['name']) || !isset($module_info['version'])) {
-            \Helpers\Response::error(\Helpers\Response::E_MISSING_MODULE_INFO);
+            \Helpers\Response::error(\Helpers\Response::$E_MISSING_MODULE_INFO);
             return;
         }
 
@@ -690,7 +690,7 @@ class Modules extends \Core\Module {
             ob_end_clean();
 
             if(!$result['success']) {
-                echo $result;
+                print_r($result);
                 return;
             }
         }

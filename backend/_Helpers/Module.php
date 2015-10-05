@@ -15,7 +15,7 @@ class Module {
 	 * @return {array} The parsed json file
 	 */
 	public static function getModuleJSONFile($folder_name, $file_name) {
-		$file_path = '_modules/'.$folder_name.'/'.$file_name.'.json';
+		$file_path = '_Modules/'.strtolower($folder_name).'/'.$file_name.'.json';
 
 		// Check if the file exists
 		if(!file_exists($file_path)) {
