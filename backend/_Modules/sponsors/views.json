@@ -151,8 +151,8 @@
                     "title" : "Session",
                     "type" : "link",
                     "target" : "/sessions/session/:session",
-                    "store_module" : "sponsors",
-                    "store_name" : "sponsors_names"
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
