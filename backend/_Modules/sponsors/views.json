@@ -22,6 +22,12 @@
                     "type" : "link",
                     "target" : "/sponsors/sponsor/:id"
                 },
+                "region" : {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "store_module" : "sponsors",
+                    "store_name" : "regions"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -48,6 +54,9 @@
                 },
                 "sponsorships" : {
                     "data_key" : "/sponsors/sponsor_sponsorships/:id"
+                },
+                "rejections" : {
+                    "data_key" : "/sponsors/sponsor_rejections/:id"
                 }
             }
         },
@@ -160,7 +169,11 @@
                 },
                 "amount": {
                     "data_key" : "amount",
-                    "title" : "Amount"
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
                 },
                 "info" : {
                     "type" : "action",
@@ -175,6 +188,62 @@
                 "delete" : {
                     "type" : "action",
                     "target" : "/sponsors/delete_sponsorship/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "sponsor_rejections" : {
+            "title" : "Rejections",
+            "type" : "table",
+            "datasource" : "/backend/sponsors/sponsor_rejections/:id",
+            "header_button_text" : "Add rejection",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/sponsors/add_rejection",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "link",
+                    "target" : "/sessions/session/:session",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "contactperson_eyp" : {
+                    "data_key" : "contactperson_eyp",
+                    "title" : "EYP contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contactperson_eyp",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "amount": {
+                    "data_key" : "amount",
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
+                },
+                "info" : {
+                    "type" : "action",
+                    "target" : "/sponsors/rejection_detail/:id",
+                    "icon" : "info-sign"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/sponsors/edit_rejection/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/sponsors/delete_rejection/:id",
                     "icon" : "trash"
                 }
             }
@@ -212,21 +281,81 @@
                 },
                 "amount": {
                     "data_key" : "amount",
-                    "title" : "Amount"
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
                 },
                 "info" : {
                     "type" : "action",
-                    "target" : "/sponsors/sponsorship_detail/:id",
+                    "target" : "/sponsors/rejection_detail/:id",
                     "icon" : "info-sign"
                 },
                 "edit" : {
                     "type" : "action",
-                    "target" : "/sponsors/edit_sponsorship/:id",
+                    "target" : "/sponsors/edit_rejection/:id",
                     "icon" : "pencil"
                 },
                 "delete" : {
                     "type" : "action",
-                    "target" : "/sponsors/delete_sponsorship/:id",
+                    "target" : "/sponsors/delete_rejection/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "session_rejections" : {
+            "title" : "Sponsorship rejections",
+            "type" : "table",
+            "datasource" : "/backend/sponsors/session_rejections/:id",
+            "header_button_text" : "Add rejection",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/sponsors/add_rejection",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "sponsor" : {
+                    "data_key" : "sponsor",
+                    "title" : "Sponsor",
+                    "type" : "link",
+                    "target" : "/sponsors/sponsor/:sponsor",
+                    "store_module" : "sponsors",
+                    "store_name" : "sponsors_names"
+                },
+                "contactperson_eyp" : {
+                    "data_key" : "contactperson_eyp",
+                    "title" : "EYP contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contactperson_eyp",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "amount": {
+                    "data_key" : "amount",
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
+                },
+                "info" : {
+                    "type" : "action",
+                    "target" : "/sponsors/rejection_detail/:id",
+                    "icon" : "info-sign"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/sponsors/edit_rejection/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/sponsors/delete_rejection/:id",
                     "icon" : "trash"
                 }
             }
@@ -436,17 +565,17 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
-                "amount" : {
+                "amount": {
                     "data_key" : "amount",
-                    "title" : "Amount"
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
                 },
                 "return_service" : {
                     "data_key" : "return_service",
                     "title" : "Return service"
-                },
-                "decline_reason" : {
-                    "data_key" : "decline_reason",
-                    "title" : "Decline reason"
                 },
                 "success_reason" : {
                     "data_key" : "success_reason",
@@ -465,6 +594,76 @@
                     "data_key" : "images_url",
                     "title" : "Images (URL)",
                     "type" : "link"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
+                }
+            }
+        },
+
+        "rejection_detail" : {
+            "title" : "Rejection detail",
+            "type" : "detail",
+            "datasource" : "/backend/sponsors/rejections/:id",
+            "header_button_text" : "Edit rejection",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/sponsors/edit_rejection/:id",
+            "fields" :
+            {
+                "sponsor" : {
+                    "data_key" : "sponsor",
+                    "title" : "Sponsor",
+                    "type" : "link",
+                    "target" : "/sponsors/sponsor/:sponsor",
+                    "store_module" : "sponsors",
+                    "store_name" : "sponsors_names"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "link",
+                    "target" : "/sessions/session/:session",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "contactperson_eyp" : {
+                    "data_key" : "contactperson_eyp",
+                    "title" : "EYP contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contactperson_eyp",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "amount": {
+                    "data_key" : "amount",
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
+                },
+                "return_service" : {
+                    "data_key" : "return_service",
+                    "title" : "Return service"
+                },
+                "decline_reason" : {
+                    "data_key" : "decline_reason",
+                    "title" : "Decline reason"
+                },
+                "contracts_url" : {
+                    "data_key" : "contracts_url",
+                    "title" : "Contract files (URL)",
+                    "type" : "link"
+                },
+                "images_url" : {
+                    "data_key" : "images_url",
+                    "title" : "Images (URL)",
+                    "type" : "link"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
                 }
             }
         },
@@ -500,19 +699,18 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
-                "amount" : {
+                "amount": {
                     "data_key" : "amount",
-                    "title" : "Amount"
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
                 },
                 "return_service" : {
                     "data_key" : "return_service",
                     "title" : "Return service",
                     "placeholder" : "What we offered in return for what the sponsor gave us",
-                    "type" : "textarea"
-                },
-                "decline_reason" : {
-                    "data_key" : "decline_reason",
-                    "title" : "Decline reason",
                     "type" : "textarea"
                 },
                 "success_reason" : {
@@ -533,6 +731,77 @@
                 "images_url" : {
                     "data_key" : "images_url",
                     "title" : "Images (URL)"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_rejection" : {
+            "title" : "Add rejection",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/sponsors/rejections/create",
+            "load_data" : false,
+            "does_edit" : true,
+            "fields" :
+            {
+                "sponsor" : {
+                    "data_key" : "sponsor",
+                    "title" : "Sponsor",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "sponsors",
+                    "store_name" : "sponsors_names"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "select",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "contactperson_eyp" : {
+                    "data_key" : "contactperson_eyp",
+                    "title" : "EYP contact person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "amount": {
+                    "data_key" : "amount",
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
+                },
+                "return_service" : {
+                    "data_key" : "return_service",
+                    "title" : "Return service",
+                    "placeholder" : "What we offered in return for what the sponsor gave us",
+                    "type" : "textarea"
+                },
+                "decline_reason" : {
+                    "data_key" : "decline_reason",
+                    "title" : "Decline reason",
+                    "type" : "textarea"
+                },
+                "contracts_url" : {
+                    "data_key" : "contracts_url",
+                    "title" : "Contract files (URL)"
+                },
+                "images_url" : {
+                    "data_key" : "images_url",
+                    "title" : "Images (URL)"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
                 }
             }
         },
@@ -566,9 +835,13 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
-                "amount" : {
+                "amount": {
                     "data_key" : "amount",
-                    "title" : "Amount"
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
                 },
                 "return_service" : {
                     "data_key" : "return_service",
@@ -599,6 +872,75 @@
                 "images_url" : {
                     "data_key" : "images_url",
                     "title" : "Images (URL)"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "edit_rejection" : {
+            "title" : "Edit rejection",
+            "type" : "form",
+            "datasource" : "/backend/sponsors/rejections/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "sponsor" : {
+                    "data_key" : "sponsor",
+                    "title" : "Sponsor",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "sponsors",
+                    "store_name" : "sponsors_names"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "select",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "contactperson_eyp" : {
+                    "data_key" : "contactperson_eyp",
+                    "title" : "EYP contact person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "amount": {
+                    "data_key" : "amount",
+                    "title" : "Financial: Amount"
+                },
+                "others": {
+                    "data_key" : "others",
+                    "title" : "Others: Description"
+                },
+                "return_service" : {
+                    "data_key" : "return_service",
+                    "title" : "Return service",
+                    "placeholder" : "What we offered in return for what the sponsor gave us",
+                    "type" : "textarea"
+                },
+                "decline_reason" : {
+                    "data_key" : "decline_reason",
+                    "title" : "Decline reason",
+                    "type" : "textarea"
+                },
+                "contracts_url" : {
+                    "data_key" : "contracts_url",
+                    "title" : "Contract files (URL)"
+                },
+                "images_url" : {
+                    "data_key" : "images_url",
+                    "title" : "Images (URL)"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
                 }
             }
         },
@@ -649,6 +991,31 @@
                     "title" : "Delete",
                     "type" : "button",
                     "target" : "/backend/sponsors/sponsorships/:id"
+                }
+            }
+        },
+
+        "delete_rejection" : {
+            "title" : "Delete rejection",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this rejection?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/sponsors/rejections/:id"
                 }
             }
         }

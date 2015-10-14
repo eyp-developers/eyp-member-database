@@ -129,11 +129,11 @@
 				"type" : "string"
 			},
 
-			"return_service": {
-				"type" : "text"
+			"others": {
+				"type" : "string"
 			},
 
-			"decline_reason": {
+			"return_service": {
 				"type" : "text"
 			},
 
@@ -150,6 +150,74 @@
 			},
 
 			"images_url": {
+				"type" : "text"
+			},
+
+			"comment" : {
+				"type" : "text"
+			}
+		},
+
+		"rejections" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"sponsor" : {
+				"type" : "int",
+				"required" : true,
+				"foreign_key" : {
+					"module" : "sponsors",
+					"table" : "sponsors",
+					"field" : "id"
+				}
+			},
+
+			"session" : {
+				"type": "int",
+				"foreign_key" : {
+					"module" : "sessions",
+					"table" : "sessions",
+					"field" : "id"
+				}
+			},
+
+			"contactperson_eyp" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"amount": {
+				"type" : "string"
+			},
+
+			"others": {
+				"type" : "string"
+			},
+
+			"return_service": {
+				"type" : "text"
+			},
+
+			"decline_reason": {
+				"type" : "text"
+			},
+
+			"contracts_url": {
+				"type" : "text"
+			},
+
+			"images_url": {
+				"type" : "text"
+			},
+
+			"comment" : {
 				"type" : "text"
 			}
 		},

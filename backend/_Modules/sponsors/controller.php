@@ -25,6 +25,18 @@ class Sponsors extends \Core\Module {
 
         // Add additional routes for session sponsorships
         $this->_actions['GET']['/session_sponsorships/:id'] = 'session_sponsorships';
+
+        // Add additional routes for rejections
+        $this->_actions['GET']['/rejections/:id'] = 'rejection';
+        $this->_actions['POST']['/rejections/create'] = 'createRejection';
+        $this->_actions['POST']['/rejections/:id'] = 'editRejection';
+        $this->_actions['DELETE']['/rejections/:id'] = 'deleteRejection';
+
+        // Add additional routes for sponsor rejections
+        $this->_actions['GET']['/sponsor_rejections/:id'] = 'sponsor_rejections';
+
+        // Add additional routes for session rejections
+        $this->_actions['GET']['/session_rejections/:id'] = 'session_rejections';
     }
 
     /**
@@ -197,6 +209,181 @@ class Sponsors extends \Core\Module {
         // Send response
         \Helpers\Response::respond($success);
     }
+
+    /**
+     * Returns a full rejection record
+     * 
+     * @param {int} $id The ID of the rejection
+     * @return void
+     */
+    public function rejection($id) {
+        // Get the record
+        $record = \Helpers\Database::getObject('sponsors', 'rejections', $id);
+
+        // Send response
+        if($record === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success($record);
+        }
+    }
+
+    /**
+     * Gets all rejections of a certain sponsor
+     *
+     * @param {int} $company_id The Id of the sponsor
+     * @return void
+     */
+    public function sponsor_rejections($sponsor_id) {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = 'sponsor = '.$sponsor_id;
+
+        // Get the data
+        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where);
+
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
+    }
+
+    /**
+     * Gets all rejections of a certain session
+     *
+     * @param {int} $session_id The Id of the session
+     * @return void
+     */
+    public function session_rejections($session_id) {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = 'session = '.$session_id;
+
+        // Get the data
+        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where);
+
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows' => $data
+        ]);
+    }
+
+    /**
+     * Creates a new rejection
+     * 
+     * @return void
+     */
+    public function createRejection() {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_data = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Insert the data
+        $invalid_fields = [];
+        $new_id = \Helpers\Database::createObject('sponsors', 'rejections', $new_data, $invalid_fields);
+        
+        error_log($new_id);
+
+        // Return the appropriate result
+        if($new_id === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
+        } else {
+            \Helpers\Response::success(
+                [
+                    'record_id' => $new_id
+                ],
+                [
+                    [
+                        'module_name' => 'sponsors',
+                        'model_name' => 'rejections'
+                    ]
+                ]
+            );
+        }
+    }
+
+     /**
+     * Updates a rejection
+     * 
+     * @param {int} $id The ID of the rejection
+     * @return void
+     */
+    public function editRejection($id) {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_data = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Update the data
+        $invalid_fields = [];
+        $success = \Helpers\Database::updateObject('sponsors', 'rejections', $id, $new_data, 'id', $invalid_fields);
+
+        // Return the appropriate result
+        if($success === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
+        } else {
+            \Helpers\Response::success(
+                false,
+                [
+                    [
+                        'module_name' => 'sponsors',
+                        'model_name' => 'rejections'
+                    ]
+                ]
+            );
+        }
+    }
+
+    /**
+     * Deletes a rejection
+     * 
+     * @param {int} $id The ID of the rejection
+     * @return void
+     */
+    public function deleteRejection($id) {
+        // Delete the record
+        $success = \Helpers\Database::deleteObject('sponsors', 'rejections', $id);
+
+        // Send response
+        \Helpers\Response::respond($success);
+    }
+
+
 }
 
 ?>
