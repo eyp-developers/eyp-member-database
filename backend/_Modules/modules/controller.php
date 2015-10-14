@@ -305,17 +305,14 @@ class Modules extends \Core\Module {
         if($views !== false && isset($views['views'])) {
             foreach($views['views'] as $view_name => $view_config) {
                 // Sanitize view config
-                if(!isset($view_config['title'])) $view_config['title'] = null;
-                if(!isset($view_config['icon'])) $view_config['icon'] = null;
-                if(!isset($view_config['datasource'])) $view_config['datasource'] = null;
-                if(!isset($view_config['container'])) $view_config['container'] = null;
+                $null_fields = ['title', 'icon', 'datasource', 'container', 'header_button_text', 'header_button_icon', 'header_button_target'];
+                        foreach($null_fields as $null_field) {
+                            if(!isset($view_config[$null_field])) $view_config[$null_field] = null;
+                        }
                 if(!isset($view_config['in_sidebar'])) $view_config['in_sidebar'] = false;
                 if(!isset($view_config['does_edit'])) $view_config['does_edit'] = false;
                 if(!isset($view_config['load_data'])) $view_config['load_data'] = true;
                 if(!isset($view_config['show_title'])) $view_config['show_title'] = true;
-                if(!isset($view_config['header_button_text'])) $view_config['header_button_text'] = null;
-                if(!isset($view_config['header_button_icon'])) $view_config['header_button_icon'] = null;
-                if(!isset($view_config['header_button_target'])) $view_config['header_button_target'] = null;
 
                 // Insert view into view table
                 $db->insert('core_views', [
@@ -341,7 +338,7 @@ class Modules extends \Core\Module {
                     $view_order = 1;
                     foreach($view_config['fields'] as $field_name => $field_config) {
 
-                        $null_fields = ['data_key', 'title', 'type', 'target', 'icon', 'store_module', 'store_name'];
+                        $null_fields = ['data_key', 'title', 'placeholder', 'type', 'target', 'icon', 'store_module', 'store_name'];
                         foreach($null_fields as $null_field) {
                             if(!isset($field_config[$null_field])) $field_config[$null_field] = null;
                         }
@@ -356,6 +353,7 @@ class Modules extends \Core\Module {
                             'name' => $field_name,
                             'data_key' => $field_config['data_key'],
                             'title' => $field_config['title'],
+                            'placeholder' => $field_config['placeholder'],
                             'type' => $field_config['type'],
                             'target' => $field_config['target'],
                             'icon' => $field_config['icon'],

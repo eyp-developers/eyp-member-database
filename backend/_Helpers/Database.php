@@ -278,6 +278,7 @@ class Database {
 				'name',
 				'data_key',
 				'title',
+				'placeholder',
 				'type',
 				'target',
 				'icon',

@@ -363,10 +363,16 @@ var UIComponents =
                     var input_text = data[field.data_key];
                 }
 
+                var input_placeholder = label_text;
+                if(field.placeholder !== undefined
+                    && field.placeholder !== null) {
+                    input_placeholder = field.placeholder;
+                }
+
                 switch(field.type) {
 
                     case 'textarea':
-                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" ' + required_attribute + '>' + input_text + '</textarea></div>');
+                        input = $('<div class="col-sm-8"><textarea rows="3" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + input_placeholder + '" ' + required_attribute + '>' + input_text + '</textarea></div>');
                         break;
 
                     case 'select':
@@ -390,7 +396,7 @@ var UIComponents =
 
                     default:
                         var input_type = Helpers.getInputTypeForDataType(field.type);
-                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + label_text + '" value="' + input_text + '" ' + required_attribute + '></div>');
+                        input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + input_placeholder + '" value="' + input_text + '" ' + required_attribute + '></div>');
                 }
 
                 form_group.append(input);

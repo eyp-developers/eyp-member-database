@@ -507,6 +507,7 @@
                 "return_service" : {
                     "data_key" : "return_service",
                     "title" : "Return service",
+                    "placeholder" : "What we offered in return for what the sponsor gave us",
                     "type" : "textarea"
                 },
                 "decline_reason" : {
@@ -522,6 +523,7 @@
                 "success_story" : {
                     "data_key" : "success_story",
                     "title" : "Success story",
+                    "placeholder" : "i.e. personal contact, recommendation of the mayor, …",
                     "type" : "textarea"
                 },
                 "contracts_url" : {
@@ -571,6 +573,7 @@
                 "return_service" : {
                     "data_key" : "return_service",
                     "title" : "Return service",
+                    "placeholder" : "What we offered in return for what the sponsor gave us",
                     "type" : "textarea"
                 },
                 "decline_reason" : {
@@ -586,6 +589,7 @@
                 "success_story" : {
                     "data_key" : "success_story",
                     "title" : "Success story",
+                    "placeholder" : "i.e. personal contact, recommendation of the mayor, …",
                     "type" : "textarea"
                 },
                 "contracts_url" : {
