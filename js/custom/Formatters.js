@@ -86,5 +86,15 @@ var Formatters =
         return function(value, row, index) {
             return value;
         }
+    },
+
+    boolean : function() {
+        return function(value, row, index) {
+            if(value == 1) {
+                return '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+            } else {
+                return '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+            }
+        }
     }
 };

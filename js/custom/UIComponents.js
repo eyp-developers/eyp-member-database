@@ -145,6 +145,10 @@ var UIComponents =
                     applyFormatterToColumn(Formatters.email(), column, column_config);
                     break;
 
+                case 'boolean' : 
+                    applyFormatterToColumn(Formatters.boolean(), column, column_config);
+                    break;
+
                 case 'action' :
                     action_column.actions.push({
                         'target' : column.target,
@@ -273,6 +277,10 @@ var UIComponents =
 
                             case 'email' : 
                                 applyFormatterToField(Formatters.email(), field);
+                                break;
+
+                            case 'boolean' : 
+                                applyFormatterToField(Formatters.boolean(), field);
                                 break;
 
                             case 'int' :

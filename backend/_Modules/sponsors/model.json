@@ -87,6 +87,10 @@
 
 			"comment" : {
 				"type" : "text"
+			},
+
+			"has_sponsored" : {
+				"type" : "int"
 			}
 		},
 

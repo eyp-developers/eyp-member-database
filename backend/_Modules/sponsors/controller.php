@@ -135,6 +135,10 @@ class Sponsors extends \Core\Module {
         // Insert the data
         $invalid_fields = [];
         $new_id = \Helpers\Database::createObject('sponsors', 'sponsorships', $new_data, $invalid_fields);
+
+        // Update the sponsor's has_sponsored field
+        $sponsor_id = $new_data['sponsor'];
+        $this->updateHasSponsored($sponsor_id);
         
         // Return the appropriate result
         if($new_id === false) {
@@ -203,8 +207,22 @@ class Sponsors extends \Core\Module {
      * @return void
      */
     public function deleteSponsorship($id) {
+        // Get the record
+        // Update the sponsor's has_sponsored field
+        $sponsorship = \Core\Database::getInstance()->select(
+            'sponsors_sponsorships',
+            '*',
+            ['id' => $id]
+        );
+        if(is_array($sponsorship) && count($sponsorship) > 0) {
+            $sponsorship = $sponsorship[0];
+        }
+
         // Delete the record
         $success = \Helpers\Database::deleteObject('sponsors', 'sponsorships', $id);
+
+        $sponsor_id = $sponsorship['sponsor'];
+        $this->updateHasSponsored($sponsor_id);
 
         // Send response
         \Helpers\Response::respond($success);
@@ -381,6 +399,41 @@ class Sponsors extends \Core\Module {
 
         // Send response
         \Helpers\Response::respond($success);
+    }
+
+
+    private function updateHasSponsored($sponsor_id) {
+        if(!$sponsor_id) {
+            return;
+        }
+
+        // Get sponsor
+        $sponsor = \Core\Database::getInstance()->select(
+            'sponsors_sponsors',
+            '*',
+            ['id' => $sponsor_id]
+        );
+
+        if(is_array($sponsor) && count($sponsor) > 0) {
+            $sponsor = $sponsor[0];
+        } else {
+            return;
+        }
+
+        // Get sponsorships
+        $sponsorships = \Core\Database::getInstance()->select(
+            'sponsors_sponsorships',
+            '*',
+            ['sponsor' => $sponsor_id]
+        );
+
+        if(is_array($sponsorships) && count($sponsorships) > 0) {
+            $sponsor['has_sponsored'] = 1;
+        } else {
+            $sponsor['has_sponsored'] = 0;
+        }
+
+        \Helpers\Database::updateObject('sponsors', 'sponsors', $sponsor_id, $sponsor);
     }
 
 

@@ -33,6 +33,11 @@
                     "title" : "Email",
                     "type" : "email"
                 },
+                "has_sponsored" : {
+                    "data_key" : "has_sponsored",
+                    "title" : "Has sponsored",
+                    "type" : "boolean"
+                },
                 "edit" : {
                     "type" : "action",
                     "target" : "/sponsors/edit_sponsor/:id",
