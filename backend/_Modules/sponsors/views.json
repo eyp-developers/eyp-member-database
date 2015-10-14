@@ -104,7 +104,9 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                  "phone" : {
                     "data_key" : "phone",
@@ -114,12 +116,6 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
-                },
-                "structure" : {
-                    "data_key" : "structure",
-                    "title" : "Structure",
-                    "store_module" : "sponsors",
-                    "store_name" : "structures"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",
@@ -283,7 +279,10 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "type" : "select",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                 "branche" : {
                     "data_key" : "branche",
@@ -301,13 +300,6 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
-                },
-                "structure" : {
-                    "data_key" : "structure",
-                    "title" : "Structure",
-                    "type" : "select",
-                    "store_module" : "sponsors",
-                    "store_name" : "structures"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",
@@ -374,7 +366,10 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "type" : "select",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                 "branche" : {
                     "data_key" : "branche",
@@ -392,13 +387,6 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
-                },
-                "structure" : {
-                    "data_key" : "structure",
-                    "title" : "Structure",
-                    "type" : "select",
-                    "store_module" : "sponsors",
-                    "store_name" : "structures"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",

@@ -19,6 +19,16 @@
 			"value" : {
 				"type" : "short_string"
 			}
+		},
+
+		"countries" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
 		}
 	}
 }

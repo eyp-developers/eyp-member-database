@@ -5,6 +5,13 @@
 			"model_name" : "permissions",
 			"data_key" : "id",
 			"value" : "value"
+		},
+
+		"countries" : {
+			"module_name" : "settings",
+			"model_name" : "countries",
+			"data_key" : "id",
+			"value" : "name"
 		}
 	}
 }

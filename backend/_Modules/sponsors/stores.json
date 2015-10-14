@@ -26,13 +26,6 @@
 			"model_name" : "sizes",
 			"data_key" : "id",
 			"value" : "name"
-		},
-
-		"structures" : {
-			"module_name" : "sponsors",
-			"model_name" : "structures",
-			"data_key" : "id",
-			"value" : "name"
 		}
 	}
 }

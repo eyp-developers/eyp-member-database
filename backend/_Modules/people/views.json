@@ -111,7 +111,9 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                 "comment" : {
                     "data_key" : "comment",
@@ -171,7 +173,10 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "type" : "select",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                 "comment" : {
                     "data_key" : "comment",
@@ -235,7 +240,10 @@
                 },
                 "country" : {
                     "data_key" : "country",
-                    "title" : "Country"
+                    "title" : "Country",
+                    "type" : "select",
+                    "store_module" : "settings",
+                    "store_name" : "countries"
                 },
                 "comment" : {
                     "data_key" : "comment",

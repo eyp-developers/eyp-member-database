@@ -54,7 +54,12 @@
 			},
 
 			"country" : {
-				"type" : "string"
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "settings",
+					"table" : "countries",
+					"field" : "id"
+				}
 			},
 
 			"comment" : {

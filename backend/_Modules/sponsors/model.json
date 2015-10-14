@@ -52,7 +52,12 @@
 			},
 
 			"country" : {
-				"type" : "string"
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "settings",
+					"table" : "countries",
+					"field" : "id"
+				}
 			},
 
 			"branche" : {
@@ -69,15 +74,6 @@
 
 			"email" : {
 				"type" : "string"
-			},
-
-			"structure" : {
-				"type" : "int",
-				"foreign_key" : {
-					"module" : "sponsors",
-					"table" : "structures",
-					"field" : "id"
-				}
 			},
 
 			"contact_person" : {
@@ -179,16 +175,6 @@
 		},
 
 		"sizes" : {
-			"id" : {
-				"type" : "int",
-				"primary_key" : true
-			},
-			"name" : {
-				"type" : "string"
-			}
-		},
-
-		"structures" : {
 			"id" : {
 				"type" : "int",
 				"primary_key" : true

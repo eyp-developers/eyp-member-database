@@ -27,10 +27,14 @@
 			},
 			{
 				"id" : "7",
-				"name" : "Vorarlberg & Tirol"
+				"name" : "Tirol"
 			},
 			{
 				"id" : "8",
+				"name" : "Vorarlberg"
+			},
+			{
+				"id" : "9",
 				"name" : "Wien"
 			}
 		],
@@ -42,33 +46,34 @@
 			},
 			{
 				"id" : "2",
+				"name" : "Venues"
+			},
+			{
+				"id" : "3",
 				"name" : "Merchandise"
+			},
+			{
+				"id" : "4",
+				"name" : "Experts"
+			},
+			{
+				"id" : "5",
+				"name" : "Contacts / Networking"
+			},
+			{
+				"id" : "9999",
+				"name" : "Other"
 			}
 		],
 
 		"sizes" : [
 			{
 				"id" : "1",
-				"name" : "Small (1-10)"
+				"name" : "Local"
 			},
 			{
 				"id" : "2",
-				"name" : "Medium (11-50)"
-			},
-			{
-				"id" : "3",
-				"name" : "Large (50+)"
-			}
-		],
-
-		"structures" : [
-			{
-				"id" : "1",
 				"name" : "Regional"
-			},
-			{
-				"id" : "2",
-				"name" : "State"
 			},
 			{
 				"id" : "3",
