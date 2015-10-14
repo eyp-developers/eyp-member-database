@@ -94,7 +94,7 @@
                 },
                 "kind" : {
                     "data_key" : "kind",
-                    "title" : "Region",
+                    "title" : "Kind",
                     "store_module" : "sponsors",
                     "store_name" : "kinds"
                 },
