@@ -1,0 +1,57 @@
+{
+	"tables" : {
+		"teams" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string",
+				"required" : true
+			},
+
+			"description" : {
+				"type" : "text"
+			},
+
+			"leader" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			}
+		},
+
+		"memberships" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"person" : {
+				"type" : "int",
+				"required" : true,
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"team" : {
+				"type" : "int",
+				"required" : true,
+				"foreign_key" : {
+					"module" : "teams",
+					"table" : "teams",
+					"field" : "id"
+				}
+			}
+		}
+	}
+}

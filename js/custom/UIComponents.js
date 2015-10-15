@@ -174,6 +174,7 @@ var UIComponents =
 
         // Add action column
         if(action_column.actions.length > 0) {
+            action_column.width = 16 + (action_column.actions.length * 18);
             columns_config.push(action_column);
         }
 

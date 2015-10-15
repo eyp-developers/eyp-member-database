@@ -1,0 +1,298 @@
+{
+    "views": {
+        "teams" : {
+            "title" : "All Teams",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "/backend/teams",
+            "in_sidebar" : true,
+            "header_button_text" : "Add team",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/teams/add_team",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/teams/team/:id"
+                },
+                "leader" : {
+                    "data_key" : "leader",
+                    "title" : "Leader",
+                    "type" : "link",
+                    "target" : "/people/person/:leader",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/teams/edit_team/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/teams/delete_team/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "team" : {
+            "type" : "combined",
+            "fields" : {
+                "team_detail" : {
+                    "data_key" : "/teams/team_detail/:id"
+                },
+                "members" : {
+                    "data_key" : "/teams/team_members/:id"
+                }
+            }
+        },
+
+        "team_detail" : {
+            "title" : "Team details",
+            "type" : "detail",
+            "datasource" : "/backend/teams/:id",
+            "header_button_text" : "Edit team",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/teams/edit_team/:id",
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/teams/team/:id"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description"
+                },
+                "leader" : {
+                    "data_key" : "leader",
+                    "title" : "Leader",
+                    "type" : "link",
+                    "target" : "/people/person/:leader",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                }
+            }
+        },
+
+        "team_members" : {
+            "title" : "Members",
+            "type" : "table",
+            "datasource" : "/backend/teams/team_members/:id",
+            "header_button_text" : "Add member",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/teams/add_membership",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "person",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/people/person/:person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/teams/delete_membership/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "member_teams" : {
+            "title" : "Teams",
+            "type" : "table",
+            "datasource" : "/backend/teams/member_teams/:id",
+            "header_button_text" : "Add team",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/teams/add_membership",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "team",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/teams/team/:team",
+                    "store_module" : "teams",
+                    "store_name" : "team_names"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/teams/delete_membership/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "edit_team" : {
+            "title" : "Edit team",
+            "type" : "form",
+            "datasource" : "/backend/teams/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description",
+                    "type" : "textarea"
+                },
+                "leader" : {
+                    "data_key" : "leader",
+                    "title" : "Leader",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                }
+            }
+        },
+
+        "add_team" : {
+            "title" : "Add team",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/teams",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields" :
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description",
+                    "type" : "textarea"
+                },
+                "leader" : {
+                    "data_key" : "leader",
+                    "title" : "Leader",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                }
+            }
+        },
+
+        "add_membership" : {
+            "title" : "Add membership",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/teams/memberships/create",
+            "load_data" : false,
+            "does_edit" : true,
+            "fields" :
+            {
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "team" : {
+                    "data_key" : "team",
+                    "title" : "Team",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "teams",
+                    "store_name" : "team_names"
+                }
+            }
+        },
+
+        "delete_team" : {
+            "title" : "Delete team",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this team?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/teams/:id"
+                }
+            }
+        },
+
+        "delete_membership" : {
+            "title" : "Delete membership",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this membership?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/teams/memberships/:id"
+                }
+            }
+        }
+    },
+
+    "external" : {
+        "people": {
+            "person" : {
+                "teams" : {
+                    "data_key" : "/teams/member_teams/:id"
+                }
+            }
+        }
+    }
+}

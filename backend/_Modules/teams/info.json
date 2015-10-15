@@ -1,0 +1,10 @@
+{
+	"name" : "teams",
+	"title" : "Teams",
+	"icon" : "home",
+	"description" : "A module to manage teams and team memberships",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}

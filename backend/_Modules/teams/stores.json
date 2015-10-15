@@ -1,0 +1,10 @@
+{
+	"stores" : {
+		"team_names" : {
+			"module_name" : "teams",
+			"model_name" : "teams",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}
