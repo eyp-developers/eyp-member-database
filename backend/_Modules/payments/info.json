@@ -1,0 +1,10 @@
+{
+	"name" : "payments",
+	"title" : "Payments",
+	"icon" : "piggy-bank",
+	"description" : "A module to manage people's payments",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}

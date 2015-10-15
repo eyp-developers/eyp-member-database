@@ -1,0 +1,10 @@
+{
+	"stores" : {
+		"payment_kinds" : {
+			"module_name" : "payments",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}

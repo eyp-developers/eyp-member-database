@@ -1,0 +1,18 @@
+{
+	"payments" : {
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "Membership fee"
+			},
+			{
+				"id" : "2",
+				"name" : "Participation fee"
+			},
+			{
+				"id" : "3",
+				"name" : "Other"
+			}
+		]
+	}
+}

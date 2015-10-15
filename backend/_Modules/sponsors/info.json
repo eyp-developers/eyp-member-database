@@ -1,7 +1,7 @@
 {
 	"name" : "sponsors",
 	"title" : "Sponsors",
-	"icon" : "euro",
+	"icon" : "gift",
 	"description" : "A module to manage companies and sponsorships",
 	"version" : 1,
 	"dependencies" : [

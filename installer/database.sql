@@ -9,6 +9,7 @@ CREATE TABLE core_modules (
     enabled     BOOL NOT NULL DEFAULT 1,
     min_permission  INT NOT NUlL DEFAULT 0,
     system      BOOL NOT NULL DEFAULT 0,
+    view_order  INT NOT NULL DEFAULT 0,
     PRIMARY KEY (name)
 );
 
@@ -167,8 +168,8 @@ BEGIN
 END;
 
 /* Insert intallation data */
-INSERT INTO core_modules VALUES('modules', 'Modules', NULL, 'A module to manage all other modules', 1, 1, 1, 1);
-INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to handle authentication', 1, 1, 2, 1);
+INSERT INTO core_modules VALUES('modules', 'Modules', NULL, 'A module to manage all other modules', 1, 1, 1, 1, 0);
+INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to handle authentication', 1, 1, 2, 1, 0);
 
 /* Create admin user */
 CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);

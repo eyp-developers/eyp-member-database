@@ -180,6 +180,10 @@ class Modules extends \Core\Module {
         $module_name = $module_info['name'];
         $module_title = (isset($module_info['title']) ? $module_info['title'] : $module_name);
 
+        // Get new view order
+        $view_order = $db->max('core_modules', 'view_order');
+        $view_order += 1;
+
         // Add an entry to the modules table
         $db->insert('core_modules', [
             'name' => $module_name,
@@ -190,6 +194,7 @@ class Modules extends \Core\Module {
             'enabled' => true,
             'min_permission' => (isset($module_info['min_permission']) ? $module_info['min_permission'] : 0),
             'system' => (isset($module_info['system']) ? $module_info['system'] : false),
+            'view_order' => $view_order
         ]);
 
         // Keep track of all foreign keys

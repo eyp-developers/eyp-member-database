@@ -44,6 +44,9 @@ class Validator {
 
 			case 'date':
 				return preg_match('/\d{4}-[01]\d-[0-3]\d$/', $value);
+
+			case 'decimal':
+				return is_int($value) || is_float($value) || is_numeric(str_replace(',', '.', $value));
 		}
 
 		return true;

@@ -1,0 +1,67 @@
+{
+	"tables" : {
+		"payments" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"amount" : {
+				"type" : "decimal",
+				"required" : true
+			},
+
+			"kind" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "payments",
+					"table" : "kinds",
+					"field" : "id"
+				}
+			},
+
+			"person" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"session" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "sessions",
+					"table" : "sessions",
+					"field" : "id"
+				}
+			},
+
+			"valid_from" : {
+				"type" : "date"
+			},
+
+			"valid_until" : {
+				"type" : "date"
+			},
+
+			"comment" : {
+				"type" : "text"
+			}
+		},
+
+		"kinds" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			}
+		}
+	}
+}

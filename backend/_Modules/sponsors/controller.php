@@ -325,8 +325,6 @@ class Sponsors extends \Core\Module {
         $invalid_fields = [];
         $new_id = \Helpers\Database::createObject('sponsors', 'rejections', $new_data, $invalid_fields);
         
-        error_log($new_id);
-
         // Return the appropriate result
         if($new_id === false) {
             \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [

@@ -130,7 +130,7 @@
 			},
 
 			"amount": {
-				"type" : "string"
+				"type" : "decimal"
 			},
 
 			"others": {
@@ -198,7 +198,7 @@
 			},
 
 			"amount": {
-				"type" : "string"
+				"type" : "decimal"
 			},
 
 			"others": {

@@ -854,11 +854,6 @@
                     "placeholder" : "What we offered in return for what the sponsor gave us",
                     "type" : "textarea"
                 },
-                "decline_reason" : {
-                    "data_key" : "decline_reason",
-                    "title" : "Decline reason",
-                    "type" : "textarea"
-                },
                 "success_reason" : {
                     "data_key" : "success_reason",
                     "title" : "Success reason",

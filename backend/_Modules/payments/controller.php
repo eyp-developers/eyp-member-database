@@ -3,9 +3,9 @@
 namespace Modules;
 
 /**
- * The Schools module
+ * The Payments module
  */
-class Schools extends \Core\Module {
+class Payments extends \Core\Module {
 
     /**
      * Constructs a new instance
@@ -14,17 +14,17 @@ class Schools extends \Core\Module {
         // Call Module constructur
         parent::__construct();
 
-        // Add additional route
-        $this->_actions['GET']['/students/:id'] = 'students';
+        // Add additional route for member payments
+        $this->_actions['GET']['/member_payments/:id'] = 'member_payments';
     }
 
     /**
-     * Gets all students of a certain schoool
+     * Gets all payments of a certain person
      *
-     * @param {int} $school_id The Id of the school
+     * @param {int} $person_id The Id of the person
      * @return void
      */
-    public function students($school_id) {
+    public function member_payments($person_id) {
     	// Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -34,11 +34,12 @@ class Schools extends \Core\Module {
         $sort = \Core\App::getInstance()->request->get("sort");
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
-        $where = 'school = '.$school_id;
+        $where = 'person = '.$person_id;
 
         // Get the data
-        $data = \Helpers\Database::getObjects('people', 'people', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('people', 'people', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('payments', 'payments', $fields, $search, $where, $offset, $limit, $sort, $order);
+        
+        $count = \Helpers\Database::countObjects('payments', 'payments', $fields, $search, $where);
 
         // Send response
         \Helpers\Response::success([

@@ -1,0 +1,315 @@
+{
+    "views": {
+        "payments" : {
+            "title" : "All payments",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "/backend/payments",
+            "in_sidebar" : true,
+            "header_button_text" : "Add payment",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/payments/add_payment",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "payments",
+                    "store_name" : "payment_kinds"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "amount" : {
+                    "data_key" : "amount",
+                    "title" : "Amount"
+                },
+                "valid_from" :  {
+                    "data_key" : "valid_from",
+                    "title" : "Valid from"
+                },
+                "valid_until" :  {
+                    "data_key" : "valid_until",
+                    "title" : "Valid until"
+                },
+                "info" : {
+                    "type" : "action",
+                    "target" : "/payments/payment_detail/:id",
+                    "icon" : "info-sign"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/payments/edit_payment/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/payments/delete_payment/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "payment_detail" : {
+            "title" : "Payment details",
+            "type" : "detail",
+            "datasource" : "/backend/payments/:id",
+            "header_button_text" : "Edit payment",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/payments/edit_payment/:id",
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "payments",
+                    "store_name" : "payment_kinds"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "amount" : {
+                    "data_key" : "amount",
+                    "title" : "Amount"
+                },
+                "valid_from" :  {
+                    "data_key" : "valid_from",
+                    "title" : "Valid from"
+                },
+                "valid_until" :  {
+                    "data_key" : "valid_until",
+                    "title" : "Valid until"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment"
+                }
+            }
+        },
+
+        "member_payments" : {
+            "title" : "Payments",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "/backend/payments/member_payments/:id",
+            "header_button_text" : "Add payment",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/payments/add_payment",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "payments",
+                    "store_name" : "payment_kinds"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "amount" : {
+                    "data_key" : "amount",
+                    "title" : "Amount"
+                },
+                "valid_from" :  {
+                    "data_key" : "valid_from",
+                    "title" : "Valid from"
+                },
+                "valid_until" :  {
+                    "data_key" : "valid_until",
+                    "title" : "Valid until"
+                },
+                "info" : {
+                    "type" : "action",
+                    "target" : "/payments/payment_detail/:id",
+                    "icon" : "info-sign"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/payments/edit_payment/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/payments/delete_payment/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "edit_payment" : {
+            "title" : "Edit payment",
+            "type" : "form",
+            "datasource" : "/backend/payments/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "payments",
+                    "store_name" : "payment_kinds"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "select",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "amount" : {
+                    "data_key" : "amount",
+                    "title" : "Amount",
+                    "required" : true
+                },
+                "valid_from" :  {
+                    "data_key" : "valid_from",
+                    "title" : "Valid from",
+                    "type" : "date"
+                },
+                "valid_until" :  {
+                    "data_key" : "valid_until",
+                    "title" : "Valid until",
+                    "type" : "date"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_payment" : {
+            "title" : "Add payment",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/payments",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields" :
+            {
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "payments",
+                    "store_name" : "payment_kinds"
+                },
+                "session" : {
+                    "data_key" : "session",
+                    "title" : "Session",
+                    "type" : "select",
+                    "store_module" : "sessions",
+                    "store_name" : "session_names"
+                },
+                "amount" : {
+                    "data_key" : "amount",
+                    "title" : "Amount",
+                    "required" : true
+                },
+                "valid_from" :  {
+                    "data_key" : "valid_from",
+                    "title" : "Valid from",
+                    "type" : "date"
+                },
+                "valid_until" :  {
+                    "data_key" : "valid_until",
+                    "title" : "Valid until",
+                    "type" : "date"
+                },
+                "comment" : {
+                    "data_key" : "comment",
+                    "title" : "Comment",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "delete_payment" : {
+            "title" : "Delete payment",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this payment?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/payments/:id"
+                }
+            }
+        }
+    },
+
+    "external" : {
+        "people": {
+            "person" : {
+                "payments" : {
+                    "data_key" : "/payments/member_payments/:id"
+                }
+            }
+        }
+    }
+}

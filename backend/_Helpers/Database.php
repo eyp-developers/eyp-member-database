@@ -15,7 +15,8 @@ class Database {
 		'string' => 'VARCHAR(1000)',
 		'short_string' => 'VARCHAR(200)',
 		'text' => 'TEXT',
-		'date' => 'DATE'
+		'date' => 'DATE',
+		'decimal' => "DECIMAL(12,2)"
 	];
 
 	/**
@@ -312,10 +313,9 @@ class Database {
 	 */
 	public static function getAllModules($only_enabled = false) {
 		// Generate filter
+		$filter = ['ORDER' => 'view_order ASC'];
 		if($only_enabled) {
-			$filter = ['enabled' => true];
-		} else {
-			$filter = [];
+			$filter['enabled'] = true;
 		}
 
 		// Get information from views table
