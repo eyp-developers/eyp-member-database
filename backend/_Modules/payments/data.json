@@ -13,6 +13,21 @@
 				"id" : "3",
 				"name" : "Other"
 			}
+		],
+
+		"statuses" : [
+			{
+				"id" : "1",
+				"name" : "Invalid"
+			},
+			{
+				"id" : "2",
+				"name" : "Expiring"
+			},
+			{
+				"id" : "3",
+				"name" : "Valid"
+			}
 		]
 	}
 }

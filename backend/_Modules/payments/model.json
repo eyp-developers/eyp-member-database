@@ -62,6 +62,18 @@
 			"name" : {
 				"type" : "string"
 			}
+		},
+
+		"statuses" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			}
 		}
 	}
 }

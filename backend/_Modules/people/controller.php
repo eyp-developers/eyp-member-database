@@ -5,7 +5,7 @@ namespace Modules;
 /**
  * The People module
  */
-class People extends \Core\Module {
+class People extends \Core\Module implements \Core\Exportable {
 
 	/**
      * Constructs a new instance
@@ -13,6 +13,32 @@ class People extends \Core\Module {
     public function __construct() {
         // Call Module constructor
         parent::__construct();
+    }
+
+    /**
+     * Returns a full data record of a Person
+     * 
+     * @param {int} $id The ID of the person
+     * @return void
+     */
+    public function view($id) {
+        // Get the record
+        $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $id);
+
+        // Add the payment status if the payment status module exists
+        if(class_exists("\\Modules\\Payments")) {
+            $membership_status = Payments::getMembershipStatusForPersonId($record["id"]);
+            $record["membership_status"] = $membership_status;
+        }
+
+        error_log(print_r($record, true));
+
+        // Send response
+        if($record === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success($record);
+        }
     }
 
     /**
@@ -100,6 +126,37 @@ class People extends \Core\Module {
                 ]
             );
         }
+    }
+
+    /**
+     * Returns a description of the fields that can be exported
+     *
+     * @return Dictionary A dictionary of key=>value pairs describing the fields that can be exported
+     */
+    public function getExportFields() {
+        // Specify the basic fields that can always be exported
+        $fields = [
+            "firstname" => "First name",
+            "lastname" => "Last name",
+            "email" => "Email"
+        ];
+
+        // Check if the payments module is installed
+        // If so, we can also export a payment status
+        if(class_exists("Payments")) {
+            $fields["payment_status"] = "Payment status";
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Returns the exported data
+     *
+     * @return Array An array of dictionaries containing the exported data
+     */
+    public function getExportData() {
+
     }
 }
 

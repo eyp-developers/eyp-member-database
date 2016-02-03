@@ -309,6 +309,15 @@
                 "payments" : {
                     "data_key" : "/payments/member_payments/:id"
                 }
+            },
+
+            "person_detail" : {
+                "membership_status" : {
+                    "data_key" : "membership_status",
+                    "title" : "Membership status",
+                    "store_module" : "payments",
+                    "store_name" : "membership_statuses"
+                }
             }
         }
     }

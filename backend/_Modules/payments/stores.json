@@ -5,6 +5,13 @@
 			"model_name" : "kinds",
 			"data_key" : "id",
 			"value" : "name"
+		},
+
+		"membership_statuses" : {
+			"module_name" : "payments",
+			"model_name" : "statuses",
+			"data_key" : "id",
+			"value" : "name"
 		}
 	}
 }
