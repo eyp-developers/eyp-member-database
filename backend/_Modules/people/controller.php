@@ -31,8 +31,6 @@ class People extends \Core\Module implements \Core\Exportable {
             $record["membership_status"] = $membership_status;
         }
 
-        error_log(print_r($record, true));
-
         // Send response
         if($record === false) {
             \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
@@ -136,15 +134,15 @@ class People extends \Core\Module implements \Core\Exportable {
     public function getExportFields() {
         // Specify the basic fields that can always be exported
         $fields = [
-            "firstname" => "First name",
-            "lastname" => "Last name",
+            "first_name" => "First name",
+            "last_name" => "Last name",
             "email" => "Email"
         ];
 
         // Check if the payments module is installed
-        // If so, we can also export a payment status
-        if(class_exists("Payments")) {
-            $fields["payment_status"] = "Payment status";
+        // If so, we can also export a membership status
+        if(class_exists("\\Modules\\Payments")) {
+            $fields["membership_status"] = "Membership status";
         }
 
         return $fields;
@@ -156,7 +154,17 @@ class People extends \Core\Module implements \Core\Exportable {
      * @return Array An array of dictionaries containing the exported data
      */
     public function getExportData() {
+        $people = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, ["id", "first_name", "last_name", "email"]);
 
+        // Check if the payments module is installed
+        // If so, we can also export a membership status
+        if(class_exists("\\Modules\\Payments")) {
+            for($i = 0; $i < count($people); $i++) {
+                $people[$i]["membership_status"] = Payments::getMembershipStatusForPersonId($people[$i]["id"]);
+            }
+        }
+
+        return $people;
     }
 }
 
