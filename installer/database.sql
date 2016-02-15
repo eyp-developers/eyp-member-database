@@ -34,7 +34,6 @@ CREATE TABLE core_views (
     module_name         VARCHAR(200) NOT NULL,
     name                VARCHAR(200) NOT NULL,
     title               VARCHAR(200),
-    
     icon                VARCHAR(200),
     type                VARCHAR(200) NOT NULL,
     datasource          VARCHAR(200),
@@ -173,3 +172,6 @@ INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to han
 
 /* Create admin user */
 CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);
+
+/* Create core stores */
+INSERT INTO core_stores VALUES('modules_exportable', 'modules', 'exportable', 'id', 'name');

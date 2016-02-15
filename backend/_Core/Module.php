@@ -8,6 +8,13 @@ class Module {
      * @var {string} $_lc_classname The name of the class as a lowercase string
      */
     protected $_lc_classname;
+        public function getLCName() { return $this->_lc_classname; }
+
+    /**
+     * @var {string} $_classname The name of the class as a string
+     */
+    protected $_classname;
+        public function getName() { return $this->_classname; }
 
     /**
      * @var {array} $_actions All actions supported by this module
@@ -21,6 +28,7 @@ class Module {
     public function __construct() {
         // Generate the lowercase classname
         $this->_lc_classname = strtolower(join('', array_slice(explode('\\', get_class($this)), -1)));
+        $this->_classname = join('', array_slice(explode('\\', get_class($this)), -1));
 
         // Set the default actions
         $this->_actions = [

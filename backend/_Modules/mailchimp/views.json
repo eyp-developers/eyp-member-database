@@ -19,6 +19,12 @@
                     "data_key" : "id",
                     "title" : "ID"
                 },
+                "datasource" : {
+                    "data_key" : "datasource",
+                    "title" : "Data source",
+                    "store_module" : "modules",
+                    "store_name" : "modules_exportable"
+                },
                 "info" : {
                     "type" : "action",
                     "target" : "/mailchimp/list_detail/:id",
@@ -54,13 +60,15 @@
                     "data_key" : "name",
                     "title" : "Name"
                 },
-                "api_server" : {
-                    "data_key" : "api_server",
-                    "title" : "API server"
-                },
                 "api_key" : {
                     "data_key" : "api_key",
                     "title" : "API key"
+                },
+                "datasource" : {
+                    "data_key" : "datasource",
+                    "title" : "Data source",
+                    "store_module" : "modules",
+                    "store_name" : "modules_exportable"
                 }
             }
         },
@@ -81,6 +89,14 @@
                     "data_key" : "api_key",
                     "title" : "API key",
                     "required" : true
+                },
+                "datasource" : {
+                    "data_key" : "datasource",
+                    "title" : "Data source",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "modules",
+                    "store_name" : "modules_exportable"
                 }
             }
         },
@@ -104,6 +120,14 @@
                     "data_key" : "api_key",
                     "title" : "API key",
                     "required" : true
+                },
+                "datasource" : {
+                    "data_key" : "datasource",
+                    "title" : "Data source",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "modules",
+                    "store_name" : "modules_exportable"
                 }
             }
         },

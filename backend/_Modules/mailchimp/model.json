@@ -14,6 +14,16 @@
 
 			"name" : {
 				"type" : "string"
+			},
+
+			"datasource" : {
+				"type" : "short_string",
+				"required" : true,
+				"foreign_key" : {
+					"module" : "modules",
+					"table" : "exportable",
+					"field" : "id"
+				}
 			}
 		}
 	}

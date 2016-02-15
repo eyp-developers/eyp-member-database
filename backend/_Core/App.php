@@ -11,9 +11,14 @@ require 'Slim/Slim.php';
 class App {
 
 	/**
-	 * @var {Slim} $instance The reference to the Singleton instance of the class
+	 * @var {Slim} $_instance The reference to the Singleton instance of the class
 	 */
 	private static $_instance;
+
+    /**
+     * @var {dict} $modules A dictionary holding all initilized modules
+     */
+    public static $_modules = array();
 
 	/**
      * Returns the Singleton instance of this class.
@@ -85,6 +90,7 @@ class App {
 			// Load module
 			$module_classname = '\\Modules\\'.ucfirst($short_name);
 			$module = new $module_classname();
+            App::$_modules[$short_name] = $module;
 
             // Get all actions supported by the module
             $module_actions = $module->getActions();
