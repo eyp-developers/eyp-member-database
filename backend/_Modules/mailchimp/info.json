@@ -1,0 +1,7 @@
+{
+	"name" : "mailchimp",
+	"title" : "Mailchimp",
+	"icon" : "envelope",
+	"description" : "A module to synchronise data to Mailchimp",
+	"version" : 1
+}

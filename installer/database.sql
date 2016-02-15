@@ -23,7 +23,7 @@ CREATE TABLE core_models_fields (
     module_name         VARCHAR(200) NOT NULL,
     model_name          VARCHAR(200) NOT NULL,
     name                VARCHAR(200) NOT NULL,
-    type                CHAR(10) NOT NULL,
+    type                CHAR(20) NOT NULL,
     required            BOOL NOT NULL DEFAULT 0,
     generated           BOOL NOT NULL DEFAULT 0,
     creator_module_name VARCHAR(200),

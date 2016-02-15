@@ -1,0 +1,136 @@
+{
+    "views": {
+        "lists" : {
+            "title" : "All lists",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "/backend/mailchimp",
+            "in_sidebar" : true,
+            "header_button_text" : "Add list",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/mailchimp/add_list",
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID"
+                },
+                "info" : {
+                    "type" : "action",
+                    "target" : "/mailchimp/list_detail/:id",
+                    "icon" : "info-sign"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/mailchimp/edit_list/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/mailchimp/delete_list/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "list_detail" : {
+            "title" : "List details",
+            "type" : "detail",
+            "datasource" : "/backend/mailchimp/:id",
+            "header_button_text" : "Edit list",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/mailchimp/edit_list/:id",
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID"
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "api_server" : {
+                    "data_key" : "api_server",
+                    "title" : "API server"
+                },
+                "api_key" : {
+                    "data_key" : "api_key",
+                    "title" : "API key"
+                }
+            }
+        },
+
+        "edit_list" : {
+            "title" : "Edit list",
+            "type" : "form",
+            "datasource" : "/backend/mailchimp/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "required" : true
+                },
+                "api_key" : {
+                    "data_key" : "api_key",
+                    "title" : "API key",
+                    "required" : true
+                }
+            }
+        },
+
+        "add_list" : {
+            "title" : "Add list",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "/backend/mailchimp",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "required" : true
+                },
+                "api_key" : {
+                    "data_key" : "api_key",
+                    "title" : "API key",
+                    "required" : true
+                }
+            }
+        },
+
+        "delete_list" : {
+            "title" : "Delete list",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this list?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "/backend/mailchimp/:id"
+                }
+            }
+        }
+    }
+}

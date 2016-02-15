@@ -175,7 +175,7 @@ class Database {
 		$data_table_name = $module_name.'_'.$table_name;
 		$new_id = \Core\Database::getInstance()->insert($data_table_name, $data);
 
-	    return ($new_id > 0 ? $new_id : false);
+	    return (($new_id > 0) || !is_int($new_id) ? $new_id : false);
 	}
 
 	/**
