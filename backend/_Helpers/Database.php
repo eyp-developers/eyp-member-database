@@ -350,25 +350,47 @@ class Database {
 			return false;
 		}
 
-		for($i = 0; $i < count($store_configs); $i++) {
-			$data_table = $store_configs[$i]['module_name'] . '_' . $store_configs[$i]['model_name'];
-			$data = \Core\Database::getInstance()->select(
-				$data_table,
-				[
-					$store_configs[$i]['data_key'],
-					$store_configs[$i]['value']
-				],
-				[
-					'ORDER' => $store_configs[$i]['value'].' ASC'
-				]
-			);
+		// The exportable store is not in the database - it has to be calculated
+		if($store_name === 'exportable') {
 
-			// Parse information
-			$data_dict = [];
-			foreach($data as $row) {
-				$data_dict[$row[$store_configs[$i]['data_key']]] = $row[$store_configs[$i]['value']];
+			if($module_name === 'modules') {
+				$exportable_classes = array();
+
+				foreach(\Core\App::$_modules as $module_name => $module) {
+					if($module instanceof \Core\Exportable) {
+						$exportable_classes[$module->getLCName()] = $module->getName();
+					}
+				}
+
+				$store_configs[$i]['data'] = $exportable_classes;
+			} else {
+				$module_obj = \Core\App::$_modules[$module_name];
+				$fields = $module_obj->getExportFields();
+				$store_configs[$i]['data'] = $fields;
 			}
-			$store_configs[$i]['data'] = $data_dict;
+
+		} else {
+
+			for($i = 0; $i < count($store_configs); $i++) {
+				$data_table = $store_configs[$i]['module_name'] . '_' . $store_configs[$i]['model_name'];
+				$data = \Core\Database::getInstance()->select(
+					$data_table,
+					[
+						$store_configs[$i]['data_key'],
+						$store_configs[$i]['value']
+					],
+					[
+						'ORDER' => $store_configs[$i]['value'].' ASC'
+					]
+				);
+
+				// Parse information
+				$data_dict = [];
+				foreach($data as $row) {
+					$data_dict[$row[$store_configs[$i]['data_key']]] = $row[$store_configs[$i]['value']];
+				}
+				$store_configs[$i]['data'] = $data_dict;
+			}
 		}
 
 		return $store_configs;
@@ -402,16 +424,23 @@ class Database {
 		}
 
 		// The exportable store is not in the database - it has to be calculated
-		if($module_name === 'modules' && $store_name === 'modules_exportable') {
-			$exportable_classes = array();
+		if($store_name === 'exportable') {
 
-			foreach(\Core\App::$_modules as $module_name => $module) {
-				if($module instanceof \Core\Exportable) {
-					$exportable_classes[$module->getLCName()] = $module->getName();
+			if($module_name === 'modules') {
+				$exportable_classes = array();
+
+				foreach(\Core\App::$_modules as $module_name => $module) {
+					if($module instanceof \Core\Exportable) {
+						$exportable_classes[$module->getLCName()] = $module->getName();
+					}
 				}
-			}
 
-			$store_config['data'] = $exportable_classes;
+				$store_config['data'] = $exportable_classes;
+			} else {
+				$module_obj = \Core\App::$_modules[$module_name];
+				$fields = $module_obj->getExportFields();
+				$store_config['data'] = $fields;
+			}
 
 		} else {
 

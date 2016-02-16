@@ -174,4 +174,4 @@ INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to han
 CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);
 
 /* Create core stores */
-INSERT INTO core_stores VALUES('modules_exportable', 'modules', 'exportable', 'id', 'name');
+INSERT INTO core_stores VALUES('exportable', 'modules', 'exportable', 'id', 'name');

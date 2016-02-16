@@ -449,6 +449,22 @@ class Modules extends \Core\Module {
             }
         }
 
+        // Add implicit stores for exportable modules
+        if(isset($module_info['exportable']) && $module_info['exportable'] === true) {
+            $db->insert('core_stores', [
+                'name' => 'exportable',
+                'module_name' => $module_name,
+                'model_name' => 'exportable',
+                'data_key' => 'id',
+                'value' => 'name',
+            ]);
+
+            $new_stores[] = [
+                'module_name' => $module_name,
+                'model_name' => 'exportable'
+            ];
+        }
+
         // Iterate over all data of the module
         if($data !== false) {
             foreach($data as $module_name => $module_tables) {

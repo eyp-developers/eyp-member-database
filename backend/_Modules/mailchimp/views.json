@@ -23,7 +23,7 @@
                     "data_key" : "datasource",
                     "title" : "Data source",
                     "store_module" : "modules",
-                    "store_name" : "modules_exportable"
+                    "store_name" : "exportable"
                 },
                 "info" : {
                     "type" : "action",
@@ -34,6 +34,11 @@
                     "type" : "action",
                     "target" : "/mailchimp/edit_list/:id",
                     "icon" : "pencil"
+                },
+                "edit_fields" : {
+                    "type" : "action",
+                    "target" : "/mailchimp/edit_list_fields/:id",
+                    "icon" : "list-alt"
                 },
                 "delete" : {
                     "type" : "action",
@@ -68,7 +73,7 @@
                     "data_key" : "datasource",
                     "title" : "Data source",
                     "store_module" : "modules",
-                    "store_name" : "modules_exportable"
+                    "store_name" : "exportable"
                 }
             }
         },
@@ -96,7 +101,62 @@
                     "type" : "select",
                     "required" : true,
                     "store_module" : "modules",
-                    "store_name" : "modules_exportable"
+                    "store_name" : "exportable"
+                }
+            }
+        },
+
+        "edit_list_fields" : {
+            "title" : "Edit list fields",
+            "type" : "form",
+            "datasource" : "/backend/mailchimp/:id",
+            "does_edit" : true,
+            "fields" :
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "required" : true,
+                    "visible" : false
+                },
+                "api_key" : {
+                    "data_key" : "api_key",
+                    "title" : "API key",
+                    "required" : true,
+                    "visible" : false
+                },
+                "datasource" : {
+                    "data_key" : "datasource",
+                    "title" : "Data source",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "modules",
+                    "store_name" : "exportable",
+                    "visible" : false
+                },
+                "first_name_field" : {
+                    "data_key" : "first_name_field",
+                    "title" : "First name",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "people",
+                    "store_name" : "exportable"
+                },
+                "last_name_field" : {
+                    "data_key" : "last_name_field",
+                    "title" : "Last name",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "people",
+                    "store_name" : "exportable"
+                },
+                "email_field" : {
+                    "data_key" : "email_field",
+                    "title" : "Email",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "people",
+                    "store_name" : "exportable"
                 }
             }
         },
@@ -127,7 +187,7 @@
                     "type" : "select",
                     "required" : true,
                     "store_module" : "modules",
-                    "store_name" : "modules_exportable"
+                    "store_name" : "exportable"
                 }
             }
         },
