@@ -88,6 +88,12 @@
                     "title" : "Email",
                     "type" : "email"
                 },
+                "newsletter" : {
+                    "data_key" : "newsletter",
+                    "title" : "Newsletter",
+                    "store_module" : "people",
+                    "store_name" : "newsletter_status"
+                },
                 "phone" : {
                     "data_key" : "phone",
                     "title" : "Phone"
@@ -149,6 +155,14 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
+                },
+                "newsletter" : {
+                    "data_key" : "newsletter",
+                    "title" : "Newsletter",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "people",
+                    "store_name" : "newsletter_status"
                 },
                 "phone" : {
                     "data_key" : "phone",
@@ -216,6 +230,14 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
+                },
+                "newsletter" : {
+                    "data_key" : "newsletter",
+                    "title" : "Newsletter",
+                    "type" : "select",
+                    "required" : true,
+                    "store_module" : "people",
+                    "store_name" : "newsletter_status"
                 },
                 "phone" : {
                     "data_key" : "phone",

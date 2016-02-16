@@ -30,6 +30,11 @@
                     "target" : "/mailchimp/list_detail/:id",
                     "icon" : "info-sign"
                 },
+                "sync" : {
+                    "type" : "action",
+                    "target" : "/mailchimp/sync_list/:id",
+                    "icon" : "refresh"
+                },
                 "edit" : {
                     "type" : "action",
                     "target" : "/mailchimp/edit_list/:id",
@@ -213,6 +218,31 @@
                     "title" : "Delete",
                     "type" : "button",
                     "target" : "/backend/mailchimp/:id"
+                }
+            }
+        },
+
+        "sync_list" : {
+            "title" : "Syncronise list",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Syncronising this list will take some time.",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "confirm",
+                    "title" : "Syncronise",
+                    "type" : "button",
+                    "target" : "/backend/mailchimp/sync/:id"
                 }
             }
         }

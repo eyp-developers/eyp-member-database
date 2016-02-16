@@ -29,6 +29,17 @@
 				"id" : "7",
 				"name" : "Contact"
 			}
+		],
+
+		"newsletter_status" : [
+			{
+				"id" : "1",
+				"name" : "No"
+			},
+			{
+				"id" : "2",
+				"name" : "Yes"
+			}
 		]
 	}
 }

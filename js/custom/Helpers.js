@@ -52,11 +52,12 @@ var Helpers =
     getInputTypeForDataType: function(data_type) {
         switch(data_type) {
             case 'email':
-                return 'email';
-
             case 'date':
             case 'password':
                 return data_type;
+
+            case 'boolean':
+                return 'checkbox';
 
             default:
                 return 'text';

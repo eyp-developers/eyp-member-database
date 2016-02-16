@@ -12,6 +12,13 @@
 			"model_name" : "kinds",
 			"data_key" : "id",
 			"value" : "name"
+		},
+
+		"newsletter_status" :  {
+			"module_name" : "people",
+			"model_name" : "newsletter_status",
+			"data_key" : "id",
+			"value" : "name"
 		}
 	}
 }

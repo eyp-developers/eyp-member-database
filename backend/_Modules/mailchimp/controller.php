@@ -4,7 +4,9 @@ namespace Modules;
 
 // Load the MailChimp API
 include('api/MailChimp.php');
+include('api/Batch.php');
 use \DrewM\MailChimp\MailChimp as MailChimpAPI;
+use \DrewM\MailChimp\Batch;
 
 /**
  * The Payments module
@@ -17,6 +19,9 @@ class Mailchimp extends \Core\Module {
     public function __construct() {
         // Call Module constructur
         parent::__construct();
+
+        // Add additional route for the sync call
+        $this->_actions['POST']['/sync/:id'] = 'sync_list';
     }
 
     /**
@@ -123,6 +128,55 @@ class Mailchimp extends \Core\Module {
                 ]
             );
         }
+    }
+
+    /**
+     * Syncronises a list with Mailchimp
+     *
+     * @param {string} $list_id The id of the list
+     * @return void
+     */
+    public function sync_list($list_id) {
+        // Get the list details
+        $list = \Helpers\Database::getObject('mailchimp', 'mailchimp', $list_id);
+        
+        error_log(print_r($list, true));
+
+        // Return error if the list was not found
+        if($list === false || count($list) === 0) \Helpers\Response::error();
+
+        // Connect to Mailchimp API
+        $mc = new MailChimpAPI($list['api_key']);
+        $mc_batch = $mc->new_batch();
+        
+        // Add data
+        $datasource_obj = \Core\App::$_modules[$list['datasource']];
+        $data = $datasource_obj->getExportData();
+
+        error_log(print_r($data, true));
+
+        for($i = 0; $i < count($data); $i++) {
+            $status = 'unsubscribed';
+            if($data[$i]['newsletter'] == 2) {
+                $status = 'subscribed';
+            }
+
+            $hash = md5(strtolower($data[$i][$list['email_field']]));
+             
+            $mc_batch->put('op'.$i, 'lists/'.$list['id'].'/members/'.$hash, [
+                'email_address' => $data[$i][$list['email_field']],
+                'status'        => $status,
+                'merge_fields'  => [
+                    'FNAME' => $data[$i][$list['first_name_field']],
+                    'LNAME' => $data[$i][$list['last_name_field']]
+                ]
+            ]);
+        }
+
+        $result = $mc_batch->execute();
+
+        // Send response
+        \Helpers\Response::success(['result' => $result]);
     }
 
 }

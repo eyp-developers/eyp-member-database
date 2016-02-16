@@ -64,7 +64,8 @@ class Payments extends \Core\Module {
         $current_date = date("Y-m-d");
         $expiring_date = date_format(date_create("+2 weeks"), "Y-m-d");
 
-        foreach($payments as $payment) {
+
+        if(is_array($payments)) foreach($payments as $payment) {
             if($payment["kind"] == 1 && $payment["valid_from"] <= $current_date && $payment["valid_until"] >= $current_date) {
                 $new_status = 3;
                 if($payment["valid_until"] <= $expiring_date) {
