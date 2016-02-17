@@ -160,6 +160,10 @@ class Mailchimp extends \Core\Module {
         error_log(print_r($data, true));
 
         for($i = 0; $i < count($data); $i++) {
+            if($data[$i]['email'] === null || strlen($data[$i]['email']) === 0) {
+                continue;
+            }
+
             $status = 'unsubscribed';
             if($data[$i]['newsletter'] == 2) {
                 $status = 'subscribed';
@@ -189,13 +193,17 @@ class Mailchimp extends \Core\Module {
      * @return void
      */
     public function webhook() {
-        error_log("WEBHOOK");
 
         if(\Core\App::getInstance()->request->isPost()) {
+
+            error_log("Got a webhook POST request");
 
             // At this point we know we're dealing with a POST request
             // Get the transmitted data
             $data = \Core\App::getInstance()->request->getBody();
+
+            error_log($data);
+
             $data = json_decode($data, true);
 
             error_log(print_r($data, true));
