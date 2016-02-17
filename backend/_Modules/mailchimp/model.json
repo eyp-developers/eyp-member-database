@@ -36,6 +36,14 @@
 
 			"email_field" : {
 				"type" : "short_string"
+			},
+
+			"last_sync_started" : {
+				"type" : "datetime"
+			},
+
+			"last_sync_id" : {
+				"type" : "short_string"
 			}
 		}
 	}

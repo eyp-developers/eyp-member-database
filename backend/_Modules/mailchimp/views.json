@@ -79,6 +79,10 @@
                     "title" : "Data source",
                     "store_module" : "modules",
                     "store_name" : "exportable"
+                },
+                "last_sync_status" : {
+                    "data_key" : "last_sync_status",
+                    "title" : "Last syncronisation"
                 }
             }
         },
@@ -230,7 +234,7 @@
             "fields":
             {
                 "text" : {
-                    "title" : "Syncronising this list will take some time.",
+                    "title" : "This will start syncronising this list with MailChimip. Syncronising this list will take some time. You can check the current status of the syncronisation process by viewing the list details.",
                     "type" : "html"
                 },
                 "cancel_button" : {

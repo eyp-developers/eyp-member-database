@@ -29,6 +29,37 @@ class Mailchimp extends \Core\Module {
     }
 
     /**
+     * Returns a full data record of the module
+     * 
+     * @param {int} $id The ID of the record
+     * @return void
+     */
+    public function view($id) {
+        // Get the record
+        $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $id);
+
+        // Compute the current status
+        $status = null;
+        if($record['last_sync_id'] !== null && strlen($record['last_sync_id']) !== 0) {
+            $mc = new MailChimpAPI($record['api_key']);
+            $mc_batch = $mc->new_batch();
+
+            $status_dict = $mc_batch->check_status($record['last_sync_id']);
+
+            $status = sprintf('Started on %s. %d finished, %d errors, %d total.', $record['last_sync_started'], $status_dict['finished_operations'], $status_dict['errored_operations'], $status_dict['total_operations']);
+        }
+
+        $record['last_sync_status'] = $status;
+
+        // Send response
+        if($record === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success($record);
+        }
+    }
+
+    /**
      * Creates a new list
      * 
      * @return void
@@ -143,8 +174,6 @@ class Mailchimp extends \Core\Module {
     public function sync_list($list_id) {
         // Get the list details
         $list = \Helpers\Database::getObject('mailchimp', 'mailchimp', $list_id);
-        
-        error_log(print_r($list, true));
 
         // Return error if the list was not found
         if($list === false || count($list) === 0) \Helpers\Response::error();
@@ -156,8 +185,6 @@ class Mailchimp extends \Core\Module {
         // Add data
         $datasource_obj = \Core\App::$_modules[$list['datasource']];
         $data = $datasource_obj->getExportData();
-
-        error_log(print_r($data, true));
 
         for($i = 0; $i < count($data); $i++) {
             if($data[$i]['email'] === null || strlen($data[$i]['email']) === 0) {
@@ -183,6 +210,11 @@ class Mailchimp extends \Core\Module {
 
         $result = $mc_batch->execute();
 
+        $list['last_sync_id'] = $result['id'];
+        $list['last_sync_started'] = date('Y-m-d H:i:s');
+
+        \Helpers\Database::updateObject('mailchimp', 'mailchimp', $list_id, $list);
+
         // Send response
         \Helpers\Response::success(['result' => $result]);
     }
@@ -195,8 +227,6 @@ class Mailchimp extends \Core\Module {
     public function webhook() {
 
         if(\Core\App::getInstance()->request->isPost()) {
-
-            error_log("Got a webhook POST request");
 
             // At this point we know we're dealing with a POST request
             // Get the transmitted data
@@ -215,7 +245,6 @@ class Mailchimp extends \Core\Module {
 
         } else {
             // We have to handle GET requests for the webhook validator
-            error_log("Got a webhook validator request");
             \Helpers\Response::success();
         }
     }

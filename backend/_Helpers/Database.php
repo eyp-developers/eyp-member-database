@@ -16,6 +16,7 @@ class Database {
 		'short_string' => 'VARCHAR(200)',
 		'text' => 'TEXT',
 		'date' => 'DATE',
+		'datetime' => 'DATETIME',
 		'decimal' => "DECIMAL(12,2)"
 	];
 
