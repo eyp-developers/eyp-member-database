@@ -22,6 +22,10 @@ class Mailchimp extends \Core\Module {
 
         // Add additional route for the sync call
         $this->_actions['POST']['/sync/:id'] = 'sync_list';
+
+        // Add additional routes for webhook
+        $this->_actions['GET']['/webhook/'] = 'webhook';
+        $this->_actions['POST']['/webhook/'] = 'webhook';
     }
 
     /**
@@ -177,6 +181,31 @@ class Mailchimp extends \Core\Module {
 
         // Send response
         \Helpers\Response::success(['result' => $result]);
+    }
+
+    /**
+     * Processes a webhook
+     * 
+     * @return void
+     */
+    public function webhook() {
+        error_log("WEBHOOK");
+
+        if(\Core\App::getInstance()->request->isPost()) {
+
+            // At this point we know we're dealing with a POST request
+            // Get the transmitted data
+            $data = \Core\App::getInstance()->request->getBody();
+            $data = json_decode($data, true);
+
+            error_log(print_r($data, true));
+
+        } else {
+
+            // We have to handle GET requests for the webhook validator
+            error_log("Got a webhook validator request");
+            \Helpers\Response::success();
+        }
     }
 
 }
