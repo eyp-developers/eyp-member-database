@@ -201,12 +201,14 @@ class Mailchimp extends \Core\Module {
             // At this point we know we're dealing with a POST request
             // Get the transmitted data
             $data = \Core\App::getInstance()->request->getBody();
-
-            error_log($data);
-
             parse_str($data, $data);
 
-            error_log(print_r($data, true));
+            // Remove the person from the newsletter
+            if($data['type'] === 'unsubscribe' || $data['type'] === 'cleaned') {
+                $email = $data['data']['email'];
+                \Helpers\Database::updateObject('people', 'people', $email, ['newsletter' => 1], 'email');
+                error_log(\Core\Database::getInstance()->last_query());
+            }
 
         } else {
 

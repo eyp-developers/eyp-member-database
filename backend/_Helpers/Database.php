@@ -197,7 +197,7 @@ class Database {
 		}
 
 		$data_table_name = $module_name.'_'.$table_name;
-		$num_rows = \Core\Database::getInstance()->update($data_table_name, $data, ['id' => $id]);
+		$num_rows = \Core\Database::getInstance()->update($data_table_name, $data, [$id_property => $id]);
 
 	    return true;
 	}
