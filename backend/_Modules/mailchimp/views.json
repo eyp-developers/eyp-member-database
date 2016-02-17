@@ -166,6 +166,28 @@
                     "required" : true,
                     "store_module" : "people",
                     "store_name" : "exportable"
+                },
+                "compare_field_1" : {
+                    "data_key" : "compare_field_1",
+                    "title" : "Compare field 1",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "exportable"
+                },
+                "compare_value_1" : {
+                    "data_key" : "compare_value_1",
+                    "title" : "Compare value 1"
+                },
+                "compare_field_2" : {
+                    "data_key" : "compare_field_2",
+                    "title" : "Compare field 2",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "exportable"
+                },
+                "compare_value_2" : {
+                    "data_key" : "compare_value_2",
+                    "title" : "Compare value 2"
                 }
             }
         },

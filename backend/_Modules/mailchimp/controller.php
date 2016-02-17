@@ -192,7 +192,8 @@ class Mailchimp extends \Core\Module {
             }
 
             $status = 'unsubscribed';
-            if($data[$i]['newsletter'] == 2) {
+            if($data[$i][$list['compare_field_1']] == $list['compare_value_1'] &&
+               $data[$i][$list['compare_field_2']] == $list['compare_value_2']) {
                 $status = 'subscribed';
             }
 

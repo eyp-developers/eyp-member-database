@@ -143,7 +143,7 @@ class People extends \Core\Module implements \Core\Exportable {
         // Check if the payments module is installed
         // If so, we can also export a membership status
         if(class_exists("\\Modules\\Payments")) {
-            $fields["membership_status"] = "Membership status";
+            $fields["valid_membership"] = "Valid membership";
         }
 
         return $fields;
@@ -161,7 +161,7 @@ class People extends \Core\Module implements \Core\Exportable {
         // If so, we can also export a membership status
         if(class_exists("\\Modules\\Payments")) {
             for($i = 0; $i < count($people); $i++) {
-                $people[$i]["membership_status"] = Payments::getMembershipStatusForPersonId($people[$i]["id"]);
+                $people[$i]["valid_membership"] = (Payments::getMembershipStatusForPersonId($people[$i]["id"]) >= 2);
             }
         }
 

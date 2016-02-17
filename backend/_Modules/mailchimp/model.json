@@ -38,6 +38,22 @@
 				"type" : "short_string"
 			},
 
+			"compare_field_1" : {
+				"type" : "short_string"
+			},
+
+			"compare_value_1" : {
+				"type" : "short_string"
+			},
+
+			"compare_field_2" : {
+				"type" : "short_string"
+			},
+
+			"compare_value_2" : {
+				"type" : "short_string"
+			},
+
 			"last_sync_started" : {
 				"type" : "datetime"
 			},
