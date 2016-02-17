@@ -206,12 +206,14 @@ class Mailchimp extends \Core\Module {
             // Remove the person from the newsletter
             if($data['type'] === 'unsubscribe' || $data['type'] === 'cleaned') {
                 $email = $data['data']['email'];
-                \Helpers\Database::updateObject('people', 'people', $email, ['newsletter' => 1], 'email');
-                error_log(\Core\Database::getInstance()->last_query());
+
+                $person = \Helpers\Database::getObject('people', 'people', $email, 'email');
+                $person['newsletter'] = 1;
+
+                \Helpers\Database::updateObject('people', 'people', $email, $person, 'email');
             }
 
         } else {
-
             // We have to handle GET requests for the webhook validator
             error_log("Got a webhook validator request");
             \Helpers\Response::success();
