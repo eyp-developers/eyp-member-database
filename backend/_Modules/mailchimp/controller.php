@@ -204,7 +204,7 @@ class Mailchimp extends \Core\Module {
 
             error_log($data);
 
-            $data = \Core\App::getInstance()->request->getParsedBody();
+            parse_str($data, $data);
 
             error_log(print_r($data, true));
 
