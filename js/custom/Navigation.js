@@ -12,6 +12,8 @@ var Navigation =
 
     navigateToHome : function() {
         $('#main').html('');
+
+        UI.showHome();
     },
 
     navigateToURL : function(url) {

@@ -5,6 +5,7 @@
 	"description" : "A module to manage people's payments",
 	"version" : 1,
 	"dependencies" : [
-		"people"
+		"people",
+		"sessions"
 	]
 }

@@ -63,6 +63,29 @@
     margin-bottom: 20px;
 }
 
+.box {
+    background-color: #f8f8f8;
+    border: 1px solid #e7e7e7;
+    border-radius: 3px;
+    margin-bottom: 15px;
+}
+
+.box h4 {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.box ul {
+    list-style: none;
+    text-align: center;
+    padding-left: 0;
+}
+
+.box li {
+    margin-bottom: .5em;
+}
+
 .mono {
     font-family: monospace;
 }

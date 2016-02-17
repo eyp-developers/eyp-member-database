@@ -3,6 +3,8 @@
  */
 var UI =
 {
+    sidebar_config : null,
+
     applyViewConfig : function(config, params, dom_target) {
 
         // Get the main view if no target was defined
@@ -94,6 +96,8 @@ var UI =
     },
 
     applySidebarConfig : function(sidebar_config) {
+        UI.sidebar_config = sidebar_config;
+
         // Load sidebar items
         var sidebar_main_menu = $("#sidebar-main-menu");
         sidebar_main_menu.html('');
@@ -206,5 +210,43 @@ var UI =
 
             return false;
         });
+    },
+
+    showHome : function() {
+
+        var $dom_view = $('<div class="row view"></div>');
+
+        // Build sidebar
+        for(var menu_index in UI.sidebar_config) {
+            var menu_item = UI.sidebar_config[menu_index];
+
+            //var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.icon, menu_item.items);
+
+            $menu_box = $('<div class="col-xs-6 col-sm-4 col-md-3"></div></div>');
+
+            var dom_icon = '';
+            if(menu_item.icon) {
+                dom_icon = '<span class="glyphicon glyphicon-' + menu_item.icon + '" aria-hidden="true"></span>';
+            }
+            var $box = $('<div class="box"><h4>' + dom_icon + ' ' + menu_item.title + '</h4></div>');
+            
+            var $list = $('<ul></ul>');
+            for(list_index in menu_item.items) {
+                var list_item = menu_item.items[list_index];
+
+                var dom_icon = '';
+                if(list_item.icon) {
+                    dom_icon = '<span class="glyphicon glyphicon-' + list_item.icon + '" aria-hidden="true"></span>';
+                }
+
+                $list.append($('<li><a href="#' + list_item.target + '" class="menu-item">' + dom_icon + ' ' + list_item.title + '</a></li>'));
+            }
+
+            $box.append($list);
+            $menu_box.append($box);
+            $dom_view.append($menu_box);
+        }
+
+        $('#main').html($dom_view);
     }
 };
