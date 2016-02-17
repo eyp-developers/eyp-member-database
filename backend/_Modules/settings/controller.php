@@ -246,7 +246,7 @@ class Settings extends \Core\Module {
      */
     public function viewUser($username) {
         // Get data
-        $data = \Core\Database::getInstance()->select('core_users', ['username', 'name', 'default_permission'], ['username' => $username]);
+        $data = \Core\Database::getInstance()->select('core_users', ['username', 'name', 'api_key', 'default_permission'], ['username' => $username]);
 
         if(!is_array($data) || count($data) === 0) {
             \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);

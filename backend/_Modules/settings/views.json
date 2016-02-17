@@ -209,6 +209,10 @@
                     "title" : "Password",
                     "type" : "password"
                 },
+                "api_key" : {
+                    "data_key" : "api_key",
+                    "title" : "API key"
+                },
                 "default_permission" : {
                     "data_key" : "default_permission",
                     "title" : "Default permission",

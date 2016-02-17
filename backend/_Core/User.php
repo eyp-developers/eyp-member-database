@@ -80,16 +80,27 @@ class User {
      * Authenticates an user by checking their auth token
      *
      * @param {string} $auth_token The authentication token
+     * @param {string} $api_key The API key, if any
      * @return {boolean} Whether the authentication token is valid
      */
-    public static function authenticate($auth_token) {
+    public static function authenticate($auth_token, $api_key = null) {
+
+        // Prepare the right condition
+        $condition = ['token' => $auth_token];
+
+        if($api_key !== null && strlen($api_key) !== 0) {
+            $condition = ['OR' => [
+                'token' => $auth_token,
+                'api_key' => $api_key
+            ]];
+        }
 
         // Check the authentication token
         $userInfo = \Core\Database::getInstance()->select(
             'core_users',
             ['[>]core_users_permissions' => 'username'],
             ['username', 'name', 'module_name', 'permission'],
-            ['token' => $auth_token]
+            $condition
         );
 
         if(is_array($userInfo) && count($userInfo) >= 1) {

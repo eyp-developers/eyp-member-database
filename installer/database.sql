@@ -83,6 +83,7 @@ CREATE TABLE core_users (
     name            VARCHAR(200) NOT NULL,
     default_permission  INT NOT NULL DEFAULT 0,
     token       char(64),
+    api_key     char(64),
     PRIMARY KEY (username)
 );
 
@@ -152,7 +153,7 @@ BEGIN
     DECLARE cur_users CURSOR FOR SELECT name, min_permission FROM core_modules;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET tmp_finished = 1;
 
-    INSERT INTO core_users VALUES(in_username, in_password, in_name, in_default_perm, NULL);
+    INSERT INTO core_users VALUES(in_username, in_password, in_name, in_default_perm, NULL, NULL);
 
     OPEN cur_users;
     loop_users: LOOP
