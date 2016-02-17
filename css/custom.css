@@ -32,6 +32,14 @@
     z-index: 1040;
 }
 
+#sidebar-main-menu .dropdown {
+    margin-bottom: .5em;
+}
+
+#sidebar-main-menu .active .menu-item {
+    background-color: inherit;
+}
+
 .navmenu {
     width: 200px;
     padding-top: 5px;

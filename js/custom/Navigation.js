@@ -47,6 +47,9 @@ var Navigation =
                 success: function(response) {
                     // Apply view config
                     UI.applyViewConfig(response.data, target.slice(3));
+
+                    // Open suitable menu
+                    $('#menu-' + target[1]).addClass('open');
                 }
             });
 

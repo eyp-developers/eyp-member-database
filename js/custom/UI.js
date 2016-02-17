@@ -107,13 +107,27 @@ var UI =
             var menu_item = sidebar_config[menu_index];
 
             if(typeof menu_item.items !== 'undefined') {
-                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.icon, menu_item.items);
+                var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.module, menu_item.icon, menu_item.items);
             } else {
                 var dom_menu_item = UIComponents.sidebarItem(menu_item.title, menu_item.icon, menu_item.target);
             }
 
             sidebar_main_menu.append(dom_menu_item);
         }
+
+        // Fix listeners for opening and closing
+        $('#sidebar-main-menu > .dropdown').on('hide.bs.dropdown', function (e) {
+            return false;
+        });
+
+        $('#sidebar-main-menu > .dropdown').on('click', function (e) {
+            var menu = $(e.target).parent();
+            
+            if(menu.hasClass('open')) {
+                menu.removeClass('open');
+                return false;
+            }
+        });
     },
 
     applyUserMenuConfig : function(menu_item) {
@@ -219,8 +233,6 @@ var UI =
         // Build sidebar
         for(var menu_index in UI.sidebar_config) {
             var menu_item = UI.sidebar_config[menu_index];
-
-            //var dom_menu_item = UIComponents.sidebarDropdown(menu_item.title, menu_item.icon, menu_item.items);
 
             $menu_box = $('<div class="col-xs-6 col-sm-4 col-md-3"></div></div>');
 

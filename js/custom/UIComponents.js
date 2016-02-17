@@ -11,13 +11,13 @@ var UIComponents =
         return $('<li><a href="#' + target + '" class="menu-item">' + dom_icon + ' ' + title + '</a></li>');
     },
 
-    sidebarDropdown : function(title, icon, items) {
+    sidebarDropdown : function(title, module, icon, items) {
         // Generate dropdown and menu
         var dom_icon = '';
         if(icon) {
             var dom_icon = '<span class="glyphicon glyphicon-' + icon + '" aria-hidden="true"></span>';
         }
-        var dom_dropdown = $('<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + '</a></li>');
+        var dom_dropdown = $('<li class="dropdown" id="menu-' + module + '"><a href="#" class="dropdown-toggle" data-toggle="dropdown">' + dom_icon + ' ' + title + '</a></li>');
         var dom_menu = $('<ul class="dropdown-menu navmenu-nav" role="menu"></ul>');
 
         // Generate menu entries

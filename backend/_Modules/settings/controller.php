@@ -57,6 +57,7 @@ class Settings extends \Core\Module {
         foreach($enabled_modules as $module) {
             $menu_item = [
                 "title" => $module['title'],
+                "module" => $module['name'],
                 "icon" => $module['icon'],
                 "items" => []
             ];
@@ -130,6 +131,7 @@ class Settings extends \Core\Module {
         foreach($enabled_modules as $module) {
             $menu_item = [
                 "title" => $module['title'],
+                "module" => $module['name'],
                 "icon" => $module['icon'],
                 "items" => []
             ];
