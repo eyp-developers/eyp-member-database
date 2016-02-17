@@ -44,7 +44,11 @@
             dataType: "json",
             url: "/backend/settings",
             success: function(response) {
+                // Apply the settings
                 App.applySettings(response.data);
+
+                // Go to the specified url
+                Navigation.navigateToURL(window.location.hash);
             }
         });
     }

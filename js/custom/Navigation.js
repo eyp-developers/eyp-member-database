@@ -15,13 +15,15 @@ var Navigation =
     },
 
     navigateToURL : function(url) {
-        // Make sure we are navigating locally
-        if(!url.indexOf('#') == -1) {
-            window.location = url;
-        }
+
         if(url.length == 0) {
             Navigation.navigateToHome();
             return;
+        }
+
+        // Make sure we are navigating locally
+        if(url.indexOf('#') !== 0) {
+            window.location = url;
         }
 
         // Extract the target from the URL
