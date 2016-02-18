@@ -90,7 +90,8 @@
                 },
                 "newsletter" : {
                     "data_key" : "newsletter",
-                    "title" : "Newsletter"
+                    "title" : "Newsletter",
+                    "type" : "boolean"
                 },
                 "phone" : {
                     "data_key" : "phone",

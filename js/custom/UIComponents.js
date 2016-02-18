@@ -280,7 +280,8 @@ var UIComponents =
                                 applyFormatterToField(Formatters.email(), field);
                                 break;
 
-                            case 'boolean' : 
+                            case 'boolean' :
+                            case 'checkbox' :
                                 applyFormatterToField(Formatters.boolean(), field);
                                 break;
 
@@ -408,7 +409,8 @@ var UIComponents =
                         break;
 
                     case 'checkbox':
-                        input = $('<div class="col-sm-8"><input type="checkbox" class="form-control checkbox" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + (input_text == 1 ? 'checked' : '') + '"></div>');
+                    case 'boolean':
+                        input = $('<div class="col-sm-8"><input type="checkbox" class="form-control checkbox" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + (input_text == 1 ? 'checked="true"' : '') + '"></div>');
                         break;
 
                     default:
