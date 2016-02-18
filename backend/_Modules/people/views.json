@@ -90,9 +90,7 @@
                 },
                 "newsletter" : {
                     "data_key" : "newsletter",
-                    "title" : "Newsletter",
-                    "store_module" : "people",
-                    "store_name" : "newsletter_status"
+                    "title" : "Newsletter"
                 },
                 "phone" : {
                     "data_key" : "phone",
@@ -159,10 +157,7 @@
                 "newsletter" : {
                     "data_key" : "newsletter",
                     "title" : "Newsletter",
-                    "type" : "select",
-                    "required" : true,
-                    "store_module" : "people",
-                    "store_name" : "newsletter_status"
+                    "type" : "checkbox"
                 },
                 "phone" : {
                     "data_key" : "phone",
@@ -239,10 +234,7 @@
                 "newsletter" : {
                     "data_key" : "newsletter",
                     "title" : "Newsletter",
-                    "type" : "select",
-                    "required" : true,
-                    "store_module" : "people",
-                    "store_name" : "newsletter_status"
+                    "type" : "checkbox"
                 },
                 "phone" : {
                     "data_key" : "phone",

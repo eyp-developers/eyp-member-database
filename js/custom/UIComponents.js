@@ -407,6 +407,10 @@ var UIComponents =
                         input = $('<div class="col-sm-8"><div class="fileinput fileinput-new" data-provides="fileinput"><span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" id="input_' + field.data_key + '" name="' + field.data_key + '"></span>  <span class="fileinput-filename"></span>  <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a></div></div>');
                         break;
 
+                    case 'checkbox':
+                        input = $('<div class="col-sm-8"><input type="checkbox" class="form-control checkbox" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + (input_text == 1 ? 'checked' : '') + '"></div>');
+                        break;
+
                     default:
                         var input_type = Helpers.getInputTypeForDataType(field.type);
                         input = $('<div class="col-sm-8"><input type="' + input_type + '" class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" placeholder="' + input_placeholder + '" value="' + input_text + '" ' + required_attribute + '></div>');

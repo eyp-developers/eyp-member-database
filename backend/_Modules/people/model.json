@@ -34,12 +34,7 @@
 			},
 
 			"newsletter" : {
-				"type" : "int",
-				"foreign_key" : {
-					"module" : "people",
-					"table" : "newsletter_status",
-					"field" : "id"
-				}
+				"type" : "int"
 			},
 
 			"phone" : {
@@ -81,18 +76,6 @@
 		},
 
 		"kinds" : {
-
-			"id" : {
-				"type" : "int",
-				"primary_key" : true
-			},
-
-			"name" : {
-				"type" : "string"
-			}
-		},
-
-		"newsletter_status" : {
 
 			"id" : {
 				"type" : "int",

@@ -133,6 +133,10 @@
     width: 100%;
 }
 
+.form-control.checkbox {
+    box-shadow: none;
+}
+
 .fileinput {
     margin-bottom: 0;
 }
@@ -267,6 +271,10 @@
 
 .navbar-inverse .navbar-toggle {
     border-color: #1B4275;
+}
+
+#sidebar-main-menu .dropdown-toggle {
+    font-size: 16px;
 }
 
 .navmenu-default .navmenu-nav > li > a,

@@ -40,9 +40,19 @@ var Helpers =
 
     getFormData: function(form) {
         var unindexed_array = form.serializeArray();
+
+        // Include checkboxes
+        var checkbox_values = form.find('input[type=checkbox]').map(function() {
+            return {"name": this.name, "value": (this.checked ? 1 : 0)}
+        }).get();
+
         var indexed_array = {};
 
         $.map(unindexed_array, function(n, i){
+            indexed_array[n['name']] = n['value'];
+        });
+
+        $.map(checkbox_values, function(n, i){
             indexed_array[n['name']] = n['value'];
         });
 
@@ -55,9 +65,6 @@ var Helpers =
             case 'date':
             case 'password':
                 return data_type;
-
-            case 'boolean':
-                return 'checkbox';
 
             default:
                 return 'text';
