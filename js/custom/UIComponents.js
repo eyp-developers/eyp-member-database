@@ -385,7 +385,7 @@ var UIComponents =
                         break;
 
                     case 'select':
-                        var select = $('<select class="form-control" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + required_attribute + '></select>');
+                        var select = $('<select class="form-control selectpicker" id="input_' + field.data_key + '" name="' + field.data_key + '" ' + required_attribute + '></select>');
                         if(field.required == 0) select.append($('<option value=""></option>'));
                         
                         var store = Stores.getStore(field.store_module, field.store_name);
@@ -401,6 +401,10 @@ var UIComponents =
 
                         input = $('<div class="col-sm-8"></div>');
                         input.append(select);
+                        break;
+
+                    case 'file':
+                        input = $('<div class="col-sm-8"><div class="fileinput fileinput-new" data-provides="fileinput"><span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" id="input_' + field.data_key + '" name="' + field.data_key + '"></span>  <span class="fileinput-filename"></span>  <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a></div></div>');
                         break;
 
                     default:
@@ -452,6 +456,13 @@ var UIComponents =
             })
 
             dl_target.html(html);
+
+            // Activate selectpicker
+            $('.selectpicker').selectpicker({
+                'liveSearch' : true,
+                'liveSearchPlaceholder': 'Search...',
+                'noneSelectedText' : ''
+            });
         };
 
         // Send a request for data if neeeded

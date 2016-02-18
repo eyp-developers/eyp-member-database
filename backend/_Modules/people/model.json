@@ -71,6 +71,10 @@
 				}
 			},
 
+			"photo" : {
+				"type" : "file"
+			},
+
 			"comment" : {
 				"type" : "text"
 			}

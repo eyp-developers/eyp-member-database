@@ -133,6 +133,10 @@
     width: 100%;
 }
 
+.fileinput {
+    margin-bottom: 0;
+}
+
 /* Loading animation */
 .spinner {
     width: 40px;
@@ -263,10 +267,6 @@
 
 .navbar-inverse .navbar-toggle {
     border-color: #1B4275;
-}
-
-.dropdown-toggle {
-    font-size: 16px;
 }
 
 .navmenu-default .navmenu-nav > li > a,

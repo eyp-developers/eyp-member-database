@@ -192,6 +192,11 @@
                     "store_module" : "settings",
                     "store_name" : "countries"
                 },
+                "photo" : {
+                    "data_key" : "photo",
+                    "title" : "Photo",
+                    "type" : "file"
+                },
                 "comment" : {
                     "data_key" : "comment",
                     "title" : "Comment",
@@ -266,6 +271,11 @@
                     "type" : "select",
                     "store_module" : "settings",
                     "store_name" : "countries"
+                },
+                "photo" : {
+                    "data_key" : "photo",
+                    "title" : "Photo",
+                    "type" : "file"
                 },
                 "comment" : {
                     "data_key" : "comment",

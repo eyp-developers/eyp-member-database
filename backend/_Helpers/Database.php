@@ -17,7 +17,8 @@ class Database {
 		'text' => 'TEXT',
 		'date' => 'DATE',
 		'datetime' => 'DATETIME',
-		'decimal' => "DECIMAL(12,2)"
+		'decimal' => "DECIMAL(12,2)",
+		'file' => 'VARCHAR(200)'
 	];
 
 	/**
