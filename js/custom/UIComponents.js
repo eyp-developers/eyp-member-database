@@ -66,9 +66,9 @@ var UIComponents =
             if(button_target && button_target.length > 0) {
                 dom_button_icon = '';
                 if(button_icon && button_icon.length >0 ) {
-                    dom_button_icon = '<span class="glyphicon glyphicon-' + button_icon + '" aria-hidden="true"></span>';
+                    dom_button_icon = '<span class="btn-label"><i class="glyphicon glyphicon-' + button_icon + '" aria-hidden="true"></i></span>';
                 }
-                dom_header_button = '<a href="#' + button_target + '" class="btn btn-primary header-button" role="button">' + dom_button_icon + ' ' + button_text + '</a>';
+                dom_header_button = '<a href="#' + button_target + '" class="btn btn-primary btn-labeled header-button" role="button">' + dom_button_icon + button_text + '</a>';
             }
             var dom_header = $('<div class="col-xs-12"><h1 class="page-header">' + title + dom_header_button + '</h1></div>');
         }
