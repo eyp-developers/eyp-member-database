@@ -49,8 +49,6 @@ class People extends \Core\Module implements \Core\Exportable {
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
 
-        error_log(print_r($new_data, true));
-
         // Replace empty values with null
         foreach($new_data as $key => $value) {
             if($value === '') {
@@ -95,8 +93,6 @@ class People extends \Core\Module implements \Core\Exportable {
         // Get the transmitted data
         $data = \Core\App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
-
-        error_log(print_r($new_data, true));
 
         // Replace empty values with null
         foreach($new_data as $key => $value) {

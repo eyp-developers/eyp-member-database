@@ -232,7 +232,7 @@ var UIComponents =
                 var data = response.data
 
                 // Prepare the definition list
-                var html = $('<dl class="dl-horizontal"></dl>');
+                var html = $('<table class="table table-detail"></table>');
 
                 // Go through all the fields
                 for(field_id in fields) {
@@ -305,7 +305,7 @@ var UIComponents =
                         }
                     }
 
-                    html.append($('<dt>' + dt + '</dt><dd>' + dd + '</dd>'));
+                    html.append($('<tr><td class="table-dt">' + dt + '</td><td class="table-dd">' + dd + '</td></tr>'));
                 }
 
                 dl_target.html(html);

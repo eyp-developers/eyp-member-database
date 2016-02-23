@@ -101,6 +101,7 @@
 .detail-image {
     max-width: 300px;
     max-heigth: 300px;
+    border-radius: 3px;
 }
 
 /* Bootstrap overwrites */
@@ -146,13 +147,15 @@
     margin-bottom: 0;
 }
 
-dl.dl-horizontal {
-    font-size: 1.2em;
+.table-dt {
+    width: 30%;
+    font-weight: bold;
+    text-align: right;
+    border-top: 1px solid #efefef !important;
 }
 
-dl.dl-horizontal dt, dl.dl-horizontal dd {
-    padding-top: .2em;
-    padding-bottom: .2em;
+.table-dd {
+    border-top: 1px solid #efefef !important;
 }
 
 /* Loading animation */

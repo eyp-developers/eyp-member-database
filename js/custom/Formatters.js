@@ -102,6 +102,7 @@ var Formatters =
         return function(value, row, index) {
             // In case this gets called for an invisible column
             if(!this.visible || value === null || typeof value === 'undefined') return '';
+            if(value === '') return '-';
 
             return '<img src="' + value + '" class="detail-image"/>';
         }
