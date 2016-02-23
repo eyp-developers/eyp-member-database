@@ -158,6 +158,10 @@
     border-top: 1px solid #efefef !important;
 }
 
+.table-detail tr:first-child td {
+    border-top: none !important;
+}
+
 /* Loading animation */
 .spinner {
     width: 40px;
