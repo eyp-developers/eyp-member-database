@@ -492,7 +492,6 @@ var UIComponents =
 
             // Handle file upload
             $('.fileinput').on('change.bs.fileinput', function(e) {
-                console.log('Uploading file!');
 
                 var input = $(this).find(':file');
 
@@ -514,8 +513,6 @@ var UIComponents =
                     contentType: false,
 
                     success: function(response) {
-                        console.log(response);
-
                         // Clear submit button
                         var submit_button = $(':submit');
                         submit_button.removeAttr('disabled');
