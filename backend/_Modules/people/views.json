@@ -77,6 +77,11 @@
                     "data_key" : "last_name",
                     "title" : "Last Name"
                 },
+                "photo" : {
+                    "data_key" : "photo",
+                    "title" : "Photo",
+                    "type" : "image"
+                },
                 "kind" :  {
                     "data_key" : "kind",
                     "title" : "Kind",
@@ -191,7 +196,7 @@
                 "photo" : {
                     "data_key" : "photo",
                     "title" : "Photo",
-                    "type" : "file"
+                    "type" : "image"
                 },
                 "comment" : {
                     "data_key" : "comment",
@@ -268,7 +273,7 @@
                 "photo" : {
                     "data_key" : "photo",
                     "title" : "Photo",
-                    "type" : "file"
+                    "type" : "image"
                 },
                 "comment" : {
                     "data_key" : "comment",

@@ -98,6 +98,11 @@
     font-family: monospace;
 }
 
+.detail-image {
+    max-width: 300px;
+    max-heigth: 300px;
+}
+
 /* Bootstrap overwrites */
 .alert {
     border-top: none;
@@ -139,6 +144,15 @@
 
 .fileinput {
     margin-bottom: 0;
+}
+
+dl.dl-horizontal {
+    font-size: 1.2em;
+}
+
+dl.dl-horizontal dt, dl.dl-horizontal dd {
+    padding-top: .2em;
+    padding-bottom: .2em;
 }
 
 /* Loading animation */

@@ -96,5 +96,14 @@ var Formatters =
                 return '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
             }
         }
-    }
+    },
+
+    image : function() {
+        return function(value, row, index) {
+            // In case this gets called for an invisible column
+            if(!this.visible || value === null || typeof value === 'undefined') return '';
+
+            return '<img src="' + value + '" class="detail-image"/>';
+        }
+    },
 };

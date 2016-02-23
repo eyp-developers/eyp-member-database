@@ -291,8 +291,11 @@ var UIComponents =
                                 applyFormatterToField(Formatters.plain(), field);
                                 break;
 
+                            case 'image' :
+                                applyFormatterToField(Formatters.image(), field);
+
                             default:
-                                console.error('Unsupported field type "' + column.type + '"');
+                                console.error('Unsupported field type "' + field.type + '"');
                         }
 
                         if(typeof field.formatter === 'function') {
@@ -404,8 +407,25 @@ var UIComponents =
                         input.append(select);
                         break;
 
-                    case 'file':
-                        input = $('<div class="col-sm-8"><div class="fileinput fileinput-new" data-provides="fileinput"><span class="btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" id="input_' + field.data_key + '" name="' + field.data_key + '"></span>  <span class="fileinput-filename"></span>  <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a></div></div>');
+                    case 'image':
+                        input = $(
+                            '<div class="col-sm-8">' +
+                                '<div class="fileinput fileinput-new" data-provides="fileinput">' +
+                                    '<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">' +
+                                        '<img src="' + input_text + '">' +
+                                    '</div>' +
+                                    '<div>' +
+                                        '<span class="btn btn-default btn-file">' +
+                                            '<span class="fileinput-new">Select image</span>'+
+                                            '<span class="fileinput-exists">Change</span>' +
+                                            '<input type="file" id="input_file_' + field.data_key + '" name="file_' + field.data_key + '">' +
+                                        '</span>' +
+                                        '<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<input type="hidden" id="input_' + field.data_key + '" name="' + field.data_key + '" value="' + input_text + '">' +
+                            '</div>'
+                        );
                         break;
 
                     case 'checkbox':
@@ -468,6 +488,57 @@ var UIComponents =
                 'liveSearch' : true,
                 'liveSearchPlaceholder': 'Search...',
                 'noneSelectedText' : ''
+            });
+
+            // Handle file upload
+            $('.fileinput').on('change.bs.fileinput', function(e) {
+                console.log('Uploading file!');
+
+                var input = $(this).find(':file');
+
+                // Prepare data
+                var fd = new FormData();
+                fd.append('imageData', input[0].files[0].result);
+
+                // Disable submit button
+                var submit_button = $(':submit');
+                submit_button.attr('disabled', 'disabled');
+                submit_button.text('Uploading file...');
+
+                Server.ajax({
+                    url: "/backend/files/upload",
+                    type: "POST",
+                    data: fd,
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+
+                    success: function(response) {
+                        console.log(response);
+
+                        // Clear submit button
+                        var submit_button = $(':submit');
+                        submit_button.removeAttr('disabled');
+                        submit_button.text('Submit');
+
+                        // Handle response
+                        var input_id = $('.fileinput').find(':file').attr('id');
+                        input_id = input_id.replace('file_', '');
+
+                        var hidden_input = $('#' + input_id);
+
+                        hidden_input.val(response.data.url);
+                    },
+
+                    error: function(jqXHR, textStatus, errorMessage) {
+                        // Clear submit button
+                        var submit_button = $(':submit');
+                        submit_button.removeAttr('disabled');
+                        submit_button.text('Submit');
+
+                        $('.fileinput').fileinput('clear');
+                    }
+                });
             });
         };
 
