@@ -13,6 +13,12 @@
     #app-title {
         display: none;
     }
+
+    #eyp-logo {
+        position: relative;
+        top: 8px;
+        left: 10px !important;
+    }
 }
 
 #main {
@@ -65,6 +71,12 @@
 #user-menu.navbar-nav > li > a {
     padding-top: 15px;
     padding-bottom: 15px;
+}
+
+#eyp-logo {
+    position: relative;
+    top: 8px;
+    left: -15px;
 }
 
 .view {
