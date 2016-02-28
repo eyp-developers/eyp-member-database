@@ -4,7 +4,7 @@
             "title" : "All Sessions",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/sessions",
+            "datasource" : "backend/sessions",
             "in_sidebar" : true,
             "header_button_text" : "Add session",
             "header_button_icon" : "plus",
@@ -66,7 +66,7 @@
         "session_detail" : {
             "title" : "Session details",
             "type" : "detail",
-            "datasource" : "/backend/sessions/:id",
+            "datasource" : "backend/sessions/:id",
             "header_button_text" : "Edit session",
             "header_button_icon" : "pencil",
             "header_button_target" : "/sessions/edit_session/:id",
@@ -113,7 +113,7 @@
         "participants" : {
             "title" : "Participants",
             "type" : "table",
-            "datasource" : "/backend/sessions/participants/:id",
+            "datasource" : "backend/sessions/participants/:id",
             "header_button_text" : "Add participant",
             "header_button_icon" : "plus",
             "header_button_target" : "/sessions/add_participation",
@@ -149,7 +149,7 @@
         "participations" : {
             "title" : "Participations",
             "type" : "table",
-            "datasource" : "/backend/sessions/participations/:id",
+            "datasource" : "backend/sessions/participations/:id",
             "header_button_text" : "Add participation",
             "header_button_icon" : "plus",
             "header_button_target" : "/sessions/add_participation",
@@ -185,7 +185,7 @@
         "edit_session" : {
             "title" : "Edit session",
             "type" : "form",
-            "datasource" : "/backend/sessions/:id",
+            "datasource" : "backend/sessions/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -225,7 +225,7 @@
             "title" : "Add session",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/sessions",
+            "datasource" : "backend/sessions",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -267,7 +267,7 @@
             "title" : "Add participation",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/sessions/participants/create",
+            "datasource" : "backend/sessions/participants/create",
             "load_data" : false,
             "does_edit" : true,
             "fields" :
@@ -319,7 +319,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/sessions/:id"
+                    "target" : "backend/sessions/:id"
                 }
             }
         },
@@ -344,7 +344,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/sessions/participants/:id"
+                    "target" : "backend/sessions/participants/:id"
                 }
             }
         }

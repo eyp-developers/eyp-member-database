@@ -505,7 +505,7 @@ var UIComponents =
                 submit_button.text('Uploading file...');
 
                 Server.ajax({
-                    url: "/backend/files/upload",
+                    url: "backend/files/upload",
                     type: "POST",
                     data: fd,
                     processData: false,
@@ -592,7 +592,7 @@ var UIComponents =
                 var first_component = true;
                 Server.ajax({
                     dataType: 'json',
-                    url: '/backend/modules/' +  target[1] + '/views/' + target[2],
+                    url: 'backend/modules/' +  target[1] + '/views/' + target[2],
                     view_params: target,
                     field_dom: field_dom,
                     success: function(response) {

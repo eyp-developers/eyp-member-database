@@ -41,7 +41,7 @@
 
         Server.ajax({
             dataType: "json",
-            url: "/backend/modules/"+module_name+'/stores',
+            url: "backend/modules/"+module_name+'/stores',
             success: function(response) {
                 var stores = response.data;
 
@@ -57,7 +57,7 @@
     load : function(module_name, store_name) {
         Server.ajax({
             dataType: "json",
-            url: "/backend/modules/"+module_name+'/stores/'+store_name,
+            url: "backend/modules/"+module_name+'/stores/'+store_name,
             success: function(response) {
                 var store = response.data;
                 

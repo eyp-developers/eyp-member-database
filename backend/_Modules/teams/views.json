@@ -4,7 +4,7 @@
             "title" : "All Teams",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/teams",
+            "datasource" : "backend/teams",
             "in_sidebar" : true,
             "header_button_text" : "Add team",
             "header_button_icon" : "plus",
@@ -58,7 +58,7 @@
         "team_detail" : {
             "title" : "Team details",
             "type" : "detail",
-            "datasource" : "/backend/teams/:id",
+            "datasource" : "backend/teams/:id",
             "header_button_text" : "Edit team",
             "header_button_icon" : "pencil",
             "header_button_target" : "/teams/edit_team/:id",
@@ -93,7 +93,7 @@
         "team_members" : {
             "title" : "Members",
             "type" : "table",
-            "datasource" : "/backend/teams/team_members/:id",
+            "datasource" : "backend/teams/team_members/:id",
             "header_button_text" : "Add member",
             "header_button_icon" : "plus",
             "header_button_target" : "/teams/add_membership",
@@ -123,7 +123,7 @@
         "member_teams" : {
             "title" : "Teams",
             "type" : "table",
-            "datasource" : "/backend/teams/member_teams/:id",
+            "datasource" : "backend/teams/member_teams/:id",
             "header_button_text" : "Add team",
             "header_button_icon" : "plus",
             "header_button_target" : "/teams/add_membership",
@@ -153,7 +153,7 @@
         "edit_team" : {
             "title" : "Edit team",
             "type" : "form",
-            "datasource" : "/backend/teams/:id",
+            "datasource" : "backend/teams/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -181,7 +181,7 @@
             "title" : "Add team",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/teams",
+            "datasource" : "backend/teams",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -211,7 +211,7 @@
             "title" : "Add membership",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/teams/memberships/create",
+            "datasource" : "backend/teams/memberships/create",
             "load_data" : false,
             "does_edit" : true,
             "fields" :
@@ -255,7 +255,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/teams/:id"
+                    "target" : "backend/teams/:id"
                 }
             }
         },
@@ -280,7 +280,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/teams/memberships/:id"
+                    "target" : "backend/teams/memberships/:id"
                 }
             }
         }

@@ -4,7 +4,7 @@
             "title" : "All payments",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/payments",
+            "datasource" : "backend/payments",
             "in_sidebar" : true,
             "header_button_text" : "Add payment",
             "header_button_icon" : "plus",
@@ -67,7 +67,7 @@
         "payment_detail" : {
             "title" : "Payment details",
             "type" : "detail",
-            "datasource" : "/backend/payments/:id",
+            "datasource" : "backend/payments/:id",
             "header_button_text" : "Edit payment",
             "header_button_icon" : "pencil",
             "header_button_target" : "/payments/edit_payment/:id",
@@ -119,7 +119,7 @@
             "title" : "Payments",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/payments/member_payments/:id",
+            "datasource" : "backend/payments/member_payments/:id",
             "header_button_text" : "Add payment",
             "header_button_icon" : "plus",
             "header_button_target" : "/payments/add_payment",
@@ -175,7 +175,7 @@
         "edit_payment" : {
             "title" : "Edit payment",
             "type" : "form",
-            "datasource" : "/backend/payments/:id",
+            "datasource" : "backend/payments/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -227,7 +227,7 @@
             "title" : "Add payment",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/payments",
+            "datasource" : "backend/payments",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -297,7 +297,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/payments/:id"
+                    "target" : "backend/payments/:id"
                 }
             }
         }

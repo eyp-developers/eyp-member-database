@@ -4,7 +4,7 @@
             "title" : "All Sponsors",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/sponsors",
+            "datasource" : "backend/sponsors",
             "in_sidebar" : true,
             "header_button_text" : "Add sponsor",
             "header_button_icon" : "plus",
@@ -69,7 +69,7 @@
         "sponsor_detail" : {
             "title" : "Sponsor details",
             "type" : "detail",
-            "datasource" : "/backend/sponsors/:id",
+            "datasource" : "backend/sponsors/:id",
             "header_button_text" : "Edit sponsor",
             "header_button_icon" : "pencil",
             "header_button_target" : "/sponsors/edit_sponsor/:id",
@@ -145,7 +145,7 @@
         "sponsor_sponsorships" : {
             "title" : "Sponsorships",
             "type" : "table",
-            "datasource" : "/backend/sponsors/sponsor_sponsorships/:id",
+            "datasource" : "backend/sponsors/sponsor_sponsorships/:id",
             "header_button_text" : "Add sponsorship",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_sponsorship",
@@ -201,7 +201,7 @@
         "sponsor_rejections" : {
             "title" : "Rejections",
             "type" : "table",
-            "datasource" : "/backend/sponsors/sponsor_rejections/:id",
+            "datasource" : "backend/sponsors/sponsor_rejections/:id",
             "header_button_text" : "Add rejection",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_rejection",
@@ -257,7 +257,7 @@
         "session_sponsorships" : {
             "title" : "Sponsorships",
             "type" : "table",
-            "datasource" : "/backend/sponsors/session_sponsorships/:id",
+            "datasource" : "backend/sponsors/session_sponsorships/:id",
             "header_button_text" : "Add sponsorship",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_sponsorship",
@@ -313,7 +313,7 @@
         "session_rejections" : {
             "title" : "Sponsorship rejections",
             "type" : "table",
-            "datasource" : "/backend/sponsors/session_rejections/:id",
+            "datasource" : "backend/sponsors/session_rejections/:id",
             "header_button_text" : "Add rejection",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_rejection",
@@ -369,7 +369,7 @@
         "edit_sponsor" : {
             "title" : "Edit sponsor",
             "type" : "form",
-            "datasource" : "/backend/sponsors/:id",
+            "datasource" : "backend/sponsors/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -454,7 +454,7 @@
             "title" : "Add sponsor",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/sponsors",
+            "datasource" : "backend/sponsors",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -540,7 +540,7 @@
         "sponsorship_detail" : {
             "title" : "Sponsorship detail",
             "type" : "detail",
-            "datasource" : "/backend/sponsors/sponsorships/:id",
+            "datasource" : "backend/sponsors/sponsorships/:id",
             "header_button_text" : "Edit sponsorship",
             "header_button_icon" : "pencil",
             "header_button_target" : "/sponsors/edit_sponsorship/:id",
@@ -610,7 +610,7 @@
         "rejection_detail" : {
             "title" : "Rejection detail",
             "type" : "detail",
-            "datasource" : "/backend/sponsors/rejections/:id",
+            "datasource" : "backend/sponsors/rejections/:id",
             "header_button_text" : "Edit rejection",
             "header_button_icon" : "pencil",
             "header_button_target" : "/sponsors/edit_rejection/:id",
@@ -677,7 +677,7 @@
             "title" : "Add sponsorship",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/sponsors/sponsorships/create",
+            "datasource" : "backend/sponsors/sponsorships/create",
             "load_data" : false,
             "does_edit" : true,
             "fields" :
@@ -749,7 +749,7 @@
             "title" : "Add rejection",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/sponsors/rejections/create",
+            "datasource" : "backend/sponsors/rejections/create",
             "load_data" : false,
             "does_edit" : true,
             "fields" :
@@ -814,7 +814,7 @@
         "edit_sponsorship" : {
             "title" : "Edit sponsorship",
             "type" : "form",
-            "datasource" : "/backend/sponsors/sponsorships/:id",
+            "datasource" : "backend/sponsors/sponsorships/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -884,7 +884,7 @@
         "edit_rejection" : {
             "title" : "Edit rejection",
             "type" : "form",
-            "datasource" : "/backend/sponsors/rejections/:id",
+            "datasource" : "backend/sponsors/rejections/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -965,7 +965,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/sponsors/:id"
+                    "target" : "backend/sponsors/:id"
                 }
             }
         },
@@ -990,7 +990,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/sponsors/sponsorships/:id"
+                    "target" : "backend/sponsors/sponsorships/:id"
                 }
             }
         },
@@ -1015,7 +1015,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/sponsors/rejections/:id"
+                    "target" : "backend/sponsors/rejections/:id"
                 }
             }
         }

@@ -4,7 +4,7 @@
             "title" : "All lists",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/mailchimp",
+            "datasource" : "backend/mailchimp",
             "in_sidebar" : true,
             "header_button_text" : "Add list",
             "header_button_icon" : "plus",
@@ -56,7 +56,7 @@
         "list_detail" : {
             "title" : "List details",
             "type" : "detail",
-            "datasource" : "/backend/mailchimp/:id",
+            "datasource" : "backend/mailchimp/:id",
             "header_button_text" : "Edit list",
             "header_button_icon" : "pencil",
             "header_button_target" : "/mailchimp/edit_list/:id",
@@ -90,7 +90,7 @@
         "edit_list" : {
             "title" : "Edit list",
             "type" : "form",
-            "datasource" : "/backend/mailchimp/:id",
+            "datasource" : "backend/mailchimp/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -118,7 +118,7 @@
         "edit_list_fields" : {
             "title" : "Edit list fields",
             "type" : "form",
-            "datasource" : "/backend/mailchimp/:id",
+            "datasource" : "backend/mailchimp/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -196,7 +196,7 @@
             "title" : "Add list",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/mailchimp",
+            "datasource" : "backend/mailchimp",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -243,7 +243,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/mailchimp/:id"
+                    "target" : "backend/mailchimp/:id"
                 }
             }
         },
@@ -268,7 +268,7 @@
                     "data_key" : "confirm",
                     "title" : "Syncronise",
                     "type" : "button",
-                    "target" : "/backend/mailchimp/sync/:id"
+                    "target" : "backend/mailchimp/sync/:id"
                 }
             }
         }

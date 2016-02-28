@@ -18,7 +18,7 @@ var Server =
 
         config.error = function(response, textStatus, error) {
             // Check if we need to run the installation
-            if(this.url === '/backend/settings') {
+            if(this.url === 'backend/settings') {
                 // Start the installer
                 Installer.init();
             } else {
@@ -60,7 +60,7 @@ var Server =
             if(response.reload_sidebar) {
                 Server.ajax({
                     dataType: "json",
-                    url: "/backend/settings/sidebar",
+                    url: "backend/settings/sidebar",
                     success: function(response) {
                         UI.applySidebarConfig(response.data);
                     }

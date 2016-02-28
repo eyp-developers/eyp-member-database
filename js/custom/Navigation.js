@@ -43,7 +43,7 @@ var Navigation =
             // Load the view config and handle it
             Server.ajax({
                 dataType: 'json',
-                url: '/backend/modules/' +  target[1] + '/views/' + target[2],
+                url: 'backend/modules/' +  target[1] + '/views/' + target[2],
                 success: function(response) {
                     // Apply view config
                     UI.applyViewConfig(response.data, target.slice(3));

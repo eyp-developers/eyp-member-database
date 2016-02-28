@@ -23,7 +23,7 @@
 
             $btn_check.click(function() {
                 $.ajax({
-                    url: '/installer/installer.php',
+                    url: 'installer/installer.php',
                     dataType: 'json',
                     type: 'GET',
                     success: function(response_data) {
@@ -58,7 +58,7 @@
 
                 $.ajax({
                     dataType: 'json',
-                    url: '/backend/auth/login',
+                    url: 'backend/auth/login',
                     type: 'POST',
                     data: JSON.stringify({
                         username: 'admin',
@@ -74,7 +74,7 @@
                         
                         // Install system modules
                         Server.ajax({
-                            url: '/backend/modules/setup',
+                            url: 'backend/modules/setup',
                             dataType: 'json',
                             type: 'POST',
                             success: function(response_data) {                                

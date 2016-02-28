@@ -4,7 +4,7 @@
             "title" : "App settings",
             "icon" : "cog",
             "type" : "form",
-            "datasource" : "/backend/settings/app_settings",
+            "datasource" : "backend/settings/app_settings",
             "in_sidebar" : true,
             "does_edit": true,
             "fields":
@@ -36,7 +36,7 @@
         "installed_modules" : {
             "title" : "Installed modules",
             "type" : "table",
-            "datasource" : "/backend/modules/installed",
+            "datasource" : "backend/modules/installed",
             "does_edit": true,
             "fields":
             {
@@ -68,7 +68,7 @@
         "available_modules" : {
             "title" : "Available modules",
             "type" : "table",
-            "datasource" : "/backend/modules/available",
+            "datasource" : "backend/modules/available",
             "does_edit": true,
             "fields":
             {
@@ -117,7 +117,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/modules/:name"
+                    "target" : "backend/modules/:name"
                 }
             }
         },
@@ -142,7 +142,7 @@
                     "data_key" : "confirm",
                     "title" : "Install",
                     "type" : "button",
-                    "target" : "/backend/modules/install/:name"
+                    "target" : "backend/modules/install/:name"
                 }
             }
         },
@@ -151,7 +151,7 @@
             "title" : "User management",
             "icon" : "user",
             "type" : "table",
-            "datasource" : "/backend/settings/users",
+            "datasource" : "backend/settings/users",
             "in_sidebar" : true,
             "does_edit": true,
             "header_button_text" : "Add user",
@@ -189,7 +189,7 @@
         "edit_user" : {
             "title" : "Edit user account",
             "type" : "form",
-            "datasource" : "/backend/settings/user/:username",
+            "datasource" : "backend/settings/user/:username",
             "in_sidebar" : false,
             "does_edit": true,
             "fields":
@@ -228,7 +228,7 @@
             "title" : "Add user",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/settings/users",
+            "datasource" : "backend/settings/users",
             "does_edit": true,
             "fields":
             {
@@ -279,7 +279,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/settings/user/:username"
+                    "target" : "backend/settings/user/:username"
                 }
             }
         }

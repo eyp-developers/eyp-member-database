@@ -42,7 +42,7 @@
         UIComponents.loadingMask($('#sidebar-main-menu'));
         Server.ajax({
             dataType: "json",
-            url: "/backend/settings",
+            url: "backend/settings",
             success: function(response) {
                 // Apply the settings
                 App.applySettings(response.data);

@@ -166,14 +166,3 @@ BEGIN
         VALUES (in_username, tmp_module_name, GREATEST(in_default_perm, tmp_min_permission));
     END LOOP loop_users;
 END;
-
-/* Insert intallation data */
-INSERT INTO core_modules VALUES('modules', 'Modules', NULL, 'A module to manage all other modules', 1, 1, 1, 1, 0);
-INSERT INTO core_modules VALUES('auth', 'Authentication', NULL, 'A module to handle authentication', 1, 1, 2, 1, 0);
-INSERT INTO core_modules VALUES('files', 'Files', NULL, 'A module to handle file uploads', 1, 1, 2, 1, 0);
-
-/* Create admin user */
-CALL proc_createUser('admin', '$2y$10$GvGoYPzIJhhvj4rRy1AgG./zUL.WtYySOFvIStFw8BRfaeOFzDWem', 'Administrator', 2);
-
-/* Create core stores */
-INSERT INTO core_stores VALUES('exportable', 'modules', 'exportable', 'id', 'name');

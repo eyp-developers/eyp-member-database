@@ -3,7 +3,7 @@
         "edit" : {
             "title" : "Edit user account",
             "type" : "form",
-            "datasource" : "/backend/me",
+            "datasource" : "backend/me",
             "in_sidebar" : false,
             "does_edit": true,
             "fields":

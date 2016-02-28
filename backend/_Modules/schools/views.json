@@ -4,7 +4,7 @@
             "title" : "All Schools",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "/backend/schools",
+            "datasource" : "backend/schools",
             "in_sidebar" : true,
             "header_button_text" : "Add school",
             "header_button_icon" : "plus",
@@ -55,7 +55,7 @@
         "school_detail" : {
             "title" : "School details",
             "type" : "detail",
-            "datasource" : "/backend/schools/:id",
+            "datasource" : "backend/schools/:id",
             "header_button_text" : "Edit school",
             "header_button_icon" : "pencil",
             "header_button_target" : "/schools/edit_school/:id",
@@ -105,7 +105,7 @@
         "students" : {
             "title" : "Students",
             "type" : "table",
-            "datasource" : "/backend/schools/students/:id",
+            "datasource" : "backend/schools/students/:id",
             "fields":
             {
                 "id" : {
@@ -134,7 +134,7 @@
         "edit_school" : {
             "title" : "Edit school",
             "type" : "form",
-            "datasource" : "/backend/schools/:id",
+            "datasource" : "backend/schools/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -180,7 +180,7 @@
             "title" : "Add school",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "/backend/schools",
+            "datasource" : "backend/schools",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -244,7 +244,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "/backend/schools/:id"
+                    "target" : "backend/schools/:id"
                 }
             }
         }
