@@ -36,6 +36,10 @@
 					"table" : "people",
 					"field" : "id"
 				}
+			},
+
+			"comment" : {
+				"type" : "text"
 			}
 		},
 
