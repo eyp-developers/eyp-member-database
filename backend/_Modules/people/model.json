@@ -20,6 +20,15 @@
 				"type" : "string"
 			},
 
+			"gender": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "genders",
+					"field" : "id"
+				}
+			},
+
 			"kind": {
 				"type" : "int",
 				"foreign_key" : {
@@ -77,6 +86,17 @@
 
 		"kinds" : {
 
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"genders" : {
 			"id" : {
 				"type" : "int",
 				"primary_key" : true

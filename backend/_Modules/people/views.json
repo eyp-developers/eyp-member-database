@@ -82,6 +82,12 @@
                     "title" : "Photo",
                     "type" : "image"
                 },
+                "gender" :  {
+                    "data_key" : "gender",
+                    "title" : "Gender",
+                    "store_module" : "people",
+                    "store_name" : "people_genders"
+                },
                 "kind" :  {
                     "data_key" : "kind",
                     "title" : "Kind",
@@ -147,6 +153,13 @@
                 "last_name" : {
                     "data_key" : "last_name",
                     "title" : "Last Name"
+                },
+                "gender" :  {
+                    "data_key" : "gender",
+                    "title" : "Gender",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_genders"
                 },
                 "kind" :  {
                     "data_key" : "kind",
@@ -224,6 +237,13 @@
                 "last_name" : {
                     "data_key" : "last_name",
                     "title" : "Last Name"
+                },
+                "gender" :  {
+                    "data_key" : "gender",
+                    "title" : "Gender",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_genders"
                 },
                 "kind" :  {
                     "data_key" : "kind",
