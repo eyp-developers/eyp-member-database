@@ -7,38 +7,31 @@
 			},
 			{
 				"id" : "2",
-				"name" : "Teacher"
+				"name" : "Alumni"
 			},
 			{
 				"id" : "3",
-				"name" : "Sponsor"
+				"name" : "Teacher"
 			},
 			{
 				"id" : "4",
-				"name" : "Politician"
+				"name" : "Sponsor"
 			},
 			{
 				"id" : "5",
-				"name" : "Expert"
+				"name" : "Politician"
 			},
 			{
 				"id" : "6",
-				"name" : "Journalist"
+				"name" : "Expert"
 			},
 			{
 				"id" : "7",
-				"name" : "Contact"
-			}
-		],
-
-		"newsletter_status" : [
-			{
-				"id" : "1",
-				"name" : "No"
+				"name" : "Journalist"
 			},
 			{
-				"id" : "2",
-				"name" : "Yes"
+				"id" : "8",
+				"name" : "Contact"
 			}
 		],
 
