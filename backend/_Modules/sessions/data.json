@@ -11,31 +11,51 @@
 			},
 			{
 				"id" : "3",
-				"name" : "Organiser"
-			},
-			{
-				"id" : "4",
 				"name" : "Journalist"
 			},
 			{
+				"id" : "4",
+				"name" : "Chairperson"
+			},
+			{
 				"id" : "5",
-				"name" : "Editorial Assistant"
+				"name" : "Organizer"
 			},
 			{
 				"id" : "6",
-				"name" : "Editor"
-			},
-			{
-				"id" : "7",
-				"name" : "Chairpseron"
-			},
-			{
-				"id" : "8",
 				"name" : "Vice-President"
 			},
 			{
-				"id" : "9",
+				"id" : "7",
 				"name" : "President"
+			},
+			{
+				"id" : "8",
+				"name" : "Mentor"
+			},
+			{
+				"id" : "9",
+				"name" : "Trainee"
+			},
+			{
+				"id" : "10",
+				"name" : "Trainer"
+			},
+			{
+				"id" : "11",
+				"name" : "Member of the Board"
+			},
+			{
+				"id" : "12",
+				"name" : "Editor"
+			},
+			{
+				"id" : "13",
+				"name" : "Chaperone"
+			},
+			{
+				"id" : "14",
+				"name" : "Member of the Jury"
 			}
 		]
 	}
