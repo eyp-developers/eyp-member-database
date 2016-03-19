@@ -46,8 +46,8 @@
                 "school_detail" : {
                     "data_key" : "/schools/school_detail/:id"
                 },
-                "students" : {
-                    "data_key" : "/schools/students/:id"
+                "people" : {
+                    "data_key" : "/schools/people/:id"
                 }
             }
         },
@@ -95,6 +95,14 @@
                     "data_key" : "country",
                     "title" : "Country"
                 },
+                "contact_person" : {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
                 "comment" : {
                     "data_key" : "comment",
                     "title" : "Comment"
@@ -102,10 +110,10 @@
             }
         },
 
-        "students" : {
-            "title" : "Students",
+        "people" : {
+            "title" : "People",
             "type" : "table",
-            "datasource" : "backend/schools/students/:id",
+            "datasource" : "backend/schools/people/:id",
             "fields":
             {
                 "id" : {
@@ -127,6 +135,12 @@
                     "data_key" : "email",
                     "title" : "Email",
                     "type" : "email"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "people",
+                    "store_name" : "people_kinds"
                 }
             }
         },
@@ -167,6 +181,13 @@
                 "country" : {
                     "data_key" : "country",
                     "title" : "Country"
+                },
+                "contact_person" : {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
                 },
                 "comment" : {
                     "data_key" : "comment",
@@ -215,6 +236,13 @@
                 "country" : {
                     "data_key" : "country",
                     "title" : "Country"
+                },
+                "contact_person" : {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
                 },
                 "comment" : {
                     "data_key" : "comment",

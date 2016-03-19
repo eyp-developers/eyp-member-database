@@ -15,16 +15,16 @@ class Schools extends \Core\Module {
         parent::__construct();
 
         // Add additional route
-        $this->_actions['GET']['/students/:id'] = 'students';
+        $this->_actions['GET']['/people/:id'] = 'people';
     }
 
     /**
-     * Gets all students of a certain schoool
+     * Gets all people of a certain schoool
      *
      * @param {int} $school_id The Id of the school
      * @return void
      */
-    public function students($school_id) {
+    public function people($school_id) {
     	// Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
