@@ -118,7 +118,9 @@ var UIComponents =
                 'field' : column.data_key,
                 'title' : column.title,
                 'visible' : (column.visible == true ? true : false),
-                'sortable' : (column.sortable !== undefined ? column.sortable : true)
+                'sortable' : (column.sortable !== undefined ? column.sortable : true),
+                'filterControl' : (column.type === 'select' ? 'select' : 'input'),
+                'filterData' : (column.store_module !== null ? 'str-'+column.store_module+'-'+column.store_name : 'column')
             }
 
             var applyFormatterToColumn = function(formatter, column, column_config) {
@@ -159,6 +161,7 @@ var UIComponents =
                 case 'int' :
                 case 'plain' :
                 case 'date' :
+                case 'select' :
                     applyFormatterToColumn(null, column, column_config);
                     break;
 
@@ -191,7 +194,8 @@ var UIComponents =
             pagination: true,
             pageSize: 20,
             sidePagination: 'server',
-            search: true,
+            //search: true,
+            filterControl: true,
             queryParams: function(params) {
                 params.fields = fields.join();
                 return params;

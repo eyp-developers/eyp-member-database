@@ -25,6 +25,7 @@
                 "region" : {
                     "data_key" : "region",
                     "title" : "Region",
+                    "type" : "select",
                     "store_module" : "sponsors",
                     "store_name" : "regions"
                 },

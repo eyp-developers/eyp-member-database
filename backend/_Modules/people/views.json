@@ -25,6 +25,7 @@
                 "kind" :  {
                     "data_key" : "kind",
                     "title" : "Kind",
+                    "type" : "select",
                     "store_module" : "people",
                     "store_name" : "people_kinds"
                 },

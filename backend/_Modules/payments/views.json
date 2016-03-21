@@ -25,6 +25,7 @@
                 "kind" : {
                     "data_key" : "kind",
                     "title" : "Kind",
+                    "type" : "select",
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },

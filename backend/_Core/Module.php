@@ -64,10 +64,11 @@ class Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = \Core\App::getInstance()->request->get("where");
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where);
+        $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

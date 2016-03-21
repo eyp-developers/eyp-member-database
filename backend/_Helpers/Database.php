@@ -57,45 +57,56 @@ class Database {
 	 * @param {where} $where Additional filter conditions
 	 * @return {array/boolean} The specified database object, or false if no object could be found
 	 */
-	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $where = false, $offset = false, $limit = false, $sort = false, $order = false) {
+	public static function getObjects($module_name, $table_name, $columns = false, $search = false, $where = false, $offset = false, $limit = false, $sort = false, $order = false, $filter = false) {
 		$data_table_name = $module_name.'_'.$table_name;
-		$filter = [];
+		$sql_filter = [];
 
 		// Parse parameters
 		if($columns === false) $columns = '*';
 
 		if($offset !== false && $limit !== false) {
-			$filter['LIMIT'] = [$offset, $limit];
+			$sql_filter['LIMIT'] = [$offset, $limit];
 		}
 
 		if($sort !== false && strlen($sort) !== 0 && $order !== false && strlen($order) !== 0) {
-			$filter['ORDER'] = $sort . ' ' . strtoupper($order);
+			$sql_filter['ORDER'] = $sort . ' ' . strtoupper($order);
 		}
 
-		if($search !== false && strlen($search) !== 0) {
-			$searchclause = [];
-			foreach($columns as $field) {
-				$searchclause[$field.'[~]'] = $search;
-			}
-			$filter['AND']['OR'] = $searchclause;
-		}
+		if($filter !== false && is_array($filter) && count($filter) >= 0) {
 
-		if($where !== false && strlen($where) !== 0) {
-			$whereclause = [];
-			$where_parts = explode(',', $where);
+			$sql_filter['AND'] = array();
 
-			if(!isset($filter['AND'])) {
-				$filter['AND'] = [];
+			foreach($filter as $filter_key => $filter_value) {
+				$sql_filter['AND'][$filter_key.'[~]'] = $filter_value;
 			}
-			
-			foreach($where_parts as $where_part) {
-				$where_part = explode('=', $where_part);
-				$filter['AND'][$where_part[0]] = $where_part[1];
+
+		} else {
+
+			if($search !== false && strlen($search) !== 0) {
+				$searchclause = [];
+				foreach($columns as $field) {
+					$searchclause[$field.'[~]'] = $search;
+				}
+				$sql_filter['AND']['OR'] = $searchclause;
+			}
+
+			if($where !== false && strlen($where) !== 0) {
+				$whereclause = [];
+				$where_parts = explode(',', $where);
+
+				if(!isset($sql_filter['AND'])) {
+					$sql_filter['AND'] = [];
+				}
+				
+				foreach($where_parts as $where_part) {
+					$where_part = explode('=', $where_part);
+					$sql_filter['AND'][$where_part[0]] = $where_part[1];
+				}
 			}
 		}
 
 		// Get data
-		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $filter);
+		$data = \Core\Database::getInstance()->select($data_table_name, $columns, $sql_filter);
 
 	    return $data;
 	}
@@ -110,34 +121,43 @@ class Database {
 	 * @param {where} $where Additional filter conditions
 	 * @return The specified database object, or 'false'
 	 */
-	public static function countObjects($module_name, $table_name, $columns = false, $search = false, $where = false) {
+	public static function countObjects($module_name, $table_name, $columns = false, $search = false, $where = false, $filter = false) {
 		$data_table_name = $module_name.'_'.$table_name;
 
-		$filter = [];
+		$sql_filter = [];
 
-		if($search !== false && strlen($search) !== 0) {
-			$searchclause = [];
-			foreach($columns as $field) {
-				$searchclause[$field.'[~]'] = $search;
+		if($filter !== false && is_array($filter) && count($filter) >= 0) {
+			$sql_filter['AND'] = array();
+
+			foreach($filter as $filter_key => $filter_value) {
+				$sql_filter['AND'][$filter_key.'[~]'] = $filter_value;
 			}
-			$filter['AND']['OR'] = $searchclause;
+		} else {
+
+			if($search !== false && strlen($search) !== 0) {
+				$searchclause = [];
+				foreach($columns as $field) {
+					$searchclause[$field.'[~]'] = $search;
+				}
+				$sql_filter['AND']['OR'] = $searchclause;
+			}
+
+			if($where !== false && strlen($where) !== 0) {
+				$whereclause = [];
+				$where_parts = explode(',', $where);
+
+				if(!isset($sql_filter['AND'])) {
+					$sql_filter['AND'] = [];
+				}
+				
+				foreach($where_parts as $where_part) {
+					$where_part = explode('=', $where_part);
+					$sql_filter['AND'][$where_part[0]] = $where_part[1];
+				}
+			}
 		}
 
-		if($where !== false && strlen($where) !== 0) {
-			$whereclause = [];
-			$where_parts = explode(',', $where);
-
-			if(!isset($filter['AND'])) {
-				$filter['AND'] = [];
-			}
-			
-			foreach($where_parts as $where_part) {
-				$where_part = explode('=', $where_part);
-				$filter['AND'][$where_part[0]] = $where_part[1];
-			}
-		}
-
-		$count = \Core\Database::getInstance()->count($data_table_name, $filter);
+		$count = \Core\Database::getInstance()->count($data_table_name, $sql_filter);
 
 	    return $count;
 	}
