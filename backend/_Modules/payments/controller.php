@@ -35,11 +35,12 @@ class Payments extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'person = '.$person_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('payments', 'payments', $fields, $search, $where, $offset, $limit, $sort, $order);
+        $data = \Helpers\Database::getObjects('payments', 'payments', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
         
-        $count = \Helpers\Database::countObjects('payments', 'payments', $fields, $search, $where);
+        $count = \Helpers\Database::countObjects('payments', 'payments', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

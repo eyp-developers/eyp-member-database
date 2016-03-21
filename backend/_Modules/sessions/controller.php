@@ -40,10 +40,11 @@ class Sessions extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'session = '.$session_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -69,10 +70,11 @@ class Sessions extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'person = '.$person_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

@@ -74,10 +74,11 @@ class Sponsors extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'sponsor = '.$sponsor_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sponsors', 'sponsorships', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sponsors', 'sponsorships', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sponsors', 'sponsorships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sponsors', 'sponsorships', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -103,10 +104,11 @@ class Sponsors extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'session = '.$session_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sponsors', 'sponsorships', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sponsors', 'sponsorships', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sponsors', 'sponsorships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sponsors', 'sponsorships', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -263,10 +265,11 @@ class Sponsors extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'sponsor = '.$sponsor_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -292,10 +295,11 @@ class Sponsors extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'session = '.$session_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('sponsors', 'rejections', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('sponsors', 'rejections', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

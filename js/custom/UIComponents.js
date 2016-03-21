@@ -298,6 +298,7 @@ var UIComponents =
 
                             case 'image' :
                                 applyFormatterToField(Formatters.image(), field);
+                                break;
 
                             default:
                                 console.error('Unsupported field type "' + field.type + '"');

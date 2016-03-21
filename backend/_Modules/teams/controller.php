@@ -43,10 +43,11 @@ class Teams extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'team = '.$team_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -72,10 +73,11 @@ class Teams extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = 'person = '.$person_id;
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

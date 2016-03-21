@@ -481,7 +481,7 @@
             var keys = [];
 
             for(var key in storeData) {
-                if(storeData[key].indexOf(text) !== -1) {
+                if(storeData[key].toLowerCase().indexOf(text.toLowerCase()) !== -1) {
                     keys.push(key);
                 }
             }

@@ -66,6 +66,7 @@ class Modules extends \Core\Module {
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
         $where = \Core\App::getInstance()->request->get("where");
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Exclude system modules
         if(strlen($where) > 0) {
@@ -74,8 +75,8 @@ class Modules extends \Core\Module {
         $where .= "system=0";
 
         // Get the data
-        $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order);
-        $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where);
+        $data = \Helpers\Database::getObjects('core', 'modules', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('core', 'modules', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([

@@ -89,19 +89,19 @@ class Database {
 				}
 				$sql_filter['AND']['OR'] = $searchclause;
 			}
+		}
 
-			if($where !== false && strlen($where) !== 0) {
-				$whereclause = [];
-				$where_parts = explode(',', $where);
+		if($where !== false && strlen($where) !== 0) {
+			$whereclause = [];
+			$where_parts = explode(',', $where);
 
-				if(!isset($sql_filter['AND'])) {
-					$sql_filter['AND'] = [];
-				}
-				
-				foreach($where_parts as $where_part) {
-					$where_part = explode('=', $where_part);
-					$sql_filter['AND'][$where_part[0]] = $where_part[1];
-				}
+			if(!isset($sql_filter['AND'])) {
+				$sql_filter['AND'] = [];
+			}
+			
+			foreach($where_parts as $where_part) {
+				$where_part = explode('=', $where_part);
+				$sql_filter['AND'][$where_part[0]] = $where_part[1];
 			}
 		}
 
