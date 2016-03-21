@@ -2,36 +2,36 @@
 	"people" : {
 		"kinds" : [
 			{
-				"id" : "1",
-				"name" : "EYPer"
-			},
-			{
-				"id" : "2",
+				"id" : "10",
 				"name" : "Alumni"
 			},
 			{
-				"id" : "3",
-				"name" : "Teacher"
+				"id" : "20",
+				"name" : "Contact"
 			},
 			{
-				"id" : "4",
-				"name" : "Sponsor"
-			},
-			{
-				"id" : "5",
-				"name" : "Politician"
-			},
-			{
-				"id" : "6",
+				"id" : "30",
 				"name" : "Expert"
 			},
 			{
-				"id" : "7",
+				"id" : "40",
+				"name" : "EYPer"
+			},
+			{
+				"id" : "50",
 				"name" : "Journalist"
 			},
 			{
-				"id" : "8",
-				"name" : "Contact"
+				"id" : "60",
+				"name" : "Politician"
+			},
+			{
+				"id" : "70",
+				"name" : "Sponsor"
+			},
+			{
+				"id" : "80",
+				"name" : "Teacher"
 			}
 		],
 

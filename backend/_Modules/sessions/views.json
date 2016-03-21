@@ -107,6 +107,14 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
+                "head_organiser_3" : {
+                    "data_key" : "head_organiser_3",
+                    "title" : "3rd Head Organiser",
+                    "type" : "link",
+                    "target" : "/people/person/:head_organiser_3",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
                 "comment" : {
                     "data_key" : "comment",
                     "title" : "Comment"
@@ -222,6 +230,13 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
+                "head_organiser_3" : {
+                    "data_key" : "head_organiser_3",
+                    "title" : "3rd Head Organiser",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
                 "comment" : {
                     "data_key" : "comment",
                     "title" : "Comment",
@@ -265,6 +280,13 @@
                 "head_organiser_2" : {
                     "data_key" : "head_organiser_2",
                     "title" : "2nd Head Organiser",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "head_organiser_3" : {
+                    "data_key" : "head_organiser_3",
+                    "title" : "3rd Head Organiser",
                     "type" : "select",
                     "store_module" : "people",
                     "store_name" : "people_names"

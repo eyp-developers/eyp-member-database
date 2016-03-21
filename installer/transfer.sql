@@ -7,7 +7,7 @@ SELECT
 	last_name,
 	CONCAT(first_name, ' ', last_name),
 	IF(gender = 'male', 1, IF(gender = 'female', 2, NULL)),
-	IF(teacher = 1, 3, IF(alumni = 1, 2, IF(is_contactperson, 8, 1))),
+	IF(teacher = 1, 80, IF(alumni = 1, 10, IF(is_contactperson, 20, 20))),
 	email,
 	!block_newsletter,
 	phone,

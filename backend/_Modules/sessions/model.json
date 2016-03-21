@@ -38,6 +38,15 @@
 				}
 			},
 
+			"head_organiser_3" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
 			"comment" : {
 				"type" : "text"
 			}
