@@ -22,6 +22,20 @@
                     "type" : "link",
                     "target" : "/schools/school/:id"
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "kinds"
+                },
+                "region" : {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "regions"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -70,6 +84,18 @@
                     "data_key" : "name",
                     "title" : "Name"
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "schools",
+                    "store_name" : "kinds"
+                },
+                "region" : {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "store_module" : "schools",
+                    "store_name" : "regions"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -90,10 +116,6 @@
                 "city" : {
                     "data_key" : "city",
                     "title" : "City"
-                },
-                "country" : {
-                    "data_key" : "country",
-                    "title" : "Country"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",
@@ -157,6 +179,20 @@
                     "title" : "Name",
                     "required" : true
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "kinds"
+                },
+                "region" : {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "regions"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -177,10 +213,6 @@
                 "city" : {
                     "data_key" : "city",
                     "title" : "City"
-                },
-                "country" : {
-                    "data_key" : "country",
-                    "title" : "Country"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",
@@ -212,6 +244,20 @@
                     "title" : "Name",
                     "required" : true
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "kinds"
+                },
+                "region" : {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "schools",
+                    "store_name" : "regions"
+                },
                 "email" : {
                     "data_key" : "email",
                     "title" : "Email",
@@ -232,10 +278,6 @@
                 "city" : {
                     "data_key" : "city",
                     "title" : "City"
-                },
-                "country" : {
-                    "data_key" : "country",
-                    "title" : "Country"
                 },
                 "contact_person" : {
                     "data_key" : "contact_person",

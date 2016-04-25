@@ -5,6 +5,18 @@
 			"model_name" : "schools",
 			"data_key" : "id",
 			"value" : "name"
+		},
+		"regions" : {
+			"module_name" : "schools",
+			"model_name" : "regions",
+			"data_key" : "id",
+			"value" : "name"
+		},
+		"kinds" : {
+			"module_name" : "schools",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
 		}
 	}
 }

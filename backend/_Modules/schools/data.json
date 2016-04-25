@@ -1,0 +1,57 @@
+{
+	"schools" : {
+		"regions" : [
+			{
+				"id" : "1",
+				"name" : "Burgenland"
+			},
+			{
+				"id" : "2",
+				"name" : "Kärnten"
+			},
+			{
+				"id" : "3",
+				"name" : "Niederösterreich"
+			},
+			{
+				"id" : "4",
+				"name" : "Oberösterreich"
+			},
+			{
+				"id" : "5",
+				"name" : "Salzburg"
+			},
+			{
+				"id" : "6",
+				"name" : "Steiermark"
+			},
+			{
+				"id" : "7",
+				"name" : "Tirol"
+			},
+			{
+				"id" : "8",
+				"name" : "Vorarlberg"
+			},
+			{
+				"id" : "9",
+				"name" : "Wien"
+			}
+		],
+
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "School"
+			},
+			{
+				"id" : "2",
+				"name" : "University"
+			},
+			{
+				"id" : "3",
+				"name" : "Fachhochschule"
+			}
+		]
+	}
+}

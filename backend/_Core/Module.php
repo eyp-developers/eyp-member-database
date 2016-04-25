@@ -119,6 +119,8 @@ class Module {
         $data = App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
 
+        error_log(print_r($new_data, true));
+
         // Replace empty values with null
         foreach($new_data as $key => $value) {
             if($value === '') {
@@ -131,7 +133,7 @@ class Module {
         $new_id = \Helpers\Database::createObject($this->_lc_classname, $this->_lc_classname, $new_data, $invalid_fields);
 
         // Return the appropriate result
-        if($new_id === false) {
+        if($new_id === false || $new_id == 0) {
             \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
                 'invalid_fields' => $invalid_fields
             ]);

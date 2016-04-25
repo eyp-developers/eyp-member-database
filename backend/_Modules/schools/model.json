@@ -32,8 +32,22 @@
 				"type" : "string"
 			},
 
-			"country" : {
-				"type" : "string"
+			"region" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "schools",
+					"table" : "regions",
+					"field" : "id"
+				}
+			},
+
+			"kind" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "schools",
+					"table" : "kinds",
+					"field" : "id"
+				}
 			},
 
 			"contact_person" : {
@@ -47,6 +61,26 @@
 
 			"comment" : {
 				"type" : "text"
+			}
+		},
+
+		"regions" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"kinds" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
 			}
 		}
 	}, 
