@@ -198,8 +198,6 @@ class Mailchimp extends \Core\Module {
             }
 
             $hash = md5(strtolower($data[$i][$list['email_field']]));
-
-            error_log("MC: Status for " . $data[$i][$list['email_field']] . " is " . $status);
              
             $mc_batch->put('op'.$i, 'lists/'.$list['id'].'/members/'.$hash, [
                 'email_address' => $data[$i][$list['email_field']],

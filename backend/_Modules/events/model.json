@@ -1,6 +1,6 @@
 {
 	"tables" : {
-		"sessions" : {
+		"events" : {
 
 			"id" : {
 				"type" : "int",
@@ -13,11 +13,13 @@
 			},
 
 			"start_date" : {
-				"type" : "date"
+				"type" : "date",
+				"required" : true
 			},
 
 			"end_date" : {
-				"type" : "date"
+				"type" : "date",
+				"required" : true
 			},
 
 			"head_organiser_1" : {
@@ -26,7 +28,8 @@
 					"module" : "people",
 					"table" : "people",
 					"field" : "id"
-				}
+				},
+				"required" : true
 			},
 
 			"head_organiser_2" : {
@@ -73,18 +76,18 @@
 				"type": "int",
 				"required" : true,
 				"foreign_key" : {
-					"module" : "sessions",
+					"module" : "events",
 					"table" : "roles",
 					"field" : "id"
 				}
 			},
 
-			"session" : {
+			"event" : {
 				"type" : "int",
 				"required" : true,
 				"foreign_key" : {
-					"module" : "sessions",
-					"table" : "sessions",
+					"module" : "events",
+					"table" : "events",
 					"field" : "id"
 				}
 			}

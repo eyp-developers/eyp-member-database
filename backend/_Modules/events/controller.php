@@ -3,9 +3,9 @@
 namespace Modules;
 
 /**
- * The Sessions module
+ * The Events module
  */
-class Sessions extends \Core\Module {
+class Events extends \Core\Module {
 
     /**
      * Constructs a new instance
@@ -24,12 +24,12 @@ class Sessions extends \Core\Module {
     }
 
     /**
-     * Gets all participants of a certain sessions
+     * Gets all participants of a certain events
      *
-     * @param {int} $session_id The Id of the session
+     * @param {int} $event_id The Id of the event
      * @return void
      */
-    public function participants($session_id) {
+    public function participants($event_id) {
     	// Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -39,12 +39,12 @@ class Sessions extends \Core\Module {
         $sort = \Core\App::getInstance()->request->get("sort");
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
-        $where = 'session = '.$session_id;
+        $where = 'event = '.$event_id;
         $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
-        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where, $filter);
+        $data = \Helpers\Database::getObjects('events', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('events', 'participations', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -73,8 +73,8 @@ class Sessions extends \Core\Module {
         $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
-        $data = \Helpers\Database::getObjects('sessions', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
-        $count = \Helpers\Database::countObjects('sessions', 'participations', $fields, $search, $where, $filter);
+        $data = \Helpers\Database::getObjects('events', 'participations', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects('events', 'participations', $fields, $search, $where, $filter);
 
         // Send response
         \Helpers\Response::success([
@@ -102,7 +102,7 @@ class Sessions extends \Core\Module {
 
         // Insert the data
         $invalid_fields = [];
-        $new_id = \Helpers\Database::createObject('sessions', 'participations', $new_data, $invalid_fields);
+        $new_id = \Helpers\Database::createObject('events', 'participations', $new_data, $invalid_fields);
         
         // Return the appropriate result
         if($new_id === false) {
@@ -116,7 +116,7 @@ class Sessions extends \Core\Module {
                 ],
                 [
                     [
-                        'module_name' => 'sessions',
+                        'module_name' => 'events',
                         'model_name' => 'participations'
                     ]
                 ]
@@ -132,7 +132,7 @@ class Sessions extends \Core\Module {
      */
     public function deleteParticipant($id) {
         // Delete the record
-        $success = \Helpers\Database::deleteObject('sessions', 'participations', $id);
+        $success = \Helpers\Database::deleteObject('events', 'participations', $id);
 
         // Send response
         \Helpers\Response::respond($success);

@@ -1,0 +1,10 @@
+{
+	"name" : "events",
+	"title" : "Events",
+	"icon" : "globe",
+	"description" : "A module to manage events and event participations",
+	"version" : 1,
+	"dependencies" : [
+		"people"
+	]
+}

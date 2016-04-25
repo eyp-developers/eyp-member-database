@@ -119,8 +119,6 @@ class Module {
         $data = App::getInstance()->request->getBody();
         $new_data = json_decode($data, true);
 
-        error_log(print_r($new_data, true));
-
         // Replace empty values with null
         foreach($new_data as $key => $value) {
             if($value === '') {

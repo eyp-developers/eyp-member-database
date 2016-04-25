@@ -1,14 +1,14 @@
 {
 	"stores" : {
-		"session_names" : {
-			"module_name" : "sessions",
-			"model_name" : "sessions",
+		"event_names" : {
+			"module_name" : "events",
+			"model_name" : "events",
 			"data_key" : "id",
 			"value" : "name"
 		},
 
 		"role_names" : {
-			"module_name" : "sessions",
+			"module_name" : "events",
 			"model_name" : "roles",
 			"data_key" : "id",
 			"value" : "name"

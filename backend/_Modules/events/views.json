@@ -1,14 +1,14 @@
 {
     "views": {
-        "sessions" : {
-            "title" : "All Sessions",
+        "events" : {
+            "title" : "All Events",
             "icon" : "list",
             "type" : "table",
-            "datasource" : "backend/sessions",
+            "datasource" : "backend/events",
             "in_sidebar" : true,
-            "header_button_text" : "Add session",
+            "header_button_text" : "Add event",
             "header_button_icon" : "plus",
-            "header_button_target" : "/sessions/add_session",
+            "header_button_target" : "/events/add_event",
             "fields":
             {
                 "id" : {
@@ -20,7 +20,7 @@
                     "data_key" : "name",
                     "title" : "Name",
                     "type" : "link",
-                    "target" : "/sessions/session/:id"
+                    "target" : "/events/event/:id"
                 },
                 "head_organiser_1" : {
                     "data_key" : "head_organiser_1",
@@ -40,36 +40,36 @@
                 },
                 "edit" : {
                     "type" : "action",
-                    "target" : "/sessions/edit_session/:id",
+                    "target" : "/events/edit_event/:id",
                     "icon" : "pencil"
                 },
                 "delete" : {
                     "type" : "action",
-                    "target" : "/sessions/delete_session/:id",
+                    "target" : "/events/delete_event/:id",
                     "icon" : "trash"
                 }
             }
         },
 
-        "session" : {
+        "event" : {
             "type" : "combined",
             "fields" : {
-                "session_detail" : {
-                    "data_key" : "/sessions/session_detail/:id"
+                "event_detail" : {
+                    "data_key" : "/events/event_detail/:id"
                 },
                 "participants" : {
-                    "data_key" : "/sessions/participants/:id"
+                    "data_key" : "/events/participants/:id"
                 }
             }
         },
 
-        "session_detail" : {
-            "title" : "Session details",
+        "event_detail" : {
+            "title" : "Event details",
             "type" : "detail",
-            "datasource" : "backend/sessions/:id",
-            "header_button_text" : "Edit session",
+            "datasource" : "backend/events/:id",
+            "header_button_text" : "Edit event",
             "header_button_icon" : "pencil",
-            "header_button_target" : "/sessions/edit_session/:id",
+            "header_button_target" : "/events/edit_event/:id",
             "fields" :
             {
                 "id" : {
@@ -81,7 +81,7 @@
                     "data_key" : "name",
                     "title" : "Name",
                     "type" : "link",
-                    "target" : "/sessions/session/:id"
+                    "target" : "/events/event/:id"
                 },
                 "start_date" : {
                     "data_key" : "start_date",
@@ -125,10 +125,10 @@
         "participants" : {
             "title" : "Participants",
             "type" : "table",
-            "datasource" : "backend/sessions/participants/:id",
+            "datasource" : "backend/events/participants/:id",
             "header_button_text" : "Add participant",
             "header_button_icon" : "plus",
-            "header_button_target" : "/sessions/add_participation",
+            "header_button_target" : "/events/add_participation",
             "fields":
             {
                 "id" : {
@@ -147,12 +147,12 @@
                 "role" : {
                     "data_key" : "role",
                     "title" : "Role",
-                    "store_module" : "sessions",
+                    "store_module" : "events",
                     "store_name" : "role_names"
                 },
                 "delete" : {
                     "type" : "action",
-                    "target" : "/sessions/delete_participant/:id",
+                    "target" : "/events/delete_participant/:id",
                     "icon" : "trash"
                 }
             }
@@ -161,10 +161,10 @@
         "participations" : {
             "title" : "Participations",
             "type" : "table",
-            "datasource" : "backend/sessions/participations/:id",
+            "datasource" : "backend/events/participations/:id",
             "header_button_text" : "Add participation",
             "header_button_icon" : "plus",
-            "header_button_target" : "/sessions/add_participation",
+            "header_button_target" : "/events/add_participation",
             "fields":
             {
                 "id" : {
@@ -172,32 +172,32 @@
                     "title" : "ID",
                     "visible" : false
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "link",
-                    "target" : "/sessions/session/:session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "role" : {
                     "data_key" : "role",
                     "title" : "Role",
-                    "store_module" : "sessions",
+                    "store_module" : "events",
                     "store_name" : "role_names"
                 },
                 "delete" : {
                     "type" : "action",
-                    "target" : "/sessions/delete_participant/:id",
+                    "target" : "/events/delete_participant/:id",
                     "icon" : "trash"
                 }
             }
         },
 
-        "edit_session" : {
-            "title" : "Edit session",
+        "edit_event" : {
+            "title" : "Edit event",
             "type" : "form",
-            "datasource" : "backend/sessions/:id",
+            "datasource" : "backend/events/:id",
             "does_edit" : true,
             "fields" :
             {
@@ -209,19 +209,22 @@
                 "start_date" : {
                     "data_key" : "start_date",
                     "title" : "Start date",
-                    "type" : "date"
+                    "type" : "date",
+                    "required" : true
                 },
                 "end_date" : {
                     "data_key" : "end_date",
                     "title" : "End Date",
-                    "type" : "date"
+                    "type" : "date",
+                    "required" : true
                 },
                 "head_organiser_1" : {
                     "data_key" : "head_organiser_1",
                     "title" : "1st Head Organiser",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_names"
+                    "store_name" : "people_names",
+                    "required" : true
                 },
                 "head_organiser_2" : {
                     "data_key" : "head_organiser_2",
@@ -245,11 +248,11 @@
             }
         },
 
-        "add_session" : {
-            "title" : "Add session",
+        "add_event" : {
+            "title" : "Add event",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "backend/sessions",
+            "datasource" : "backend/events",
             "load_data" : false,
             "in_sidebar" : true,
             "does_edit" : true,
@@ -263,19 +266,22 @@
                 "start_date" : {
                     "data_key" : "start_date",
                     "title" : "Start date",
-                    "type" : "date"
+                    "type" : "date",
+                    "required" : true
                 },
                 "end_date" : {
                     "data_key" : "end_date",
                     "title" : "End Date",
-                    "type" : "date"
+                    "type" : "date",
+                    "required" : true
                 },
                 "head_organiser_1" : {
                     "data_key" : "head_organiser_1",
                     "title" : "1st Head Organiser",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_names"
+                    "store_name" : "people_names",
+                    "required" : true
                 },
                 "head_organiser_2" : {
                     "data_key" : "head_organiser_2",
@@ -303,7 +309,7 @@
             "title" : "Add participation",
             "icon" : "plus",
             "type" : "form",
-            "datasource" : "backend/sessions/participants/create",
+            "datasource" : "backend/events/participants/create",
             "load_data" : false,
             "does_edit" : true,
             "fields" :
@@ -316,34 +322,34 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "required" : true,
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "role" : {
                     "data_key" : "role",
                     "title" : "Role",
                     "required" : true,
                     "type" : "select",
-                    "store_module" : "sessions",
+                    "store_module" : "events",
                     "store_name" : "role_names"
                 }
             }
         },
 
-        "delete_session" : {
-            "title" : "Delete session",
+        "delete_event" : {
+            "title" : "Delete event",
             "type" : "dialog",
             "container" : "modal",
             "does_edit" : true,
             "fields":
             {
                 "text" : {
-                    "title" : "Do you really want to delete this session?",
+                    "title" : "Do you really want to delete this event?",
                     "type" : "html"
                 },
                 "cancel_button" : {
@@ -355,7 +361,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "backend/sessions/:id"
+                    "target" : "backend/events/:id"
                 }
             }
         },
@@ -380,7 +386,7 @@
                     "data_key" : "delete",
                     "title" : "Delete",
                     "type" : "button",
-                    "target" : "backend/sessions/participants/:id"
+                    "target" : "backend/events/participants/:id"
                 }
             }
         }
@@ -390,7 +396,7 @@
         "people": {
             "person" : {
                 "participations" : {
-                    "data_key" : "/sessions/participations/:id"
+                    "data_key" : "/events/participations/:id"
                 }
             }
         }
