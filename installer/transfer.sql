@@ -35,12 +35,13 @@ SELECT
 	NULL
 FROM payments;
 
-/* Sessions */
+/* Events */
 
-INSERT INTO sessions_sessions
+INSERT INTO events_events
 SELECT
 	id,
 	short_name,
+	1,
 	start_date,
 	NULL,
 	first_head_organizer_id,

@@ -1,0 +1,8 @@
+{
+	"name" : "press",
+	"title" : "Press",
+	"icon" : "facetime-video",
+	"description" : "A module to manage press relations",
+	"dependencies" : ["people", "events"],
+	"version" : 1
+}

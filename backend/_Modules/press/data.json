@@ -1,0 +1,99 @@
+{
+	"press" : {
+		"regions" : [
+			{
+				"id" : "1",
+				"name" : "Burgenland"
+			},
+			{
+				"id" : "2",
+				"name" : "Kärnten"
+			},
+			{
+				"id" : "3",
+				"name" : "Niederösterreich"
+			},
+			{
+				"id" : "4",
+				"name" : "Oberösterreich"
+			},
+			{
+				"id" : "5",
+				"name" : "Salzburg"
+			},
+			{
+				"id" : "6",
+				"name" : "Steiermark"
+			},
+			{
+				"id" : "7",
+				"name" : "Tirol"
+			},
+			{
+				"id" : "8",
+				"name" : "Vorarlberg"
+			},
+			{
+				"id" : "9",
+				"name" : "Wien"
+			},
+			{
+				"id" : "10",
+				"name" : "National"
+			}
+		],
+
+		"target_groups" : [
+			{
+				"id" : "1",
+				"name" : "Teenagers"
+			},
+			{
+				"id" : "2",
+				"name" : "Adults"
+			}
+		],
+
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "TV"
+			},
+			{
+				"id" : "2",
+				"name" : "Radio"
+			},
+			{
+				"id" : "3",
+				"name" : "Newspaper"
+			},
+			{
+				"id" : "4",
+				"name" : "Magazine"
+			},
+			{
+				"id" : "5",
+				"name" : "Website"
+			}
+		],
+
+		"periodicities" : [
+			{
+				"id" : "1",
+				"name" : "Daily"
+			},
+			{
+				"id" : "2",
+				"name" : "Weekly"
+			},
+			{
+				"id" : "3",
+				"name" : "Monthly"
+			},
+			{
+				"id" : "4",
+				"name" : "Continously"
+			}
+		]
+	}
+}

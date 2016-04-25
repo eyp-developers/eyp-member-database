@@ -162,13 +162,13 @@
                     "title" : "ID",
                     "visible" : false
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "link",
-                    "target" : "/sessions/session/:session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -218,13 +218,13 @@
                     "title" : "ID",
                     "visible" : false
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "link",
-                    "target" : "/sessions/session/:session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -260,10 +260,10 @@
             }
         },
 
-        "session_sponsorships" : {
+        "event_sponsorships" : {
             "title" : "Sponsorships",
             "type" : "table",
-            "datasource" : "backend/sponsors/session_sponsorships/:id",
+            "datasource" : "backend/sponsors/event_sponsorships/:id",
             "header_button_text" : "Add sponsorship",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_sponsorship",
@@ -316,10 +316,10 @@
             }
         },
 
-        "session_rejections" : {
+        "event_rejections" : {
             "title" : "Sponsorship rejections",
             "type" : "table",
-            "datasource" : "backend/sponsors/session_rejections/:id",
+            "datasource" : "backend/sponsors/event_rejections/:id",
             "header_button_text" : "Add rejection",
             "header_button_icon" : "plus",
             "header_button_target" : "/sponsors/add_rejection",
@@ -570,13 +570,13 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "link",
-                    "target" : "/sessions/session/:session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -640,13 +640,13 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "link",
-                    "target" : "/sessions/session/:session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -706,12 +706,12 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -778,12 +778,12 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -842,12 +842,12 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -912,12 +912,12 @@
                     "store_module" : "sponsors",
                     "store_name" : "sponsors_names"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "contactperson_eyp" : {
                     "data_key" : "contactperson_eyp",
@@ -1038,10 +1038,10 @@
     },
 
     "external" : {
-        "sessions": {
-            "session" : {
+        "events": {
+            "event" : {
                 "sponsorships" : {
-                    "data_key" : "/sponsors/session_sponsorships/:id"
+                    "data_key" : "/sponsors/event_sponsorships/:id"
                 }
             }
         }

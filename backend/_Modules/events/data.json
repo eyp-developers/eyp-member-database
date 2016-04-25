@@ -57,6 +57,21 @@
 				"id" : "14",
 				"name" : "Member of the Jury"
 			}
+		],
+
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "Session"
+			},
+			{
+				"id" : "2",
+				"name" : "Training"
+			},
+			{
+				"id" : "3",
+				"name" : "Other"
+			}
 		]
 	}
 }

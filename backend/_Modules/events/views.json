@@ -22,6 +22,13 @@
                     "type" : "link",
                     "target" : "/events/event/:id"
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "kinds"
+                },
                 "head_organiser_1" : {
                     "data_key" : "head_organiser_1",
                     "title" : "1st Head Organiser",
@@ -82,6 +89,12 @@
                     "title" : "Name",
                     "type" : "link",
                     "target" : "/events/event/:id"
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "events",
+                    "store_name" : "kinds"
                 },
                 "start_date" : {
                     "data_key" : "start_date",
@@ -206,6 +219,13 @@
                     "title" : "Name",
                     "required" : true
                 },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "kinds"
+                },
                 "start_date" : {
                     "data_key" : "start_date",
                     "title" : "Start date",
@@ -262,6 +282,13 @@
                     "data_key" : "name",
                     "title" : "Name",
                     "required" : true
+                },
+                "kind" : {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "kinds"
                 },
                 "start_date" : {
                     "data_key" : "start_date",

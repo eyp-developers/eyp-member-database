@@ -12,6 +12,15 @@
 				"required" : true
 			},
 
+			"kind" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "events",
+					"table" : "kinds",
+					"field" : "id"
+				}
+			},
+
 			"start_date" : {
 				"type" : "date",
 				"required" : true
@@ -100,6 +109,16 @@
 				"primary_key" : true
 			},
 
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"kinds" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
 			"name" : {
 				"type" : "string"
 			}

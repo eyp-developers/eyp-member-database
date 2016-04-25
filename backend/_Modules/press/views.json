@@ -1,0 +1,699 @@
+{
+    "views" : {
+        "all_mediums" : {
+            "title" : "All Mediums",
+            "icon" : "list",
+            "type" : "table",
+            "datasource" : "backend/press",
+            "header_button_text" : "Add medium",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/press/add_medium",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "type" : "link",
+                    "target" : "/press/medium/:id"
+                },
+                "region" :  {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "regions"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "kinds"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/press/edit_medium/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/press/delete_medium/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "medium" : {
+            "type" : "combined",
+            "fields" : {
+                "medium_detail" : {
+                    "data_key" : "/press/medium_detail/:id"
+                },
+                "appearances" : {
+                    "data_key" : "/press/medium_appearances/:id"
+                }
+            }
+        },
+
+        "medium_detail" : {
+            "title" : "Medium Detail",
+            "type" : "detail",
+            "datasource" : "backend/press/:id",
+            "header_button_text" : "Edit medium",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/press/edit_medium/:id",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name"
+                },
+                "region" :  {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "store_module" : "press",
+                    "store_name" : "regions"
+                },
+                "target_group" :  {
+                    "data_key" : "target_group",
+                    "title" : "Target group",
+                    "store_module" : "press",
+                    "store_name" : "target_groups"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "store_module" : "press",
+                    "store_name" : "kinds"
+                },
+                "periodicity" :  {
+                    "data_key" : "periodicity",
+                    "title" : "Periodicity",
+                    "store_module" : "press",
+                    "store_name" : "periodicities"
+                },
+                "reach" : {
+                    "data_key" : "reach",
+                    "title" : "Reach"
+                },
+                "contact_person_1" : {
+                    "data_key" : "contact_person_1",
+                    "title" : "Contact person 1",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person_1",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_2" : {
+                    "data_key" : "contact_person_2",
+                    "title" : "Contact person 1",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person_2",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_3" : {
+                    "data_key" : "contact_person_3",
+                    "title" : "Contact person 1",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person_3",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "content_description" : {
+                    "data_key" : "content_description",
+                    "title" : "Content description"
+                }
+            }
+        },
+
+        "edit_medium" : {
+            "title" : "Edit medium",
+            "type" : "form",
+            "datasource" : "backend/press/:id",
+            "does_edit" : true,
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "region" :  {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "regions"
+                },
+                "target_group" :  {
+                    "data_key" : "target_group",
+                    "title" : "Target group",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "target_groups"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "kinds"
+                },
+                "periodicity" :  {
+                    "data_key" : "periodicity",
+                    "title" : "Periodicity",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "periodicities"
+                },
+                "reach" : {
+                    "data_key" : "reach",
+                    "title" : "Reach"
+                },
+                "contact_person_1" : {
+                    "data_key" : "contact_person_1",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_1",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_2" : {
+                    "data_key" : "contact_person_2",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_2",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_3" : {
+                    "data_key" : "contact_person_3",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_3",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "content_description" : {
+                    "data_key" : "content_description",
+                    "title" : "Content description",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "add_medium" : {
+            "title" : "Add medium",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "backend/press",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields":
+            {
+                "name" : {
+                    "data_key" : "name",
+                    "title" : "Name",
+                    "required" : true
+                },
+                "region" :  {
+                    "data_key" : "region",
+                    "title" : "Region",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "regions"
+                },
+                "target_group" :  {
+                    "data_key" : "target_group",
+                    "title" : "Target group",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "target_groups"
+                },
+                "kind" :  {
+                    "data_key" : "kind",
+                    "title" : "Kind",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "kinds"
+                },
+                "periodicity" :  {
+                    "data_key" : "periodicity",
+                    "title" : "Periodicity",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "periodicities"
+                },
+                "reach" : {
+                    "data_key" : "reach",
+                    "title" : "Reach"
+                },
+                "contact_person_1" : {
+                    "data_key" : "contact_person_1",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_1",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_2" : {
+                    "data_key" : "contact_person_2",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_2",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "contact_person_3" : {
+                    "data_key" : "contact_person_3",
+                    "title" : "Contact person 1",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person_3",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "street" : {
+                    "data_key" : "street",
+                    "title" : "Street"
+                },
+                "zip" : {
+                    "data_key" : "zip",
+                    "title" : "ZIP"
+                },
+                "city" : {
+                    "data_key" : "city",
+                    "title" : "City"
+                },
+                "content_description" : {
+                    "data_key" : "content_description",
+                    "title" : "Content description",
+                    "type" : "textarea"
+                }
+            }
+        },
+
+        "delete_medium" : {
+            "title" : "Delete medium",
+            "type" : "dialog",
+            "container" : "modal",
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "Do you really want to delete this medium?",
+                    "type" : "html"
+                },
+                "cancel_button" : {
+                    "data_key" : "cancel",
+                    "title" : "Cancel",
+                    "type" : "button"
+                },
+                "delete_button" : {
+                    "data_key" : "delete",
+                    "title" : "Delete",
+                    "type" : "button",
+                    "target" : "backend/press/:id"
+                }
+            }
+        },
+
+        "all_appearances" : {
+            "title" : "Appearances",
+            "type" : "table",
+            "datasource" : "backend/press/appearances/index",
+            "header_button_text" : "Add appearance",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/press/add_appearance",
+            "icon" : "list",
+            "in_sidebar" : true,
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "link",
+                    "target" : "/press/appearance/:id"
+                },
+                "event" :  {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "type" : "link",
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "medium" :  {
+                    "data_key" : "medium",
+                    "title" : "Medium",
+                    "type" : "link",
+                    "target" : "/press/medium/:medium",
+                    "store_module" : "press",
+                    "store_name" : "names"
+                },
+                "contact_person" :  {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/press/edit_appearance/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/press/delete_appearance/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "medium_appearances" : {
+            "title" : "Appearances",
+            "type" : "table",
+            "datasource" : "backend/press/medium_appearances/:id",
+            "header_button_text" : "Add appearance",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/press/add_appearance",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "link",
+                    "target" : "/press/appearance/:id"
+                },
+                "event" :  {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "type" : "link",
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "contact_person" :  {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/press/edit_appearance/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/press/delete_appearance/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "event_appearances" : {
+            "title" : "Appearances",
+            "type" : "table",
+            "datasource" : "backend/press/event_appearances/:id",
+            "header_button_text" : "Add appearance",
+            "header_button_icon" : "plus",
+            "header_button_target" : "/press/add_appearance",
+            "fields":
+            {
+                "id" : {
+                    "data_key" : "id",
+                    "title" : "ID",
+                    "visible" : false
+                },
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "link",
+                    "target" : "/press/appearance/:id"
+                },
+                "medium" :  {
+                    "data_key" : "medium",
+                    "title" : "Medium",
+                    "type" : "link",
+                    "target" : "/press/medium/:medium",
+                    "store_module" : "press",
+                    "store_name" : "names"
+                },
+                "contact_person" :  {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/press/edit_appearance/:id",
+                    "icon" : "pencil"
+                },
+                "delete" : {
+                    "type" : "action",
+                    "target" : "/press/delete_appearance/:id",
+                    "icon" : "trash"
+                }
+            }
+        },
+
+        "add_appearance" : {
+            "title" : "Add appearance",
+            "icon" : "plus",
+            "type" : "form",
+            "datasource" : "backend/press/appearances/create",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields":
+            {
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "date",
+                    "required" : true
+                },
+                "event" :  {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "medium" :  {
+                    "data_key" : "medium",
+                    "title" : "Medium",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "names"
+                },                
+                "contact_person" : {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "select",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description",
+                    "type" : "textarea"
+                },
+                "link_1" : {
+                    "data_key" : "link_1",
+                    "title" : "Link 1"
+                },
+                "link_2" : {
+                    "data_key" : "link_2",
+                    "title" : "Link 2"
+                },
+                "link_3" : {
+                    "data_key" : "link_3",
+                    "title" : "Link 3"
+                }
+            }
+        },
+
+        "edit_appearance" : {
+            "title" : "Edit appearance",
+            "type" : "form",
+            "datasource" : "backend/press/appearances/:id",
+            "load_data" : true,
+            "does_edit" : true,
+            "fields":
+            {
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "date",
+                    "required" : true
+                },
+                "event" :  {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "medium" :  {
+                    "data_key" : "medium",
+                    "title" : "Medium",
+                    "type" : "select",
+                    "store_module" : "press",
+                    "store_name" : "names"
+                },                
+                "contact_person" : {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description",
+                    "type" : "textarea"
+                },
+                "link_1" : {
+                    "data_key" : "link_1",
+                    "title" : "Link 1"
+                },
+                "link_2" : {
+                    "data_key" : "link_2",
+                    "title" : "Link 2"
+                },
+                "link_3" : {
+                    "data_key" : "link_3",
+                    "title" : "Link 3"
+                }
+            }
+        },
+
+        "appearance" : {
+            "title" : "Appearance Detail",
+            "type" : "detail",
+            "datasource" : "backend/press/appearances/:id",
+            "header_button_text" : "Edit appearance",
+            "header_button_icon" : "pencil",
+            "header_button_target" : "/press/edit_appearance/:id",
+            "load_data" : true,
+            "fields":
+            {
+                "date" : {
+                    "data_key" : "date",
+                    "title" : "Date",
+                    "type" : "date",
+                    "required" : true
+                },
+                "event" :  {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "type" : "link",
+                    "target" : "/events/event/:event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "medium" :  {
+                    "data_key" : "medium",
+                    "title" : "Medium",
+                    "type" : "link",
+                    "target" : "/press/medium/:medium",
+                    "store_module" : "press",
+                    "store_name" : "names"
+                },
+                "contact_person" :  {
+                    "data_key" : "contact_person",
+                    "title" : "Contact person",
+                    "type" : "link",
+                    "target" : "/people/person/:contact_person",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "description" : {
+                    "data_key" : "description",
+                    "title" : "Description"
+                },
+                "link_1" : {
+                    "data_key" : "link_1",
+                    "title" : "Link 1",
+                    "type" : "link"
+                },
+                "link_2" : {
+                    "data_key" : "link_2",
+                    "title" : "Link 2",
+
+                },
+                "link_3" : {
+                    "data_key" : "link_3",
+                    "title" : "Link 3",
+                    "type" : "link"
+                }
+            }
+        }
+    },
+
+    "external" : {
+        "events": {
+            "event" : {
+                "appearances" : {
+                    "data_key" : "/press/event_appearances/:id"
+                }
+            }
+        }
+    }
+}

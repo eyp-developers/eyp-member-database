@@ -33,8 +33,8 @@
 			"session" : {
 				"type" : "int",
 				"foreign_key" : {
-					"module" : "sessions",
-					"table" : "sessions",
+					"module" : "events",
+					"table" : "events",
 					"field" : "id"
 				}
 			},

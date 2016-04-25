@@ -210,7 +210,6 @@ class Sponsors extends \Core\Module {
      */
     public function deleteSponsorship($id) {
         // Get the record
-        // Update the sponsor's has_sponsored field
         $sponsorship = \Core\Database::getInstance()->select(
             'sponsors_sponsorships',
             '*',
@@ -223,6 +222,7 @@ class Sponsors extends \Core\Module {
         // Delete the record
         $success = \Helpers\Database::deleteObject('sponsors', 'sponsorships', $id);
 
+        // Update the sponsor's has_sponsored field
         $sponsor_id = $sponsorship['sponsor'];
         $this->updateHasSponsored($sponsor_id);
 

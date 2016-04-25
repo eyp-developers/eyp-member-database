@@ -1,0 +1,193 @@
+{
+	"tables" : {
+		"press" : {
+
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"name" : {
+				"type" : "string",
+				"required" : true
+			},
+
+			"region": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "press",
+					"table" : "regions",
+					"field" : "id"
+				}
+			},
+
+			"target_group": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "press",
+					"table" : "target_groups",
+					"field" : "id"
+				}
+			},
+
+			"kind": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "press",
+					"table" : "kinds",
+					"field" : "id"
+				}
+			},
+
+			"periodicity": {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "press",
+					"table" : "periodicities",
+					"field" : "id"
+				}
+			},
+
+			"reach" : {
+				"type" : "string"
+			},
+
+			"contact_person_1" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"contact_person_2" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"contact_person_3" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"street" : {
+				"type" : "string"
+			},
+
+			"zip" : {
+				"type" : "string"
+			},
+
+			"city" : {
+				"type" : "string"
+			},
+
+			"content_description" : {
+				"type" : "text"
+			}
+		},
+
+		"regions" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"target_groups" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"kinds" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"periodicities" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+			"name" : {
+				"type" : "string"
+			}
+		},
+
+		"appearances" : {
+			"id" : {
+				"type" : "int",
+				"primary_key" : true
+			},
+
+			"date" : {
+				"type" : "date"
+			},
+
+			"event" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "events",
+					"table" : "events",
+					"field" : "id"
+				}
+			},
+
+			"medium" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "press",
+					"table" : "press",
+					"field" : "id"
+				}
+			},
+
+			"contact_person" : {
+				"type" : "int",
+				"foreign_key" : {
+					"module" : "people",
+					"table" : "people",
+					"field" : "id"
+				}
+			},
+
+			"description" : {
+				"type" : "text"
+			},
+
+			"link_1" : {
+				"type" : "string"
+			},
+
+			"link_2" : {
+				"type" : "string"
+			},
+
+			"link_3" : {
+				"type" : "string"
+			}
+		}
+	}
+}

@@ -29,11 +29,11 @@
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "amount" : {
                     "data_key" : "amount",
@@ -91,11 +91,11 @@
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "amount" : {
                     "data_key" : "amount",
@@ -138,11 +138,11 @@
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "amount" : {
                     "data_key" : "amount",
@@ -195,12 +195,12 @@
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "amount" : {
                     "data_key" : "amount",
@@ -249,12 +249,12 @@
                     "store_module" : "payments",
                     "store_name" : "payment_kinds"
                 },
-                "session" : {
-                    "data_key" : "session",
-                    "title" : "Session",
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
                     "type" : "select",
-                    "store_module" : "sessions",
-                    "store_name" : "session_names"
+                    "store_module" : "events",
+                    "store_name" : "event_names"
                 },
                 "amount" : {
                     "data_key" : "amount",

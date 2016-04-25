@@ -6,6 +6,6 @@
 	"version" : 1,
 	"dependencies" : [
 		"people",
-		"sessions"
+		"events"
 	]
 }

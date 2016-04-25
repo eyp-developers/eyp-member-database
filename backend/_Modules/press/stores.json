@@ -1,0 +1,38 @@
+{
+	"stores" : {
+		"names" : {
+			"module_name" : "press",
+			"model_name" : "press",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"regions" : {
+			"module_name" : "press",
+			"model_name" : "regions",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"target_groups" : {
+			"module_name" : "press",
+			"model_name" : "target_groups",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"kinds" : {
+			"module_name" : "press",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
+		},
+
+		"periodicities" : {
+			"module_name" : "press",
+			"model_name" : "periodicities",
+			"data_key" : "id",
+			"value" : "name"
+		}
+	}
+}

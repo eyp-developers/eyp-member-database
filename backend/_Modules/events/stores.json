@@ -12,6 +12,13 @@
 			"model_name" : "roles",
 			"data_key" : "id",
 			"value" : "name"
+		},
+
+		"kinds" : {
+			"module_name" : "events",
+			"model_name" : "kinds",
+			"data_key" : "id",
+			"value" : "name"
 		}
 	}
 }
