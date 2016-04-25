@@ -676,7 +676,7 @@
                 "link_2" : {
                     "data_key" : "link_2",
                     "title" : "Link 2",
-
+                    "type" : "link"
                 },
                 "link_3" : {
                     "data_key" : "link_3",

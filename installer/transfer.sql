@@ -46,10 +46,11 @@ SELECT
 	NULL,
 	first_head_organizer_id,
 	second_head_organizer_id,
+	NULL,
 	long_name
 FROM eypsessions;
 
-INSERT INTO sessions_participations
+INSERT INTO events_participations
 SELECT
 	id,
 	person_id,
@@ -71,5 +72,8 @@ INSERT INTO teams_memberships
 SELECT
 	id,
 	person_id,
-	team_id
+	team_id,
+	NULL,
+	NULL,
+	NULL
 FROM memberships;

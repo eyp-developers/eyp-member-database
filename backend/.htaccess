@@ -8,4 +8,6 @@ RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Put the absolute path to your index.php here - e.g. /subfolder/backend/index.php
 RewriteRule ^ index.php [QSA,L]
