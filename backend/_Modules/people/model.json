@@ -13,7 +13,8 @@
 			},
 
 			"last_name" : {
-				"type" : "string"
+				"type" : "string",
+				"required" : true
 			},
 
 			"full_name": {
@@ -26,7 +27,8 @@
 					"module" : "people",
 					"table" : "genders",
 					"field" : "id"
-				}
+				},
+				"required" : true
 			},
 
 			"kind": {
@@ -35,7 +37,8 @@
 					"module" : "people",
 					"table" : "kinds",
 					"field" : "id"
-				}
+				},
+				"required" : true
 			},
 
 			"email" : {

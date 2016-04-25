@@ -153,21 +153,24 @@
                 },
                 "last_name" : {
                     "data_key" : "last_name",
-                    "title" : "Last Name"
+                    "title" : "Last Name",
+                    "required" : true
                 },
                 "gender" :  {
                     "data_key" : "gender",
                     "title" : "Gender",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_genders"
+                    "store_name" : "people_genders",
+                    "required" : true
                 },
                 "kind" :  {
                     "data_key" : "kind",
                     "title" : "Kind",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_kinds"
+                    "store_name" : "people_kinds",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
@@ -237,21 +240,24 @@
                 },
                 "last_name" : {
                     "data_key" : "last_name",
-                    "title" : "Last Name"
+                    "title" : "Last Name",
+                    "required" : true
                 },
                 "gender" :  {
                     "data_key" : "gender",
                     "title" : "Gender",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_genders"
+                    "store_name" : "people_genders",
+                    "required" : true
                 },
                 "kind" :  {
                     "data_key" : "kind",
                     "title" : "Kind",
                     "type" : "select",
                     "store_module" : "people",
-                    "store_name" : "people_kinds"
+                    "store_name" : "people_kinds",
+                    "required" : true
                 },
                 "email" : {
                     "data_key" : "email",
