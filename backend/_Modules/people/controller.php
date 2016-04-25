@@ -16,6 +16,48 @@ class People extends \Core\Module implements \Core\Exportable {
     }
 
     /**
+     * Returns a paginated index of the module's data
+     * 
+     * @return void
+     */
+    public function index() {
+        // Get pagination parameters
+        $fields = \Core\App::getInstance()->request->get("fields");
+        $fields = explode(",", $fields);
+
+        $limit = \Core\App::getInstance()->request->get("limit");
+        $offset = \Core\App::getInstance()->request->get("offset");
+        $sort = \Core\App::getInstance()->request->get("sort");
+        $order = \Core\App::getInstance()->request->get("order");
+        $search = \Core\App::getInstance()->request->get("search");
+        $where = \Core\App::getInstance()->request->get("where");
+        $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
+
+        // Get the data
+        $data = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
+        $count = \Helpers\Database::countObjects($this->_lc_classname, $this->_lc_classname, $fields, $search, $where, $filter);
+
+        // Create color coding
+        $colors = [
+            1 => 'none',
+            2 => 'yellow',
+            3 => 'green'
+        ];
+
+        $data = array_map(function($row) use($colors) {
+            $status = Payments::getMembershipStatusForPersonId($row["id"]);
+            $row['bg_color'] = $colors[$status];
+            return $row;
+        }, $data);
+
+        // Send response
+        \Helpers\Response::success([
+            'total' => $count,
+            'rows'  => $data
+        ]);
+    }
+
+    /**
      * Returns a full data record of a Person
      * 
      * @param {int} $id The ID of the person

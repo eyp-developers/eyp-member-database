@@ -192,12 +192,14 @@ class Mailchimp extends \Core\Module {
             }
 
             $status = 'unsubscribed';
-            if($data[$i][$list['compare_field_1']] == $list['compare_value_1'] &&
-               $data[$i][$list['compare_field_2']] == $list['compare_value_2']) {
+            if((!isset($data[$i][$list['compare_field_1']]) || $data[$i][$list['compare_field_1']] == $list['compare_value_1']) &&
+               (!isset($data[$i][$list['compare_field_2']]) || $data[$i][$list['compare_field_2']] == $list['compare_value_2'])) {
                 $status = 'subscribed';
             }
 
             $hash = md5(strtolower($data[$i][$list['email_field']]));
+
+            error_log("MC: Status for " . $data[$i][$list['email_field']] . " is " . $status);
              
             $mc_batch->put('op'.$i, 'lists/'.$list['id'].'/members/'.$hash, [
                 'email_address' => $data[$i][$list['email_field']],

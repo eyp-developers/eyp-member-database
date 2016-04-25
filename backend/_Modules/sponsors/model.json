@@ -39,6 +39,10 @@
 				}
 			},
 
+			"willing_to_sponsor" :  {
+				"type" : "int"
+			},
+
 			"street" : {
 				"type" : "string"
 			},

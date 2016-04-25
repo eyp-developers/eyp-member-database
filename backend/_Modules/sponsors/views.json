@@ -105,6 +105,11 @@
                     "store_module" : "sponsors",
                     "store_name" : "sizes"
                 },
+                "willing_to_sponsor" : {
+                    "data_key" : "willing_to_sponsor",
+                    "title" : "Willing to sponsor",
+                    "type" : "boolean"
+                },
                 "street" : {
                     "data_key" : "street",
                     "title" : "Street"
@@ -400,6 +405,11 @@
                     "store_module" : "sponsors",
                     "store_name" : "sizes"
                 },
+                "willing_to_sponsor" : {
+                    "data_key" : "willing_to_sponsor",
+                    "title" : "Willing to sponsor",
+                    "type" : "checkbox"
+                },
                 "street" : {
                     "data_key" : "street",
                     "title" : "Street"
@@ -486,6 +496,11 @@
                     "type" : "select",
                     "store_module" : "sponsors",
                     "store_name" : "sizes"
+                },
+                "willing_to_sponsor" : {
+                    "data_key" : "willing_to_sponsor",
+                    "title" : "Willing to sponsor",
+                    "type" : "checkbox"
                 },
                 "street" : {
                     "data_key" : "street",

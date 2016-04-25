@@ -1514,6 +1514,7 @@
                 sprintf(' class="%s"', style.classes || ($.isArray(item) ? undefined : item._class)),
                 sprintf(' data-index="%s"', i),
                 sprintf(' data-uniqueid="%s"', item[this.options.uniqueId]),
+                sprintf(' data-bg-color="%s"', typeof item.bg_color !== "undefined" ? item.bg_color : "none"),
                 sprintf('%s', data_),
                 '>'
             );
