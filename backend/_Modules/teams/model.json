@@ -51,6 +51,18 @@
 					"table" : "teams",
 					"field" : "id"
 				}
+			},
+
+			"position" : {
+				"type" : "string"
+			},
+
+			"member_from" : {
+				"type" : "date"
+			},
+
+			"member_until" : {
+				"type" : "date"
 			}
 		}
 	}

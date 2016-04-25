@@ -112,6 +112,23 @@
                     "store_module" : "people",
                     "store_name" : "people_names"
                 },
+                "position" : {
+                    "data_key" : "position",
+                    "title" : "Position"
+                },
+                "member_from" :  {
+                    "data_key" : "member_from",
+                    "title" : "Member from"
+                },
+                "member_until" :  {
+                    "data_key" : "member_until",
+                    "title" : "Member until"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/teams/edit_membership/:id",
+                    "icon" : "pencil"
+                },
                 "delete" : {
                     "type" : "action",
                     "target" : "/teams/delete_membership/:id",
@@ -141,6 +158,23 @@
                     "target" : "/teams/team/:team",
                     "store_module" : "teams",
                     "store_name" : "team_names"
+                },
+                "position" : {
+                    "data_key" : "position",
+                    "title" : "Position"
+                },
+                "member_from" :  {
+                    "data_key" : "member_from",
+                    "title" : "Member from"
+                },
+                "member_until" :  {
+                    "data_key" : "member_until",
+                    "title" : "Member until"
+                },
+                "edit" : {
+                    "type" : "action",
+                    "target" : "/teams/edit_membership/:id",
+                    "icon" : "pencil"
                 },
                 "delete" : {
                     "type" : "action",
@@ -231,6 +265,62 @@
                     "type" : "select",
                     "store_module" : "teams",
                     "store_name" : "team_names"
+                },
+                "position" : {
+                    "data_key" : "position",
+                    "title" : "Position"
+                },
+                "member_from" :  {
+                    "data_key" : "member_from",
+                    "title" : "Member from",
+                    "type" : "date"
+                },
+                "member_until" :  {
+                    "data_key" : "member_until",
+                    "title" : "Member until",
+                    "type" : "date"
+                }
+            }
+        },
+
+        "edit_membership" : {
+            "title" : "Edit membership",
+            "icon" : "pencil",
+            "type" : "form",
+            "datasource" : "backend/teams/memberships/:id",
+            "load_data" : true,
+            "does_edit" : true,
+            "fields" :
+            {
+                "person" : {
+                    "data_key" : "person",
+                    "title" : "Person",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "people",
+                    "store_name" : "people_names"
+                },
+                "team" : {
+                    "data_key" : "team",
+                    "title" : "Team",
+                    "required" : true,
+                    "type" : "select",
+                    "store_module" : "teams",
+                    "store_name" : "team_names"
+                },
+                "position" : {
+                    "data_key" : "position",
+                    "title" : "Position"
+                },
+                "member_from" :  {
+                    "data_key" : "member_from",
+                    "title" : "Member from",
+                    "type" : "date"
+                },
+                "member_until" :  {
+                    "data_key" : "member_until",
+                    "title" : "Member until",
+                    "type" : "date"
                 }
             }
         },

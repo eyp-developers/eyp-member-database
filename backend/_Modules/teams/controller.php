@@ -16,6 +16,8 @@ class Teams extends \Core\Module {
 
         // Add additional routes for memberships
         $this->_actions['POST']['/memberships/create'] = 'createMembership';
+        $this->_actions['GET']['/memberships/:id'] = 'getMembership';
+        $this->_actions['POST']['/memberships/:id'] = 'updateMembership';
         $this->_actions['DELETE']['/memberships/:id'] = 'deleteMembership';
 
         // Add additional routes for team members
@@ -49,6 +51,15 @@ class Teams extends \Core\Module {
         $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
         $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where, $filter);
 
+        // Check membership status
+        $current_date = date("Y-m-d");
+        $data = array_map(function($row) use($current_date) {
+            if(isset($row["member_until"]) && $row["member_until"] < $current_date) {
+                $row['bg_color'] = 'red';
+            }
+            return $row;
+        }, $data);
+
         // Send response
         \Helpers\Response::success([
             'total' => $count,
@@ -79,11 +90,77 @@ class Teams extends \Core\Module {
         $data = \Helpers\Database::getObjects('teams', 'memberships', $fields, $search, $where, $offset, $limit, $sort, $order, $filter);
         $count = \Helpers\Database::countObjects('teams', 'memberships', $fields, $search, $where, $filter);
 
+        // Check membership status
+        $current_date = date("Y-m-d");
+        $data = array_map(function($row) use($current_date) {
+            if(isset($row["member_until"]) && $row["member_until"] < $current_date) {
+                $row['bg_color'] = 'red';
+            }
+            return $row;
+        }, $data);
+
         // Send response
         \Helpers\Response::success([
             'total' => $count,
             'rows' => $data
         ]);
+    }
+
+     /**
+     * Gets a specific membership
+     *
+     * @param {int} $id The Id of the membership
+     * @return void
+     */
+    public function getMembership($id) {
+        // Get the record
+        $record = \Helpers\Database::getObject('teams', 'memberships', $id);
+
+        // Send response
+        if($record === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_RECORD_NOT_FOUND);
+        } else {
+            \Helpers\Response::success($record);
+        }
+    }
+
+    /**
+     * Updates an existing memberhip
+     * 
+     * @return void
+     */
+    public function updateMembership($id) {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $new_data = json_decode($data, true);
+
+        // Replace empty values with null
+        foreach($new_data as $key => $value) {
+            if($value === '') {
+                $new_data[$key] = NULL;
+            }
+        }
+
+        // Insert the data
+        $invalid_fields = [];
+        $success = \Helpers\Database::updateObject('teams', 'memberships', $id, $new_data, 'id', $invalid_fields);
+        
+        // Return the appropriate result
+        if($success === false) {
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED, [
+                'invalid_fields' => $invalid_fields
+            ]);
+        } else {
+            \Helpers\Response::success(
+                false,
+                [
+                    [
+                        'module_name' => 'teams',
+                        'model_name' => 'memberships'
+                    ]
+                ]
+            );
+        }
     }
 
     /**
