@@ -16,7 +16,7 @@ SELECT
 	zip,
 	city,
 	NULL,
-	photo,
+	CONCAT('uploads/', photo),
 	comments,
 	NULL
 FROM people;
