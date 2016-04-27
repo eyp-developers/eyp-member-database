@@ -10,7 +10,6 @@
 
             // Title
             if(typeof app_settings.app_title !== 'undefined') {
-                $('#app-title').html(app_settings.app_title);
                 document.title = app_settings.app_title;
             }
         }

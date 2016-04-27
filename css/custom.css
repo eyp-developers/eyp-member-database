@@ -14,10 +14,8 @@
         display: none;
     }
 
-    #eyp-logo {
-        position: relative;
-        top: 8px;
-        left: 10px !important;
+    #eyp-logo img {
+        margin-left: -170px;
     }
 }
 
@@ -76,9 +74,10 @@
 #eyp-logo {
     position: relative;
     top: 8px;
-    left: -15px;
+    left: 1em;
     display: block;
     float: left;
+    overflow: hidden;
 }
 
 .view {
