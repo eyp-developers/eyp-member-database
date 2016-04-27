@@ -23,8 +23,8 @@ class Sponsors extends \Core\Module {
         // Add additional routes for sponsor sponsorships
         $this->_actions['GET']['/sponsor_sponsorships/:id'] = 'sponsor_sponsorships';
 
-        // Add additional routes for session sponsorships
-        $this->_actions['GET']['/session_sponsorships/:id'] = 'session_sponsorships';
+        // Add additional routes for event sponsorships
+        $this->_actions['GET']['/event_sponsorships/:id'] = 'event_sponsorships';
 
         // Add additional routes for rejections
         $this->_actions['GET']['/rejections/:id'] = 'rejection';
@@ -35,8 +35,8 @@ class Sponsors extends \Core\Module {
         // Add additional routes for sponsor rejections
         $this->_actions['GET']['/sponsor_rejections/:id'] = 'sponsor_rejections';
 
-        // Add additional routes for session rejections
-        $this->_actions['GET']['/session_rejections/:id'] = 'session_rejections';
+        // Add additional routes for event rejections
+        $this->_actions['GET']['/event_rejections/:id'] = 'event_rejections';
     }
 
     /**
@@ -88,12 +88,12 @@ class Sponsors extends \Core\Module {
     }
 
     /**
-     * Gets all sponsors of a certain session
+     * Gets all sponsors of a certain event
      *
-     * @param {int} $session_id The Id of the session
+     * @param {int} $event_id The Id of the event
      * @return void
      */
-    public function session_sponsorships($session_id) {
+    public function event_sponsorships($event_id) {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -103,7 +103,7 @@ class Sponsors extends \Core\Module {
         $sort = \Core\App::getInstance()->request->get("sort");
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
-        $where = 'session = '.$session_id;
+        $where = 'event = '.$event_id;
         $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data
@@ -279,12 +279,12 @@ class Sponsors extends \Core\Module {
     }
 
     /**
-     * Gets all rejections of a certain session
+     * Gets all rejections of a certain event
      *
-     * @param {int} $session_id The Id of the session
+     * @param {int} $event_id The Id of the event
      * @return void
      */
-    public function session_rejections($session_id) {
+    public function event_rejections($event_id) {
         // Get pagination parameters
         $fields = \Core\App::getInstance()->request->get("fields");
         $fields = explode(",", $fields);
@@ -294,7 +294,7 @@ class Sponsors extends \Core\Module {
         $sort = \Core\App::getInstance()->request->get("sort");
         $order = \Core\App::getInstance()->request->get("order");
         $search = \Core\App::getInstance()->request->get("search");
-        $where = 'session = '.$session_id;
+        $where = 'event = '.$event_id;
         $filter = json_decode(\Core\App::getInstance()->request->get("filter"), true);
 
         // Get the data

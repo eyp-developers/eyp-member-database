@@ -30,7 +30,7 @@
 				}
 			},
 
-			"session" : {
+			"event" : {
 				"type" : "int",
 				"foreign_key" : {
 					"module" : "events",

@@ -24,7 +24,7 @@ class Press extends \Core\Module {
         // Add additional routes for medium appearances
         $this->_actions['GET']['/medium_appearances/:id'] = 'medium_appearances';
 
-        // Add additional routes for session appearances
+        // Add additional routes for event appearances
         $this->_actions['GET']['/event_appearances/:id'] = 'event_appearances';
     }
 
