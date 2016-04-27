@@ -355,7 +355,7 @@
         },
 
         "all_appearances" : {
-            "title" : "Appearances",
+            "title" : "All Appearances",
             "type" : "table",
             "datasource" : "backend/press/appearances/index",
             "header_button_text" : "Add appearance",

@@ -105,8 +105,7 @@ var UIComponents =
         var action_column = {
             'formatter' : Formatters.action(),
             'sortable' : false,
-            'actions' : [],
-            'title' : '<a href="javascript:$(\'.fht-cell\').css(\'display\', \'block\')"><span class="glyphicon glyphicon-search"></span></a>'
+            'actions' : []
         };
 
         // Build column config for table

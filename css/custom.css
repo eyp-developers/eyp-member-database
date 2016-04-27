@@ -176,10 +176,6 @@
     border-top: none !important;
 }
 
-.fht-cell {
-    display: none;
-}
-
 /* Loading animation */
 .spinner {
     width: 40px;
@@ -355,6 +351,14 @@
 
 .bootstrap-table .table tr[data-bg-color='blue'] {
     background-color: rgba(0, 0, 255, 0.1);
+}
+
+.bootstrap-table .table tr[data-bg-color='purple'] {
+    background-color: rgba(128, 0, 128, 0.1);
+}
+
+.bootstrap-table .table tr[data-bg-color='orange'] {
+    background-color: rgba(255, 100, 0, 0.1);
 }
 
 .btn-primary {

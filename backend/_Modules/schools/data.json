@@ -42,15 +42,27 @@
 		"kinds" : [
 			{
 				"id" : "1",
-				"name" : "School"
+				"name" : "AHS"
 			},
 			{
 				"id" : "2",
-				"name" : "University"
+				"name" : "HTL"
 			},
 			{
 				"id" : "3",
-				"name" : "Fachhochschule"
+				"name" : "BAKIP"
+			},
+			{
+				"id" : "4",
+				"name" : "HAK"
+			},
+			{
+				"id" : "5",
+				"name" : "University"
+			},
+			{
+				"id" : "6",
+				"name" : "Other"
 			}
 		]
 	}
