@@ -1,0 +1,67 @@
+=== Genders ===
+1	Male
+2	Female
+3	Other
+
+=== Kinds ===
+10	Alumni
+20	Contact
+30	Expert
+40	EYPer
+50	Journalist
+60	Politician
+70	Sponsor
+80	Teacher
+
+=== Countries ===
+1	Albania
+2	Andorra
+3	Armenia
+4	Austria
+5	Azerbaijan
+6	Belarus
+7	Belgium
+8	Bosnia and Herzegovina
+9	Bulgaria
+10	Croatia
+11	Cyprus
+12	Czech Republic
+13	Denmark
+14	Estonia
+15	Finland
+16	France
+17	Georgia
+18	Germany
+19	Greece
+20	Hungary
+21	Iceland
+22	Ireland
+23	Italy
+24	Kazakhstan
+25	Kosovo
+26	Latvia
+27	Liechtenstein
+28	Lithuania
+29	Luxembourg
+30	Macedonia
+31	Malta
+32	Moldova
+33	Monaco
+34	Montenegro
+35	Netherlands
+36	Norway
+37	Poland
+38	Portugal
+39	Romania
+40	Russia
+41	San Marino
+42	Serbia
+43	Slovakia
+44	Slovenia
+45	Spain
+46	Sweden
+47	Switzerland
+48	Turkey
+49	Ukraine
+50	United Kingdom
+9999	Other

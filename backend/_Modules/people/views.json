@@ -333,6 +333,45 @@
                     "target" : "backend/people/:id"
                 }
             }
+        },
+
+        "import" : {
+            "title" : "Import people",
+            "icon" : "cloud-upload",
+            "type" : "form",
+            "datasource" : "backend/people/import/csv",
+            "load_data" : false,
+            "in_sidebar" : true,
+            "does_edit" : true,
+            "fields":
+            {
+                "text" : {
+                    "title" : "",
+                    "placeholder" : "<p>Please make sure your csv file follows the format of the <a href=\"files/import_csv.csv\">example csv file</a>, and that the required fields (<em>first_name</em>, <em>last_name</em>, <em>gender</em>, <em>kind</em>) are set for all records. You must use <a href=\"files/import_lookup.txt\">lookup values</a> for the fields <em>gender</em>, <em>kind</em> and <em>country</em>. Please also make sure that birthdates are in the format <em>YYYY-MM-DD</em>, and that your csv file is UTF-8 encoded (otherwhise character such as <em>ß</em> won't work).</p><p>If you choose an event and a role, participations will be created for all people in the csv file.</p><p>If a person already exists (determined by comparing the <em>email</em> field) it will not be created, but a participation will be created for the existing person.</p>", 
+                    "type" : "html"
+                },
+                "file" : {
+                    "data_key" : "file",
+                    "title" : "CSV file",
+                    "type" : "file"
+                },
+                "event" : {
+                    "data_key" : "event",
+                    "title" : "Event",
+                    "required" : false,
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "event_names"
+                },
+                "role" : {
+                    "data_key" : "role",
+                    "title" : "Role",
+                    "required" : false,
+                    "type" : "select",
+                    "store_module" : "events",
+                    "store_name" : "role_names"
+                }
+            }
         }
     }
 }

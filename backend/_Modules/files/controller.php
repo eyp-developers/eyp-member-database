@@ -37,12 +37,13 @@ class Files extends \Core\Module {
         $data = $_POST['imageData'];
 
         // Check data type        
-        preg_match("#^data:image\/(.*);base64,#", $data, $matches);
+        preg_match("#^data:(.*);base64,#", $data, $matches);
 
         $fileendings = [
-            'jpg' => 'jpg',
-            'jpeg' => 'jpg',
-            'png' => 'png'
+            'image/jpg' => 'jpg',
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'text/csv' => 'csv'
         ];
 
         if(count($matches) < 2 || !isset($fileendings[$matches[1]])) {
@@ -50,12 +51,13 @@ class Files extends \Core\Module {
             return;
         }
 
-        // Sanitize image data
-        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $data));
+        // Sanitize data
+        $data = preg_replace('#^data:\w+/\w+;base64,#i', '', $data);
+        $data = base64_decode($data);
 
-        // Save image
+        // Save file
         $fileending = $fileendings[$matches[1]];
-        $filename = uniqid('img-'.date('Ymd').'-') . '.' . $fileending;
+        $filename = uniqid('upload-'.date('Ymd').'-') . '.' . $fileending;
 
         $file = fopen(join(DIRECTORY_SEPARATOR, [dirname(getcwd()), "uploads", $filename]), "w");
         fwrite($file, $data);

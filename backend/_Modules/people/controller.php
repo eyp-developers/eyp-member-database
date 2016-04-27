@@ -13,6 +13,9 @@ class People extends \Core\Module implements \Core\Exportable {
     public function __construct() {
         // Call Module constructor
         parent::__construct();
+
+        // Add additional route
+        $this->_actions['POST']['/import/csv'] = 'csvImport';
     }
 
     /**
@@ -123,6 +126,93 @@ class People extends \Core\Module implements \Core\Exportable {
                 ]
             );
         }
+    }
+
+    /**
+     * Imports a list of people
+     * 
+     * @return void
+     */
+    public function csvImport() {
+        // Get the transmitted data
+        $data = \Core\App::getInstance()->request->getBody();
+        $post_data = json_decode($data, true);
+
+        // Load the csv file
+        $filename = $post_data['file'];
+        if(strpos($filename, "uploads/") !== 0 || strpos($filename, "..") === true) {
+            \Helpers\Response::error(\Helpers\Response::$E_SAVE_FAILED);
+            return;
+        }
+
+        $filename = '../' . $filename;
+
+        $file = fopen($filename, "r");
+        $csv_content = fread($file, filesize($filename));
+        $csv_lines = explode("\n", $csv_content);
+
+        // Get fields
+        $header_fields = str_getcsv($csv_lines[0], ';');
+
+        // Insert records
+        for($line = 1; $line < count($csv_lines); $line++) {
+            $new_data = array_combine($header_fields, str_getcsv($csv_lines[$line], ";"));
+
+            // Replace empty values with null
+            foreach($new_data as $key => $value) {
+                if($value === '') {
+                    $new_data[$key] = NULL;
+                }
+            }
+
+            // Set full name
+            $new_data['full_name'] = $new_data['first_name'] . ' ' . $new_data['last_name'];
+
+            $new_id = false;
+
+            // Check if this person already exists
+            if($new_data['email'] !== NULL) {
+                $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $new_data['email'], 'email');
+                if($record !== false && isset($record['id'])) {
+                    $new_id = $record['id'];
+                }
+            }
+
+            if($new_id === false) {
+                // Insert the data
+                $invalid_fields = [];
+                $new_id = \Helpers\Database::createObject($this->_lc_classname, $this->_lc_classname, $new_data, $invalid_fields);
+            }
+
+            // Create participation
+            if(intval($post_data['event']) !== 0 &&
+               intval($post_data['role']) !== 0 &&
+               intval($new_id) !== 0) {
+                $invalid_fields = [];
+                $participation_id = \Helpers\Database::createObject(
+                    'events',
+                    'participations',
+                    [
+                        'person' => $new_id,
+                        'role' => intval($post_data['role']),
+                        'event' => intval($post_data['event'])
+                    ],
+                    $invalid_fields
+                );
+            }
+        }
+
+        \Helpers\Response::success(
+            [
+                'record_id' => $new_id
+            ],
+            [
+                [
+                    'module_name' => $this->_lc_classname,
+                    'model_name' => $this->_lc_classname
+                ]
+            ]
+        );
     }
 
     /**

@@ -54,7 +54,7 @@ CREATE TABLE core_views_fields (
     name                VARCHAR(200) NOT NULL,
     data_key            VARCHAR(200),
     title               VARCHAR(200),
-    placeholder         VARCHAR(1000),
+    placeholder         VARCHAR(5000),
     type                VARCHAR(200),
     target              VARCHAR(200),
     icon                VARCHAR(200),
