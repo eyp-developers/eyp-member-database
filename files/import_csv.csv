@@ -1,2 +1,2 @@
-first_name;last_name;gender;kind;email;newsletter;phone;birthdate;street;zip;city;country;comment
-Import;User;1;30;example@eypaustria.org;1;06001234567;2000-01-01;Teststraße 1;1010;Wien;4;Importiert
+first_name;last_name;gender;kind;email;newsletter;phone;birthdate;street;zip;city;country;comment;role
+Import;User;1;30;example@eypaustria.org;1;06001234567;2000-01-01;Teststraße 1;1010;Wien;4;Importiert;2

@@ -65,3 +65,19 @@
 49	Ukraine
 50	United Kingdom
 9999	Other
+
+=== Roles ===
+1	Participant
+2	Delegate
+3	Journalist
+4	Chairperson
+5	Organizer
+6	Vice-President
+7	President
+8	Mentor
+9	Trainee
+10	Trainer
+11	Member of the Board
+12	Editor
+13	Chaperone
+14	Member of the Jury

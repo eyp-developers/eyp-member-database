@@ -520,8 +520,12 @@ var UIComponents =
             $('input[type="date"]').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            $('input[name="valid_from"]')[0].value = Helpers.getDateFormatted(new Date());
-            $('input[name="valid_until"]')[0].value = Helpers.getDateFormatted(new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
+            if($('input[name="valid_from"]').length > 0) {
+                $('input[name="valid_from"]')[0].value = Helpers.getDateFormatted(new Date());
+            }
+            if($('input[name="valid_until"]').length > 0) {
+                $('input[name="valid_until"]')[0].value = Helpers.getDateFormatted(new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
+            }
 
             // Handle file upload
             $('.fileinput').on('change.bs.fileinput', function(e) {

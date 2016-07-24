@@ -168,13 +168,24 @@ class People extends \Core\Module implements \Core\Exportable {
             // Set full name
             $new_data['full_name'] = $new_data['first_name'] . ' ' . $new_data['last_name'];
 
+            // Remember and remove the role
+            $role = $new_data['role'];
+            unset($new_data['role']);
+
             $new_id = false;
 
             // Check if this person already exists
             if($new_data['email'] !== NULL) {
+                // Check email
                 $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $new_data['email'], 'email');
                 if($record !== false && isset($record['id'])) {
                     $new_id = $record['id'];
+                } else {
+                    // Check name
+                    $record = \Helpers\Database::getObject($this->_lc_classname, $this->_lc_classname, $new_data['first_name'] . ' ' . $new_data['last_name'], 'full_name');
+                    if($record !== false && isset($record['id'])) {
+                        $new_id = $record['id'];
+                    }
                 }
             }
 
@@ -186,7 +197,7 @@ class People extends \Core\Module implements \Core\Exportable {
 
             // Create participation
             if(intval($post_data['event']) !== 0 &&
-               intval($post_data['role']) !== 0 &&
+               intval($role) !== 0 &&
                intval($new_id) !== 0) {
                 $invalid_fields = [];
                 $participation_id = \Helpers\Database::createObject(
@@ -194,7 +205,7 @@ class People extends \Core\Module implements \Core\Exportable {
                     'participations',
                     [
                         'person' => $new_id,
-                        'role' => intval($post_data['role']),
+                        'role' => intval($role),
                         'event' => intval($post_data['event'])
                     ],
                     $invalid_fields
