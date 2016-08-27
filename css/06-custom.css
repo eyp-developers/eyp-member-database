@@ -17,6 +17,14 @@
     #eyp-logo img {
         margin-left: -170px;
     }
+
+    .header-button {
+        width: 40px;
+    }
+
+    .header-button > .button-text {
+        display: none;
+    }
 }
 
 #main {
