@@ -9,6 +9,7 @@ cp -r backend dist/
 cp -r files dist/
 cp -r fonts dist/
 cp -r img dist/
+cp -r installer dist/
 mkdir dist/uploads
 chmod 777 dist/uploads
 mkdir dist/js
