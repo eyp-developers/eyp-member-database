@@ -85,17 +85,16 @@ class User {
      */
     public static function authenticate($auth_token, $api_key = null) {
 
-        // Prepare the right condition
-        $condition = ['token' => $auth_token];
-
-        if($api_key !== null && strlen($api_key) !== 0) {
-            $condition = ['OR' => [
-                'token' => $auth_token,
-                'api_key' => $api_key
-            ]];
+        // Prefer auth_token to api_key 
+        if($auth_token !== null && strlen($auth_token) !== 0) {
+            $condition = ['token' => $auth_token];
+        } else if($api_key !== null && strlen($api_key) !== 0) {
+            $condition = ['api_key' => $api_key];
+        } else {
+            return false;
         }
 
-        // Check the authentication token
+        // Check the authentication
         $userInfo = \Core\Database::getInstance()->select(
             'core_users',
             ['[>]core_users_permissions' => 'username'],

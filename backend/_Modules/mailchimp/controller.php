@@ -239,7 +239,7 @@ class Mailchimp extends \Core\Module {
                 $email = $data['data']['email'];
 
                 $person = \Helpers\Database::getObject('people', 'people', $email, 'email');
-                $person['newsletter'] = 1;
+                $person['newsletter'] = 0;
 
                 \Helpers\Database::updateObject('people', 'people', $email, $person, 'email');
             }

@@ -280,7 +280,8 @@ class People extends \Core\Module implements \Core\Exportable {
             "first_name" => "First name",
             "last_name" => "Last name",
             "email" => "Email",
-            "newsletter" => "Newsletter"
+            "newsletter" => "Newsletter",
+            "kind" => "Kind"
         ];
 
         // Check if the payments module is installed
@@ -298,7 +299,7 @@ class People extends \Core\Module implements \Core\Exportable {
      * @return Array An array of dictionaries containing the exported data
      */
     public function getExportData() {
-        $people = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, ["id", "first_name", "last_name", "email", "newsletter"]);
+        $people = \Helpers\Database::getObjects($this->_lc_classname, $this->_lc_classname, ["id", "first_name", "last_name", "email", "newsletter", "kind"]);
 
         // Check if the payments module is installed
         // If so, we can also export a membership status
