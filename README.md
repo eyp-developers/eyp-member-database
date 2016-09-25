@@ -19,7 +19,7 @@ There are two ways to request a new localization:
 ## Installation
 
 1. Download the current release of your localization from the '[Releases](https://github.com/eyp-developers/eyp-member-database/releases)' section. If there is no appropriate localization yet, have a look at [how to create or request a new localization](#Localization).
-2. Unpack the downloaded release and upload all files to your webserver. Make sure that you also copy all hidden files, such as .htaccess.
+2. Unpack the downloaded release and upload all files from the `dist/` folder to your webserver. Make sure that you also copy all hidden files, such as .htaccess.
 3. Make sure you have mod_rewrite enabled on your server (should be enabled by default on 99% of all webservers)
 4. If you are running this software on its own subdomain (such as data.my_nc.org), the default config should work for you. Otherwise, you might have to edit the last line in `backend/.htaccess` and add the path to your index.php file.
 5. Open the URL of your webserver in your browser and follow the installation instructions on screen.

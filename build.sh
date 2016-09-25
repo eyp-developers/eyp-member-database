@@ -1,5 +1,9 @@
 #! /bin/sh
 
+# Ask for version
+echo "Which version do you want to build?"
+read version
+
 # Ask for localization
 localizations=(
 	"at"
@@ -64,5 +68,10 @@ perl -0777 -i.original -pe 's/<!-- BEGIN: CSS -->.*<!-- END: CSS -->/<link href=
 perl -0777 -i.original -pe 's/<!-- BEGIN: JS -->.*<!-- END: JS -->/<script src="js\/frameworks.min.js"><\/script>\n<script src="js\/custom.min.js"><\/script>/gs' dist/index.html
 rm dist/index.html.original
 
+# Package
+echo "-> Packaging release"
+zip -r "eyp-md-$version-$localization.zip" dist/ > /dev/null
+rm -rf dist/
+
 # Done
-echo "-> Done. Please check the dist/ folder for your build."
+echo "-> Done. Please check the eyp-md-$version-$localization.zip file for your build."
