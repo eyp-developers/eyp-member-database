@@ -2,14 +2,37 @@
 
 ## About
 
-The EYP Member Database is a simple web application that allows you and your NC to keep track of your members, contacts, teachers and sponsors. You can store contact information, sessions and teams, and interlink these items. The application has initially been developed for and by EYP Austria, and has been in use since 2013.
+The EYP Member Database is a web application that allows you and your NC to keep track of your members, contacts, schools, sponsors, media contacts and payments. You can store contact information, sessions and teams, and interlink these items.
 
-Version 2.0 is currently under development. The key focus of this new version is to make the application faster and more modular. This means that the new version is largely a complete rewrite in order to have a plugin-based architecture that allows different users to add and remove parts of the application without having to edit the code.
+## Localization
+
+Some parts of the application, such as states and types of schools, have to be localized. There are two ways to request a new localization:
+
+- If you can read the build.sh file and understand how the localization process works, you can simply add a new localization and create a pull request.
+- Otherwise, you can [open a new issue](https://github.com/eyp-developers/eyp-member-database/issues) to request the localization. Please provide the country, list of states, and list of school types in the issue.
 
 ## Installation
 
-1. Upload the contents of the repository to your webserver. Make sure that you also copy all hidden files, such as .htaccess. Also keep in mind that for .htaccess files to work, you need to have mod_rewrite enabled on your server.
-2. Open the URL of your webserver in your browser and follow the installation instructions on screen.
-4. Log in with the default username and password ('admin').
-5. Go to `Settings -> User Management` and change the default password.
-6. Go to `Settings -> Module Management` and install the modules you need.
+1. Download the current release of your localization from the '[Releases](https://github.com/eyp-developers/eyp-member-database/releases)' section. If there is no appropriate localization yet, have a look at [how to create or request a new localization](#Localization).
+2. Unpack the downloaded release and upload all files to your webserver. Make sure that you also copy all hidden files, such as .htaccess.
+3. Make sure you have mod_rewrite enabled on your server (should be enabled by default on 99% of all webservers)
+4. If you are running this software on its own subdomain (such as data.my_nc.org), the default config should work for you. Otherwise, you might have to edit the last line in `backend/.htaccess` and add the path to your index.php file.
+5. Open the URL of your webserver in your browser and follow the installation instructions on screen.
+6. Log in with the default username and password ('admin').
+7. Go to `Settings -> User Management` and change the default password.
+
+## Installing new modules
+
+By default, the application does not install any modules. You can add the modules you need under `Settings -> Module Management`. Please keep in mind that some modules depend on other modules (such as Schools, which depends on People). Also keep in mind that deleting a module will also delete all data associated with this module.
+
+## Adding new users
+
+You can add new users under `Settings -> User Management`. When you create a new user, you will be asked for a default permisison. By default, the user will receive this permission for all modules. If you want to manage permissions on a per-module basis, you can do so by editing the user after it was created.
+
+A possible use-case for this might be someone who is only responsible for fundraising. This person should have a 'write' permission for the Sponsors module so they can add new fundraising information, but probably should not be able to edit (or even see) people's personal information or membership payments.
+
+Please note the special permissions for the Settings module:
+
+- Write: This user will be able to add and remove modules and users, and change user's permissions. Only your system administrator should have this permission.
+- Read: This user can log in, but can not add or remove modules and users.
+- None: This user can not log in. The account exists, but it is deactivated.
