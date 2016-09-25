@@ -41,3 +41,7 @@ Please note the special permissions for the Settings module:
 - Write: This user will be able to add and remove modules and users, and change users' permissions. Only your system administrator should have this permission.
 - Read: This user can log in, but can not add or remove modules and users.
 - None: This user can not log in. The account exists, but it is deactivated.
+
+## License
+
+This software is licensed under the MIT License. See LICENSE.txt for more information.
