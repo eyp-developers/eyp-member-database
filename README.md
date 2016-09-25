@@ -6,7 +6,12 @@ The EYP Member Database is a web application that allows you and your NC to keep
 
 ## Localization
 
-Some parts of the application, such as states and types of schools, have to be localized. There are two ways to request a new localization:
+Some parts of the application, such as states and types of schools, have to be localized. The following localizations are currently available:
+
+- Austria
+- Germany
+
+There are two ways to request a new localization:
 
 - If you can read the build.sh file and understand how the localization process works, you can simply add a new localization and create a pull request.
 - Otherwise, you can [open a new issue](https://github.com/eyp-developers/eyp-member-database/issues) to request the localization. Please provide the country, list of states, and list of school types in the issue.
