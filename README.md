@@ -21,7 +21,7 @@ Some parts of the application, such as states and types of schools, have to be l
 6. Log in with the default username and password ('admin').
 7. Go to `Settings -> User Management` and change the default password.
 
-## Installing new modules
+## Adding new modules
 
 By default, the application does not install any modules. You can add the modules you need under `Settings -> Module Management`. Please keep in mind that some modules depend on other modules (such as Schools, which depends on People). Also keep in mind that deleting a module will also delete all data associated with this module.
 
