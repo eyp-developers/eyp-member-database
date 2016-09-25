@@ -14,6 +14,7 @@ localized_files=(
 	"backend/_Modules/press/data.json"
 	"backend/_Modules/schools/data.json"
 	"backend/_Modules/sponsors/data.json"
+	"img/eyp_logo_white.png"
 )
 
 echo "Which localization do you want to build?"
