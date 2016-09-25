@@ -3,6 +3,7 @@
 # Ask for localization
 localizations=(
 	"at"
+	"de"
 )
 
 localized_files=(

@@ -1,0 +1,127 @@
+{
+	"press" : {
+		"regions" : [
+			{
+				"id" : "1",
+				"name" : "Baden-Württemberg"
+			},
+			{
+				"id" : "2",
+				"name" : "Bayern"
+			},
+			{
+				"id" : "3",
+				"name" : "Berlin"
+			},
+			{
+				"id" : "4",
+				"name" : "Brandenburg"
+			},
+			{
+				"id" : "5",
+				"name" : "Bremen"
+			},
+			{
+				"id" : "6",
+				"name" : "Hamburg"
+			},
+			{
+				"id" : "7",
+				"name" : "Hessen"
+			},
+			{
+				"id" : "8",
+				"name" : "Mecklenburg-Vorpommern"
+			},
+			{
+				"id" : "9",
+				"name" : "Niedersachsen"
+			},
+			{
+				"id" : "10",
+				"name" : "Nordrhein-Westfalen"
+			},
+			{
+				"id" : "11",
+				"name" : "Rheinland-Pfalz"
+			},
+			{
+				"id" : "12",
+				"name" : "Saarland"
+			},
+			{
+				"id" : "13",
+				"name" : "Sachsen"
+			},
+			{
+				"id" : "14",
+				"name" : "Sachsen-Anhalt"
+			},
+			{
+				"id" : "15",
+				"name" : "Schleswig-Holstein"
+			},
+			{
+				"id" : "16",
+				"name" : "Thüringen"
+			},
+			{
+				"id" : "17",
+				"name" : "National"
+			}
+		],
+
+		"target_groups" : [
+			{
+				"id" : "1",
+				"name" : "Teenagers"
+			},
+			{
+				"id" : "2",
+				"name" : "Adults"
+			}
+		],
+
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "TV"
+			},
+			{
+				"id" : "2",
+				"name" : "Radio"
+			},
+			{
+				"id" : "3",
+				"name" : "Newspaper"
+			},
+			{
+				"id" : "4",
+				"name" : "Magazine"
+			},
+			{
+				"id" : "5",
+				"name" : "Website"
+			}
+		],
+
+		"periodicities" : [
+			{
+				"id" : "1",
+				"name" : "Daily"
+			},
+			{
+				"id" : "2",
+				"name" : "Weekly"
+			},
+			{
+				"id" : "3",
+				"name" : "Monthly"
+			},
+			{
+				"id" : "4",
+				"name" : "Continously"
+			}
+		]
+	}
+}
