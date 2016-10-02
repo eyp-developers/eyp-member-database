@@ -38,14 +38,14 @@ class Auth extends \Core\Module {
             return;
         }
 
-        $auth_token = \Core\User::login($auth_data['username'], $auth_data['password']);
-        if($auth_token === false) {
+        $authtoken = \Core\User::login($auth_data['username'], $auth_data['password']);
+        if($authtoken === false) {
             \Helpers\Response::error(\Helpers\Response::$E_INVALID_LOGIN_DATA);
             return;
         }
 
         \Helpers\Response::success([
-            'auth_token' => $auth_token
+            'authtoken' => $authtoken
         ]);
     }
 }

@@ -55,7 +55,7 @@ var Navigation =
 
         } else {
             if(target[1] === 'logout') {
-                localStorage.removeItem('auth_token');
+                localStorage.removeItem('authtoken');
                 window.location = '/';
             } else {
                 console.error('URL "' + url + '" is not a valid target!');
