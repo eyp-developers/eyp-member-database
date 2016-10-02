@@ -57,18 +57,18 @@ class User {
         if(password_verify($password, $user_password)) {
 
             // Generate the new authentication token
-            $auth_token = bin2hex(openssl_random_pseudo_bytes(32));
+            $authtoken = bin2hex(openssl_random_pseudo_bytes(32));
 
             // Store the token
             \Core\Database::getInstance()->update(
                 'core_users',
-                ['token' => $auth_token],
+                ['token' => $authtoken],
                 ['username' => $username]
             );
 
             // Authenticate and proceed
-            if(static::authenticate($auth_token)) {
-                return $auth_token;
+            if(static::authenticate($authtoken)) {
+                return $authtoken;
             } else {
                 return false;
             }
@@ -79,15 +79,15 @@ class User {
     /**
      * Authenticates an user by checking their auth token
      *
-     * @param {string} $auth_token The authentication token
+     * @param {string} $authtoken The authentication token
      * @param {string} $api_key The API key, if any
      * @return {boolean} Whether the authentication token is valid
      */
-    public static function authenticate($auth_token, $api_key = null) {
+    public static function authenticate($authtoken, $api_key = null) {
 
-        // Prefer auth_token to api_key 
-        if($auth_token !== null && strlen($auth_token) !== 0) {
-            $condition = ['token' => $auth_token];
+        // Prefer authtoken to api_key 
+        if($authtoken !== null && strlen($authtoken) !== 0) {
+            $condition = ['token' => $authtoken];
         } else if($api_key !== null && strlen($api_key) !== 0) {
             $condition = ['api_key' => $api_key];
         } else {

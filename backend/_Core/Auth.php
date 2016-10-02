@@ -30,13 +30,13 @@ class Auth extends \Slim\Middleware {
 		}
 
 		// Get the token from the query
-		$auth_token = $this->app->request->headers->get('auth_token');
+		$authtoken = $this->app->request->headers->get('authtoken');
 
 		// Also get the API key
 		$api_key = $this->app->request->get('api_key');
 
 		// Check if the token is valid
-		if(\Core\User::authenticate($auth_token, $api_key)) {
+		if(\Core\User::authenticate($authtoken, $api_key)) {
 
 			// Check if the User wants to write
 			$is_write = !($this->app->request->isGet() || $this->app->request->isHead());

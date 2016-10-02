@@ -65,12 +65,12 @@
                         password: 'admin'
                     }),
                     success: function(response) {
-                        if(!response.data.auth_token) {
+                        if(!response.data.authtoken) {
                             UI.showAlert('danger', 'Could not finish installation! Did you change the default password before the installation was finished?');
                             return;
                         }
 
-                        localStorage.setItem('auth_token', response.data.auth_token);
+                        localStorage.setItem('authtoken', response.data.authtoken);
                         
                         // Install system modules
                         Server.ajax({

@@ -71,10 +71,10 @@ var Server =
         }
 
         // Set auth token
-        var auth_token = localStorage.getItem('auth_token');
+        var authtoken = localStorage.getItem('authtoken');
 
         config.headers = {
-            'auth_token' : auth_token
+            'authtoken' : authtoken
         };
 
         // Perform the request
