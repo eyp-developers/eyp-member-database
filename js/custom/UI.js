@@ -209,12 +209,12 @@ var UI =
                 type: 'POST',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    if(!response.data.auth_token) {
+                    if(!response.data.authtoken) {
                         UI.showAlert('danger', "Could not log in. Please try again.");
                         return;
                     }
 
-                    localStorage.setItem('auth_token', response.data.auth_token);
+                    localStorage.setItem('authtoken', response.data.authtoken);
                     location.reload();
                 },
                 error: function() {
