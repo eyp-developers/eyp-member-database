@@ -42,6 +42,17 @@ Please note the special permissions for the Settings module:
 - Read: This user can log in, but can not add or remove modules and users.
 - None: This user can not log in. The account exists, but it is deactivated.
 
+## Migrating old data
+
+If you are running the old EYP Member Database, you can migrate your existing data by following these steps:
+
+1. Install the new version and set up all the modules you need
+2. Make a full SQL dump of your old database (including data and structure) and insert this dump into the new database directly via SQL.
+3. Run the SQL script `installer/transfer.sql` on the new database. It will transfer the old data into the new database.
+4. If you had pictures in your old database, copy the files to the `uploads` directory in your new database's folder.
+5. Make sure that the data was copied successfully.
+6. If you want, you can run the SQL script `installer/remove_old.sql` to remove the copy of your old database you created in step 3.
+
 ## License
 
 This software is licensed under the MIT License. See LICENSE.txt for more information.
