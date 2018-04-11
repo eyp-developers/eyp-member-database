@@ -8,6 +8,7 @@ read version
 localizations=(
 	"at"
 	"de"
+	"dk"
 )
 
 localized_files=(
