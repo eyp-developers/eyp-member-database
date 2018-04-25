@@ -8,9 +8,9 @@ The EYP Member Database is a web application that allows you and your NC to keep
 
 Some parts of the application, such as states and types of schools, have to be localized. The following localizations are currently available:
 
-- Austria
-- Germany
-- Denmark
+- Austria (at)
+- Germany (de)
+- Denmark (dk)
 
 There are two ways to request a new localization:
 
