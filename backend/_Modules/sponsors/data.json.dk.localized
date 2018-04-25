@@ -1,0 +1,76 @@
+{
+	"sponsors" : {
+		"regions" : [
+			{
+				"id" : "1",
+				"name" : "Zealand"
+			},
+			{
+				"id" : "2",
+				"name" : "Funen"
+			},
+			{
+				"id" : "3",
+				"name" : "Southern Denmark"
+			},
+			{
+				"id" : "4",
+				"name" : "Northern Jutland"
+			},
+			{
+				"id" : "5",
+				"name" : "Central Jutland"
+			},
+			{
+				"id" : "6",
+				"name" : "National"
+			},
+		],
+
+		"kinds" : [
+			{
+				"id" : "1",
+				"name" : "Financial"
+			},
+			{
+				"id" : "2",
+				"name" : "Venues"
+			},
+			{
+				"id" : "3",
+				"name" : "Merchandise"
+			},
+			{
+				"id" : "4",
+				"name" : "Experts"
+			},
+			{
+				"id" : "5",
+				"name" : "Contacts / Networking"
+			},
+			{
+				"id" : "9999",
+				"name" : "Other"
+			}
+		],
+
+		"sizes" : [
+			{
+				"id" : "1",
+				"name" : "Local"
+			},
+			{
+				"id" : "2",
+				"name" : "Regional"
+			},
+			{
+				"id" : "3",
+				"name" : "National"
+			},
+			{
+				"id" : "4",
+				"name" : "International"
+			}
+		]
+	}
+}
