@@ -10,6 +10,7 @@ Some parts of the application, such as states and types of schools, have to be l
 
 - Austria
 - Germany
+- Denmark
 
 There are two ways to request a new localization:
 
